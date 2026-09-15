@@ -6,6 +6,7 @@
 <title>Tính giá vốn/chiếc</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   :root{
     --navy:#132A3E;
@@ -296,6 +297,61 @@
     line-height:1.6;
     margin-top:10px;
   }
+  .hist-item{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    margin-bottom:8px;
+    position:relative;
+  }
+  .hist-item .h-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .hist-item .h-amt{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:700;
+    font-size:15.5px;
+    color:var(--navy);
+  }
+  .hist-item .h-meta{
+    font-size:12px;
+    color:var(--text-soft);
+    margin-top:3px;
+  }
+  .hist-item .h-time{
+    font-size:11px;
+    color:#9AA7B0;
+    margin-top:4px;
+  }
+  .hist-del{
+    background:none;
+    border:none;
+    color:#B3261E;
+    font-size:12px;
+    cursor:pointer;
+    padding:4px 6px;
+    font-family:inherit;
+    flex-shrink:0;
+  }
+  .hist-empty{
+    font-size:13px;
+    color:#9AA7B0;
+    text-align:center;
+    padding:16px 0;
+  }
+  .hist-clear{
+    font-size:12.5px;
+    color:#B3261E;
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
+    padding:0;
+    margin-top:4px;
+  }
 </style>
 </head>
 <body>
@@ -311,6 +367,10 @@
   <div class="card">
     <h2><span class="step-badge">1</span>Thông tin hàng hoá</h2>
     <p class="sub">Giá mua từ nhà cung cấp bên Trung Quốc</p>
+    <div class="field">
+      <label>Tên sản phẩm</label>
+      <input type="text" id="productName" placeholder="VD: Áo thun cotton nam">
+    </div>
     <div class="row2">
       <div class="field">
         <label>Giá mua / chiếc (NDT)</label>
@@ -389,6 +449,35 @@
 
   <!-- Kết quả -->
   <div id="resultArea"></div>
+
+  <!-- Lịch sử -->
+  <div class="card">
+    <h2>Lịch sử tính giá</h2>
+    <p class="sub" style="margin-bottom:12px;">Tự động lưu lại trên trình duyệt này. Tick chọn sản phẩm để đưa vào bảng báo giá.</p>
+    <div id="historyList"></div>
+    <div class="row2" style="margin-top:8px;">
+      <button class="btn-ghost" id="selectAllHistBtn">Chọn tất cả</button>
+      <button class="btn-ghost" id="clearHistBtn">Xóa toàn bộ lịch sử</button>
+    </div>
+  </div>
+
+  <!-- Xuất báo giá -->
+  <div class="card">
+    <h2>Xuất bảng báo giá</h2>
+    <p class="sub" style="margin-bottom:12px;">Xuất các sản phẩm đã chọn ở trên thành 1 file Excel gửi kế toán duyệt.</p>
+    <button class="btn-primary" id="exportExcelBtn" style="margin-top:0;">Xuất file Excel báo giá</button>
+
+    <div class="field" style="margin-top:18px;">
+      <label>Email người nhận (kinh doanh / kế toán)</label>
+      <input type="text" id="emailTo" placeholder="ten@congty.com, ten2@congty.com">
+    </div>
+    <div class="field">
+      <label>Tiêu đề email</label>
+      <input type="text" id="emailSubject" value="Bảng báo giá vốn - chờ duyệt">
+    </div>
+    <button class="btn-secondary" id="composeEmailBtn" style="background:var(--navy-2); margin-top:8px;">Soạn email gửi báo giá</button>
+    <div class="note" id="emailNote" style="margin-top:8px;">Sau khi bấm, file Excel sẽ tự tải về máy và email nháp sẽ mở sẵn — bạn chỉ cần đính kèm file vừa tải vào email rồi bấm Gửi (trình duyệt không cho tự động đính kèm file).</div>
+  </div>
 
 </div>
 
@@ -553,6 +642,65 @@ function calcShipping(orderValueVnd){
   return {lines, total};
 }
 
+const HIST_KEY = 'gv_history';
+
+function loadHistory(){
+  try{
+    return JSON.parse(localStorage.getItem(HIST_KEY) || '[]');
+  }catch(e){ return []; }
+}
+function saveHistoryEntry(entry){
+  const list = loadHistory();
+  list.unshift(entry);
+  if(list.length > 50) list.length = 50;
+  localStorage.setItem(HIST_KEY, JSON.stringify(list));
+  renderHistory();
+}
+function deleteHistoryEntry(id){
+  const list = loadHistory().filter(e=>e.id !== id);
+  localStorage.setItem(HIST_KEY, JSON.stringify(list));
+  renderHistory();
+}
+function renderHistory(){
+  const box = document.getElementById('historyList');
+  const list = loadHistory();
+  if(list.length === 0){
+    box.innerHTML = '<div class="hist-empty">Chưa có lần tính giá nào được lưu.</div>';
+    return;
+  }
+  box.innerHTML = list.map(e=>{
+    const d = new Date(e.time);
+    const timeStr = d.toLocaleString('vi-VN');
+    const name = e.productName || '(Chưa đặt tên sản phẩm)';
+    return `<div class="hist-item">
+      <div class="h-top">
+        <label style="display:flex; gap:10px; align-items:flex-start; cursor:pointer; flex:1;">
+          <input type="checkbox" class="hist-check" data-id="${e.id}" style="margin-top:4px;">
+          <div>
+            <div class="h-amt">${name}</div>
+            <div class="h-meta">${fmtF(e.perUnit)}/chiếc · ${e.vatLabel} · ${e.methodName} · ${e.qty.toLocaleString('vi-VN')} chiếc · Tổng ${fmt(e.grandTotal)}</div>
+            <div class="h-time">${timeStr}</div>
+          </div>
+        </label>
+        <button class="hist-del" data-id="${e.id}">Xóa</button>
+      </div>
+    </div>`;
+  }).join('');
+  box.querySelectorAll('.hist-del').forEach(btn=>{
+    btn.addEventListener('click', ()=> deleteHistoryEntry(btn.dataset.id));
+  });
+}
+document.getElementById('selectAllHistBtn').addEventListener('click', ()=>{
+  document.querySelectorAll('.hist-check').forEach(chk=> chk.checked = true);
+});
+document.getElementById('clearHistBtn').addEventListener('click', ()=>{
+  if(confirm('Xóa toàn bộ lịch sử tính giá đã lưu?')){
+    localStorage.removeItem(HIST_KEY);
+    renderHistory();
+  }
+});
+renderHistory();
+
 document.getElementById('calcBtn').addEventListener('click', ()=>{
   const priceRmb = getVal('priceRmb');
   const qty = getVal('qty') || 1;
@@ -636,6 +784,13 @@ document.getElementById('calcBtn').addEventListener('click', ()=>{
     orderValueVnd, shipping, taxAmt, serviceAmt, otherFee, grandTotal, perUnit, qty, priceRmb, fx, vatLabel, methodName: methodInfo.name
   };
 
+  saveHistoryEntry({
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+    time: Date.now(),
+    productName: document.getElementById('productName').value.trim(),
+    perUnit, grandTotal, qty, vatLabel, methodName: methodInfo.name
+  });
+
   document.getElementById('sendTgBtn').addEventListener('click', ()=>sendToTelegram(tgPayload));
 
   document.getElementById('resultArea').scrollIntoView({behavior:'smooth', block:'start'});
@@ -717,6 +872,66 @@ async function sendToTelegram(d){
 }
 
 renderMethods();
+
+function getSelectedHistory(){
+  const ids = Array.from(document.querySelectorAll('.hist-check:checked')).map(c=>c.dataset.id);
+  const all = loadHistory();
+  return all.filter(e=> ids.includes(e.id));
+}
+
+function exportExcel(){
+  const selected = getSelectedHistory();
+  if(selected.length === 0){
+    alert('Vui lòng tick chọn ít nhất 1 sản phẩm trong Lịch sử tính giá trước khi xuất.');
+    return null;
+  }
+  const rows = selected.map((e, idx) => ({
+    'STT': idx + 1,
+    'Tên sản phẩm': e.productName || '(Chưa đặt tên)',
+    'Loại hình': e.vatLabel,
+    'Phương thức vận chuyển': e.methodName,
+    'Số lượng (chiếc)': e.qty,
+    'Giá vốn/chiếc (VND)': Math.round(e.perUnit),
+    'Tổng giá vốn (VND)': Math.round(e.grandTotal),
+    'Ngày tính': new Date(e.time).toLocaleDateString('vi-VN')
+  }));
+  const totalGrand = selected.reduce((s,e)=> s + e.grandTotal, 0);
+  rows.push({
+    'STT':'', 'Tên sản phẩm':'TỔNG CỘNG', 'Loại hình':'', 'Phương thức vận chuyển':'',
+    'Số lượng (chiếc)':'', 'Giá vốn/chiếc (VND)':'', 'Tổng giá vốn (VND)': Math.round(totalGrand), 'Ngày tính':''
+  });
+
+  const ws = XLSX.utils.json_to_sheet(rows);
+  ws['!cols'] = [ {wch:5}, {wch:28}, {wch:14}, {wch:26}, {wch:14}, {wch:18}, {wch:18}, {wch:12} ];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Bao gia');
+  const fileName = `Bao-gia-von-${new Date().toISOString().slice(0,10)}.xlsx`;
+  XLSX.writeFile(wb, fileName);
+  return {fileName, rows, totalGrand, count: selected.length};
+}
+
+document.getElementById('exportExcelBtn').addEventListener('click', ()=>{
+  exportExcel();
+});
+
+document.getElementById('composeEmailBtn').addEventListener('click', ()=>{
+  const result = exportExcel();
+  if(!result) return;
+
+  const to = document.getElementById('emailTo').value.trim();
+  const subject = document.getElementById('emailSubject').value.trim() || 'Bảng báo giá vốn - chờ duyệt';
+
+  let body = `Kính gửi Anh/Chị,\n\nEm gửi bảng báo giá vốn gồm ${result.count} sản phẩm để Anh/Chị xem và duyệt giúp em.\n\n`;
+  result.rows.forEach(r=>{
+    if(r['Tên sản phẩm'] === 'TỔNG CỘNG') return;
+    body += `- ${r['Tên sản phẩm']}: ${r['Giá vốn/chiếc (VND)'].toLocaleString('vi-VN')}đ/chiếc × ${r['Số lượng (chiếc)']} chiếc = ${r['Tổng giá vốn (VND)'].toLocaleString('vi-VN')}đ\n`;
+  });
+  body += `\nTổng cộng: ${Math.round(result.totalGrand).toLocaleString('vi-VN')}đ\n\n`;
+  body += `(Lưu ý: file Excel chi tiết "${result.fileName}" vừa được tải về máy — vui lòng đính kèm thủ công vào email này trước khi gửi, do trình duyệt không cho tự động đính kèm.)\n\nEm cảm ơn Anh/Chị.`;
+
+  const mailtoUrl = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailtoUrl;
+});
 </script>
 
 </body>
