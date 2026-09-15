@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tính cước vận chuyển — Chặng 2 (TQ → Hà Nội)</title>
+<title>Tính giá vốn/chiếc</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
@@ -73,8 +73,25 @@
   .card h2{
     font-size:14px;
     font-weight:600;
-    margin:0 0 14px;
+    margin:0 0 4px;
     color:var(--navy);
+  }
+  .card .sub{
+    font-size:12px;
+    color:var(--text-soft);
+    margin:0 0 14px;
+  }
+  .step-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:20px; height:20px;
+    background:var(--amber);
+    color:#fff;
+    border-radius:50%;
+    font-size:11px;
+    font-weight:700;
+    margin-right:8px;
   }
   .seg{
     display:flex;
@@ -101,6 +118,7 @@
     color:#fff;
   }
   .field{margin-top:14px;}
+  .field:first-child{margin-top:0;}
   .field label{
     display:block;
     font-size:13px;
@@ -154,6 +172,7 @@
     margin-top:2px;
   }
   .row2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .row3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;}
   .btn-primary{
     width:100%;
     background:var(--amber);
@@ -207,11 +226,21 @@
   .result-head{
     background:var(--navy-2);
     color:#fff;
-    padding:16px 20px;
+    padding:18px 20px;
   }
   .result-head .lbl{font-size:12px; color:#AFC2CE; margin-bottom:4px;}
-  .result-head .amt{font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; letter-spacing:-0.01em;}
+  .result-head .amt{font-family:'IBM Plex Mono',monospace; font-size:28px; font-weight:600; letter-spacing:-0.01em;}
+  .result-head .sub-amt{font-size:12.5px; color:#CFE0EA; margin-top:6px;}
   .result-body{padding:16px 20px; background:#fff;}
+  .section-label{
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:#8B98A3;
+    font-weight:600;
+    margin:14px 0 4px;
+  }
+  .section-label:first-child{margin-top:0;}
   .line{
     display:flex;
     justify-content:space-between;
@@ -223,6 +252,14 @@
   .line:last-child{border-bottom:none;}
   .line .k{color:var(--text-soft);}
   .line .v{font-family:'IBM Plex Mono',monospace; font-weight:600; white-space:nowrap;}
+  .line.total{
+    border-top:1px solid var(--line);
+    border-bottom:none;
+    margin-top:4px;
+    padding-top:12px;
+    font-size:14.5px;
+  }
+  .line.total .k{color:var(--navy); font-weight:600;}
   .note{
     font-size:12px;
     color:#8B98A3;
@@ -259,44 +296,60 @@
     line-height:1.6;
     margin-top:10px;
   }
-  .help-box a{color:var(--navy-2);}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <h1>Tính cước vận chuyển</h1>
-  <p>Chặng 2 · Xuyên biên giới Trung Quốc → Hà Nội</p>
+  <h1>Tính giá vốn / chiếc</h1>
+  <p>Giá mua hàng · Cước vận chuyển · Thuế &amp; phí</p>
 </div>
 
 <div class="wrap">
 
-  <!-- Loại hàng: VAT / không VAT -->
+  <!-- BƯỚC 1: Thông tin hàng hoá -->
   <div class="card">
-    <h2>Loại hàng</h2>
+    <h2><span class="step-badge">1</span>Thông tin hàng hoá</h2>
+    <p class="sub">Giá mua từ nhà cung cấp bên Trung Quốc</p>
+    <div class="row2">
+      <div class="field">
+        <label>Giá mua / chiếc (NDT)</label>
+        <input type="number" id="priceRmb" min="0" step="0.01" placeholder="VD: 8.5">
+      </div>
+      <div class="field">
+        <label>Số lượng (chiếc)</label>
+        <input type="number" id="qty" min="1" step="1" placeholder="VD: 500">
+      </div>
+    </div>
+    <div class="field">
+      <label>Tỷ giá NDT → VND</label>
+      <input type="number" id="fxRate" min="0" step="1" placeholder="VD: 3650">
+      <div class="hint">Nhập tỷ giá bạn đang áp dụng (nên kiểm tra tỷ giá thực tế tại thời điểm đặt hàng).</div>
+    </div>
+  </div>
+
+  <!-- BƯỚC 2: Cước vận chuyển -->
+  <div class="card">
+    <h2><span class="step-badge">2</span>Cước vận chuyển</h2>
+    <p class="sub">Chặng 2 · Xuyên biên giới Trung Quốc → Hà Nội</p>
+
     <div class="seg" id="vatSeg">
       <button class="active" data-vat="no">Không cần VAT</button>
       <button data-vat="yes">Cần VAT</button>
     </div>
-  </div>
 
-  <!-- Phương thức -->
-  <div class="card">
-    <h2 id="methodTitle">Phương thức vận chuyển</h2>
-    <div class="radio-list" id="methodList"></div>
-  </div>
+    <div class="field">
+      <div class="radio-list" id="methodList"></div>
+    </div>
 
-  <!-- Thông số -->
-  <div class="card">
-    <h2>Thông số lô hàng</h2>
-    <div class="row2">
+    <div class="row2" style="margin-top:14px;">
       <div class="field">
-        <label>Cân nặng (kg)</label>
-        <input type="number" id="inKg" min="0" step="0.1" placeholder="VD: 120">
+        <label>Cân nặng cả lô (kg)</label>
+        <input type="number" id="inKg" min="0" step="0.1" placeholder="VD: 250">
       </div>
       <div class="field">
-        <label>Thể tích (m³)</label>
-        <input type="number" id="inM3" min="0" step="0.01" placeholder="VD: 0.8">
+        <label>Thể tích cả lô (m³)</label>
+        <input type="number" id="inM3" min="0" step="0.01" placeholder="VD: 1.2">
       </div>
     </div>
     <div class="field">
@@ -312,7 +365,27 @@
     <div id="extraFields"></div>
   </div>
 
-  <button class="btn-primary" id="calcBtn">Tính giá</button>
+  <!-- BƯỚC 3: Thuế & phí -->
+  <div class="card">
+    <h2><span class="step-badge">3</span>Thuế &amp; phí khác</h2>
+    <p class="sub">Tính theo % trên giá trị tiền hàng (giá mua × số lượng × tỷ giá)</p>
+    <div class="row2">
+      <div class="field">
+        <label>Thuế nhập khẩu (%)</label>
+        <input type="number" id="taxPct" min="0" step="0.1" placeholder="VD: 5">
+      </div>
+      <div class="field">
+        <label>Phí dịch vụ (%)</label>
+        <input type="number" id="servicePct" min="0" step="0.1" placeholder="VD: 2">
+      </div>
+    </div>
+    <div class="field">
+      <label>Phí khác (nếu có, số tiền cố định VND)</label>
+      <input type="number" id="otherFee" min="0" step="10000" placeholder="VD: 0">
+    </div>
+  </div>
+
+  <button class="btn-primary" id="calcBtn">Tính giá vốn / chiếc</button>
 
   <!-- Kết quả -->
   <div id="resultArea"></div>
@@ -321,6 +394,7 @@
 
 <script>
 const fmt = n => Math.round(n).toLocaleString('vi-VN') + ' đ';
+const fmtF = n => n.toLocaleString('vi-VN', {maximumFractionDigits:2}) + ' đ';
 
 const METHODS = {
   no: [
@@ -358,10 +432,7 @@ function renderMethods(){
 function renderExtraFields(){
   const box = document.getElementById('extraFields');
   let html = '';
-  if(state.method==='slow'){
-    html += fieldRange('feeShip','Phí chuyển phát kho NCC → Tây Mỗ','100000','250000','150000','Miễn phí nếu thể tích ≥ 5 m³');
-  }
-  if(state.method==='slow_khui'){
+  if(state.method==='slow' || state.method==='slow_khui'){
     html += fieldRange('feeShip','Phí chuyển phát kho NCC → Tây Mỗ','100000','250000','150000','Miễn phí nếu thể tích ≥ 5 m³');
   }
   if(state.method==='fast'){
@@ -376,11 +447,10 @@ function renderExtraFields(){
       <div class="hint">Mặc định ước tính ~12.000.000đ/lô, có thể chỉnh theo báo giá thực tế</div></div>`;
   }
   if(state.method==='retail'){
-    html += `<div class="field"><label>Giá trị đơn hàng (để tính phí ủy thác 1,5%)</label>
-      <input type="number" id="orderValue" placeholder="VD: 50000000"></div>`;
     html += `<div class="field"><label>Số mã hàng (SKU) — phụ phí tờ khai 100.000đ/mã</label>
       <input type="number" id="skuCount" value="1" min="0"></div>`;
     html += fieldRange('feeWarehouse','Phí vận chuyển về kho Tây Mỗ','250000','500000','350000','');
+    html += `<div class="note">Lưu ý: phương thức Hàng lẻ (VAT) đã gồm sẵn phí ủy thác 1,5% trên giá trị tiền hàng — phí này sẽ tự tính dựa trên số liệu ở Bước 1, không cần nhập lại.</div>`;
   }
   box.innerHTML = html;
 }
@@ -415,7 +485,7 @@ document.getElementById('calcDims').addEventListener('click', ()=>{
 
 function getVal(id){ const el = document.getElementById(id); return el ? (parseFloat(el.value)||0) : 0; }
 
-function calculate(){
+function calcShipping(orderValueVnd){
   const kg = getVal('inKg');
   const m3 = getVal('inM3');
   const lines = [];
@@ -470,9 +540,8 @@ function calculate(){
     const base = Math.max(kg*6000, m3*1300000);
     const isM3 = m3*1300000 > kg*6000;
     lines.push({k: isM3? `Cước vận chuyển theo thể tích (${m3} m³ × 1.300.000đ)` : `Cước vận chuyển theo cân nặng (${kg} kg × 6.000đ)`, v: base});
-    const orderValue = getVal('orderValue');
-    const trustFee = orderValue*0.015;
-    lines.push({k:`Phí ủy thác 1,5% (trên ${fmt(orderValue)})`, v: trustFee});
+    const trustFee = orderValueVnd*0.015;
+    lines.push({k:'Phí ủy thác 1,5% (trên giá trị tiền hàng)', v: trustFee});
     const sku = getVal('skuCount');
     const declFee = sku*100000;
     lines.push({k:`Phụ phí tờ khai (${sku} mã × 100.000đ)`, v: declFee});
@@ -481,25 +550,54 @@ function calculate(){
     total = base+trustFee+declFee+wFee;
   }
 
-  return {lines, total, kg, m3};
+  return {lines, total};
 }
 
 document.getElementById('calcBtn').addEventListener('click', ()=>{
-  const {lines, total} = calculate();
+  const priceRmb = getVal('priceRmb');
+  const qty = getVal('qty') || 1;
+  const fx = getVal('fxRate');
+  const orderValueVnd = priceRmb * qty * fx;
+
+  const shipping = calcShipping(orderValueVnd);
+  const taxPct = getVal('taxPct');
+  const servicePct = getVal('servicePct');
+  const otherFee = getVal('otherFee');
+
+  const taxAmt = orderValueVnd * (taxPct/100);
+  const serviceAmt = orderValueVnd * (servicePct/100);
+
+  const grandTotal = orderValueVnd + shipping.total + taxAmt + serviceAmt + otherFee;
+  const perUnit = grandTotal / qty;
+
   const methodInfo = METHODS[state.vat].find(m=>m.id===state.method);
   const vatLabel = state.vat==='yes' ? 'Cần VAT' : 'Không cần VAT';
 
-  let linesHtml = lines.map(l=>`<div class="line"><span class="k">${l.k}</span><span class="v">${fmt(l.v)}</span></div>`).join('');
+  let shipLinesHtml = shipping.lines.map(l=>`<div class="line"><span class="k">${l.k}</span><span class="v">${fmt(l.v)}</span></div>`).join('');
 
   const html = `
   <div class="result-card">
     <div class="result-head">
-      <div class="lbl">${vatLabel} · ${methodInfo.name}</div>
-      <div class="amt">${fmt(total)}</div>
+      <div class="lbl">Giá vốn / chiếc</div>
+      <div class="amt">${fmtF(perUnit)}</div>
+      <div class="sub-amt">Tổng giá vốn lô hàng: ${fmt(grandTotal)} — ${qty.toLocaleString('vi-VN')} chiếc</div>
     </div>
     <div class="result-body">
-      ${linesHtml}
-      <div class="note">Kết quả ước tính dựa trên bảng giá tham khảo T4.2025 nội bộ, có thể thay đổi theo thời điểm và loại hàng thực tế.</div>
+      <div class="section-label">Tiền hàng</div>
+      <div class="line"><span class="k">Giá mua (${priceRmb} NDT × ${qty} × tỷ giá ${fx.toLocaleString('vi-VN')})</span><span class="v">${fmt(orderValueVnd)}</span></div>
+
+      <div class="section-label">Cước vận chuyển — ${vatLabel} · ${methodInfo.name}</div>
+      ${shipLinesHtml}
+
+      <div class="section-label">Thuế &amp; phí</div>
+      <div class="line"><span class="k">Thuế nhập khẩu (${taxPct}% × tiền hàng)</span><span class="v">${fmt(taxAmt)}</span></div>
+      <div class="line"><span class="k">Phí dịch vụ (${servicePct}% × tiền hàng)</span><span class="v">${fmt(serviceAmt)}</span></div>
+      <div class="line"><span class="k">Phí khác</span><span class="v">${fmt(otherFee)}</span></div>
+
+      <div class="line total"><span class="k">Tổng giá vốn lô hàng</span><span class="v">${fmt(grandTotal)}</span></div>
+      <div class="line total"><span class="k">Giá vốn / chiếc</span><span class="v">${fmtF(perUnit)}</span></div>
+
+      <div class="note">Kết quả ước tính dựa trên bảng giá tham khảo T4.2025 nội bộ và tỷ giá bạn nhập, có thể thay đổi theo thời điểm và loại hàng thực tế.</div>
     </div>
   </div>
 
@@ -514,10 +612,10 @@ document.getElementById('calcBtn').addEventListener('click', ()=>{
     <button class="toggle-link" id="toggleHelp" style="margin-top:12px;">Chưa có Bot Telegram? Xem hướng dẫn</button>
     <div class="help-box" id="helpBox" style="display:none;">
       1. Mở Telegram, tìm <b>@BotFather</b> → gửi lệnh <b>/newbot</b> → đặt tên bot → nhận về <b>Bot Token</b>.<br>
-      2. Nhắn thử 1 tin bất kỳ cho bot vừa tạo (hoặc thêm bot vào nhóm).<br>
+      2. Nhắn thử 1 tin bất kỳ cho bot vừa tạo.<br>
       3. Mở link sau (thay TOKEN của bạn): <br>
       <span style="font-family:'IBM Plex Mono',monospace;">https://api.telegram.org/botTOKEN/getUpdates</span><br>
-      4. Tìm số <b>"chat":{"id": ...}</b> trong kết quả trả về — đó là <b>Chat ID</b>.<br>
+      4. Tìm số <b>"chat":{"id": ...}</b> trong kết quả trả về — đó là <b>Chat ID</b> (một dãy số, không phải tên bot).<br>
       5. Dán Token và Chat ID vào ô bên trên. Token và Chat ID chỉ lưu trên trình duyệt của bạn.
     </div>
   </div>
@@ -530,7 +628,9 @@ document.getElementById('calcBtn').addEventListener('click', ()=>{
     box.style.display = box.style.display==='none' ? 'block' : 'none';
   });
 
-  document.getElementById('sendTgBtn').addEventListener('click', ()=>sendToTelegram(lines, total, vatLabel, methodInfo.name));
+  document.getElementById('sendTgBtn').addEventListener('click', ()=>sendToTelegram({
+    orderValueVnd, shipping, taxAmt, serviceAmt, otherFee, grandTotal, perUnit, qty, priceRmb, fx, vatLabel, methodName: methodInfo.name
+  }));
 
   document.getElementById('resultArea').scrollIntoView({behavior:'smooth', block:'start'});
 });
@@ -543,12 +643,12 @@ function renderTgConfig(){
       <input type="password" id="tgToken" placeholder="Bot Token" value="${token}">
     </div>
     <div class="tg-row">
-      <input type="text" id="tgChatId" placeholder="Chat ID" value="${chatId}">
+      <input type="text" id="tgChatId" placeholder="Chat ID (dãy số)" value="${chatId}">
     </div>
   `;
 }
 
-async function sendToTelegram(lines, total, vatLabel, methodName){
+async function sendToTelegram(d){
   const token = document.getElementById('tgToken').value.trim();
   const chatId = document.getElementById('tgChatId').value.trim();
   const statusEl = document.getElementById('tgStatus');
@@ -561,13 +661,15 @@ async function sendToTelegram(lines, total, vatLabel, methodName){
   localStorage.setItem('tg_bot_token', token);
   localStorage.setItem('tg_chat_id', chatId);
 
-  let msg = `📦 *Kết quả tính cước vận chuyển*\n`;
-  msg += `Chặng 2: TQ → Hà Nội\n`;
-  msg += `Loại: ${vatLabel} — ${methodName}\n\n`;
-  lines.forEach(l=>{
-    msg += `• ${l.k}: ${fmt(l.v)}\n`;
-  });
-  msg += `\n*Tổng cộng: ${fmt(total)}*`;
+  let msg = `📦 *Kết quả tính giá vốn*\n`;
+  msg += `Loại: ${d.vatLabel} — ${d.methodName}\n\n`;
+  msg += `Giá mua: ${d.priceRmb} NDT × ${d.qty} × tỷ giá ${d.fx} = ${fmt(d.orderValueVnd)}\n`;
+  d.shipping.lines.forEach(l=>{ msg += `${l.k}: ${fmt(l.v)}\n`; });
+  msg += `Thuế NK: ${fmt(d.taxAmt)}\n`;
+  msg += `Phí dịch vụ: ${fmt(d.serviceAmt)}\n`;
+  msg += `Phí khác: ${fmt(d.otherFee)}\n\n`;
+  msg += `*Tổng giá vốn lô hàng: ${fmt(d.grandTotal)}*\n`;
+  msg += `*Giá vốn/chiếc: ${fmtF(d.perUnit)}*`;
 
   btn.disabled = true;
   btn.textContent = 'Đang gửi...';
