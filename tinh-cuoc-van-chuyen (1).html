@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tính cước vận chuyển — Chặng 2 (TQ → Hà Nội)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#132A3E;
+    --navy-2:#1E3E57;
+    --amber:#E8871E;
+    --amber-dark:#C96F10;
+    --bg:#F4F6F8;
+    --card:#FFFFFF;
+    --line:#E1E6EA;
+    --text:#132A3E;
+    --text-soft:#5A6B78;
+    --green:#1F7A53;
+    --green-bg:#EAF6EF;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:0 0 60px;
+  }
+  .topbar{
+    background:var(--navy);
+    color:#fff;
+    padding:28px 20px 60px;
+    position:relative;
+    overflow:hidden;
+  }
+  .topbar::after{
+    content:"";
+    position:absolute;
+    right:-40px; top:-60px;
+    width:220px; height:220px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(232,135,30,.35), transparent 70%);
+  }
+  .topbar h1{
+    margin:0 0 6px;
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    position:relative;
+  }
+  .topbar p{
+    margin:0;
+    color:#B9C7D3;
+    font-size:14px;
+    position:relative;
+  }
+  .wrap{
+    max-width:600px;
+    margin:-38px auto 0;
+    padding:0 16px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px;
+    margin-bottom:16px;
+    box-shadow:0 1px 3px rgba(19,42,62,0.06);
+  }
+  .card h2{
+    font-size:14px;
+    font-weight:600;
+    margin:0 0 14px;
+    color:var(--navy);
+  }
+  .seg{
+    display:flex;
+    background:var(--bg);
+    border-radius:10px;
+    padding:4px;
+    gap:4px;
+  }
+  .seg button{
+    flex:1;
+    border:none;
+    background:transparent;
+    padding:10px 8px;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--text-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .seg button.active{
+    background:var(--navy);
+    color:#fff;
+  }
+  .field{margin-top:14px;}
+  .field label{
+    display:block;
+    font-size:13px;
+    font-weight:500;
+    color:var(--text-soft);
+    margin-bottom:6px;
+  }
+  .field .hint{
+    font-size:12px;
+    color:#8B98A3;
+    margin-top:4px;
+  }
+  select, input[type=number], input[type=text], input[type=password]{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid var(--line);
+    border-radius:9px;
+    font-family:inherit;
+    font-size:14.5px;
+    background:#fff;
+    color:var(--text);
+  }
+  select:focus, input:focus{
+    outline:2px solid var(--amber);
+    outline-offset:-1px;
+    border-color:var(--amber);
+  }
+  .radio-list{display:flex; flex-direction:column; gap:8px;}
+  .radio-opt{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 12px;
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    cursor:pointer;
+    transition:border-color .15s;
+  }
+  .radio-opt.active{
+    border-color:var(--amber);
+    background:#FFF8EE;
+  }
+  .radio-opt input{margin-top:3px;}
+  .radio-opt .rt{
+    font-size:14px;
+    font-weight:600;
+  }
+  .radio-opt .rd{
+    font-size:12.5px;
+    color:var(--text-soft);
+    margin-top:2px;
+  }
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .btn-primary{
+    width:100%;
+    background:var(--amber);
+    color:#fff;
+    border:none;
+    padding:14px;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+    margin-top:6px;
+    transition:background .15s;
+  }
+  .btn-primary:hover{background:var(--amber-dark);}
+  .btn-secondary{
+    width:100%;
+    background:#229ED9;
+    color:#fff;
+    border:none;
+    padding:13px;
+    border-radius:10px;
+    font-size:14.5px;
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .btn-secondary:hover{background:#1c85b9;}
+  .btn-secondary:disabled{background:#9FB6C0; cursor:not-allowed;}
+  .btn-ghost{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    padding:9px 12px;
+    border-radius:9px;
+    font-family:inherit;
+    font-size:13px;
+    cursor:pointer;
+    width:100%;
+  }
+  .result-card{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    margin-bottom:16px;
+  }
+  .result-head{
+    background:var(--navy-2);
+    color:#fff;
+    padding:16px 20px;
+  }
+  .result-head .lbl{font-size:12px; color:#AFC2CE; margin-bottom:4px;}
+  .result-head .amt{font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; letter-spacing:-0.01em;}
+  .result-body{padding:16px 20px; background:#fff;}
+  .line{
+    display:flex;
+    justify-content:space-between;
+    font-size:13.5px;
+    padding:8px 0;
+    border-bottom:1px dashed var(--line);
+    gap:12px;
+  }
+  .line:last-child{border-bottom:none;}
+  .line .k{color:var(--text-soft);}
+  .line .v{font-family:'IBM Plex Mono',monospace; font-weight:600; white-space:nowrap;}
+  .note{
+    font-size:12px;
+    color:#8B98A3;
+    margin-top:10px;
+    line-height:1.5;
+  }
+  .tg-row{display:flex; align-items:center; gap:8px; margin-bottom:10px;}
+  .tg-row input{flex:1;}
+  .toggle-link{
+    font-size:12.5px;
+    color:var(--navy-2);
+    text-decoration:underline;
+    cursor:pointer;
+    background:none;
+    border:none;
+    font-family:inherit;
+    padding:0;
+    margin-top:8px;
+  }
+  .status{
+    font-size:13px;
+    margin-top:10px;
+    padding:10px 12px;
+    border-radius:8px;
+  }
+  .status.ok{background:var(--green-bg); color:var(--green);}
+  .status.err{background:#FDECEC; color:#B3261E;}
+  .help-box{
+    background:#F0F5F8;
+    border-radius:9px;
+    padding:12px 14px;
+    font-size:12.5px;
+    color:var(--text-soft);
+    line-height:1.6;
+    margin-top:10px;
+  }
+  .help-box a{color:var(--navy-2);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>Tính cước vận chuyển</h1>
+  <p>Chặng 2 · Xuyên biên giới Trung Quốc → Hà Nội</p>
+</div>
+
+<div class="wrap">
+
+  <!-- Loại hàng: VAT / không VAT -->
+  <div class="card">
+    <h2>Loại hàng</h2>
+    <div class="seg" id="vatSeg">
+      <button class="active" data-vat="no">Không cần VAT</button>
+      <button data-vat="yes">Cần VAT</button>
+    </div>
+  </div>
+
+  <!-- Phương thức -->
+  <div class="card">
+    <h2 id="methodTitle">Phương thức vận chuyển</h2>
+    <div class="radio-list" id="methodList"></div>
+  </div>
+
+  <!-- Thông số -->
+  <div class="card">
+    <h2>Thông số lô hàng</h2>
+    <div class="row2">
+      <div class="field">
+        <label>Cân nặng (kg)</label>
+        <input type="number" id="inKg" min="0" step="0.1" placeholder="VD: 120">
+      </div>
+      <div class="field">
+        <label>Thể tích (m³)</label>
+        <input type="number" id="inM3" min="0" step="0.01" placeholder="VD: 0.8">
+      </div>
+    </div>
+    <div class="field">
+      <button class="toggle-link" id="toggleDims">+ Tính thể tích từ kích thước (D×R×C)</button>
+      <div class="row2" id="dimsBox" style="display:none; margin-top:10px;">
+        <input type="number" id="dimD" placeholder="Dài (cm)">
+        <input type="number" id="dimR" placeholder="Rộng (cm)">
+        <input type="number" id="dimC" placeholder="Cao (cm)" style="margin-top:8px;">
+        <button class="btn-ghost" id="calcDims" style="margin-top:8px;">Áp dụng vào thể tích</button>
+      </div>
+    </div>
+
+    <div id="extraFields"></div>
+  </div>
+
+  <button class="btn-primary" id="calcBtn">Tính giá</button>
+
+  <!-- Kết quả -->
+  <div id="resultArea"></div>
+
+</div>
+
+<script>
+const fmt = n => Math.round(n).toLocaleString('vi-VN') + ' đ';
+
+const METHODS = {
+  no: [
+    { id:'slow', name:'Phổ thông — chậm (7–10 ngày)', desc:'6.000đ/kg hoặc 1.300.000đ/m³ (lấy mức cao hơn)' },
+    { id:'slow_khui', name:'Phổ thông — chậm, hàng khui (7–10 ngày)', desc:'4.000đ/kg' },
+    { id:'fast', name:'Phổ thông — nhanh (5–7 ngày)', desc:'11.000đ/kg hoặc 2.300.000đ/m³ (lấy mức cao hơn)' },
+    { id:'hand', name:'Hàng xách tay (4–5 ngày)', desc:'Tối thiểu 100.000đ, trên mức đó tính 18.000đ/kg' },
+  ],
+  yes: [
+    { id:'truck', name:'Ghép xe (VAT)', desc:'≈3.600.000đ/khối + phụ phí khai HQ, FORM E, xe về kho...' },
+    { id:'retail', name:'Hàng lẻ (VAT)', desc:'6.000đ/kg hoặc 1.300.000đ/m³ + phí ủy thác 1,5% + phụ phí tờ khai' },
+  ]
+};
+
+let state = { vat:'no', method:'slow' };
+
+function renderMethods(){
+  const list = document.getElementById('methodList');
+  list.innerHTML = '';
+  METHODS[state.vat].forEach(m=>{
+    const div = document.createElement('label');
+    div.className = 'radio-opt' + (state.method===m.id ? ' active':'');
+    div.innerHTML = `<input type="radio" name="method" value="${m.id}" ${state.method===m.id?'checked':''}>
+      <div><div class="rt">${m.name}</div><div class="rd">${m.desc}</div></div>`;
+    div.querySelector('input').addEventListener('change', ()=>{
+      state.method = m.id;
+      renderMethods();
+      renderExtraFields();
+    });
+    list.appendChild(div);
+  });
+  renderExtraFields();
+}
+
+function renderExtraFields(){
+  const box = document.getElementById('extraFields');
+  let html = '';
+  if(state.method==='slow'){
+    html += fieldRange('feeShip','Phí chuyển phát kho NCC → Tây Mỗ','100000','250000','150000','Miễn phí nếu thể tích ≥ 5 m³');
+  }
+  if(state.method==='slow_khui'){
+    html += fieldRange('feeShip','Phí chuyển phát kho NCC → Tây Mỗ','100000','250000','150000','Miễn phí nếu thể tích ≥ 5 m³');
+  }
+  if(state.method==='fast'){
+    html += fieldRange('feeShip','Phí chuyển phát kho NCC → Tây Mỗ','100000','250000','150000','');
+  }
+  if(state.method==='hand'){
+    html += fieldRange('feeShip','Cước chuyển phát Biên giới TQ–Hà Nội','50000','250000','120000','Miễn phí nếu thể tích ≥ 5 m³');
+  }
+  if(state.method==='truck'){
+    html += `<div class="field"><label>Phụ phí khai HQ + FORM E + xe về kho / lô</label>
+      <input type="number" id="feeFixed" value="12000000" step="500000">
+      <div class="hint">Mặc định ước tính ~12.000.000đ/lô, có thể chỉnh theo báo giá thực tế</div></div>`;
+  }
+  if(state.method==='retail'){
+    html += `<div class="field"><label>Giá trị đơn hàng (để tính phí ủy thác 1,5%)</label>
+      <input type="number" id="orderValue" placeholder="VD: 50000000"></div>`;
+    html += `<div class="field"><label>Số mã hàng (SKU) — phụ phí tờ khai 100.000đ/mã</label>
+      <input type="number" id="skuCount" value="1" min="0"></div>`;
+    html += fieldRange('feeWarehouse','Phí vận chuyển về kho Tây Mỗ','250000','500000','350000','');
+  }
+  box.innerHTML = html;
+}
+
+function fieldRange(id,label,min,max,def,hint){
+  return `<div class="field"><label>${label}</label>
+    <input type="number" id="${id}" value="${def}" step="10000">
+    <div class="hint">Khoảng tham khảo: ${Number(min).toLocaleString('vi-VN')}đ – ${Number(max).toLocaleString('vi-VN')}đ${hint? ' · '+hint:''}</div></div>`;
+}
+
+document.getElementById('vatSeg').addEventListener('click', e=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  document.querySelectorAll('#vatSeg button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  state.vat = btn.dataset.vat;
+  state.method = METHODS[state.vat][0].id;
+  renderMethods();
+});
+
+document.getElementById('toggleDims').addEventListener('click', ()=>{
+  const box = document.getElementById('dimsBox');
+  box.style.display = box.style.display==='none' ? 'grid' : 'none';
+});
+document.getElementById('calcDims').addEventListener('click', ()=>{
+  const d = parseFloat(document.getElementById('dimD').value)||0;
+  const r = parseFloat(document.getElementById('dimR').value)||0;
+  const c = parseFloat(document.getElementById('dimC').value)||0;
+  const m3 = (d*r*c)/1000000;
+  document.getElementById('inM3').value = m3 ? m3.toFixed(3) : '';
+});
+
+function getVal(id){ const el = document.getElementById(id); return el ? (parseFloat(el.value)||0) : 0; }
+
+function calculate(){
+  const kg = getVal('inKg');
+  const m3 = getVal('inM3');
+  const lines = [];
+  let total = 0;
+
+  if(state.method==='slow'){
+    const base = Math.max(kg*6000, m3*1300000);
+    const isM3 = m3*1300000 > kg*6000;
+    lines.push({k: isM3? `Cước theo thể tích (${m3} m³ × 1.300.000đ)` : `Cước theo cân nặng (${kg} kg × 6.000đ)`, v: base});
+    let fee = getVal('feeShip');
+    if(m3>=5) fee = 0;
+    lines.push({k: m3>=5 ? 'Phí chuyển phát về Tây Mỗ (miễn phí ≥5m³)' : 'Phí chuyển phát về Tây Mỗ', v: fee});
+    total = base+fee;
+  }
+  else if(state.method==='slow_khui'){
+    const base = kg*4000;
+    lines.push({k:`Cước hàng khui (${kg} kg × 4.000đ)`, v: base});
+    let fee = getVal('feeShip');
+    if(m3>=5) fee = 0;
+    lines.push({k: m3>=5 ? 'Phí chuyển phát về Tây Mỗ (miễn phí ≥5m³)' : 'Phí chuyển phát về Tây Mỗ', v: fee});
+    total = base+fee;
+  }
+  else if(state.method==='fast'){
+    const base = Math.max(kg*11000, m3*2300000);
+    const isM3 = m3*2300000 > kg*11000;
+    lines.push({k: isM3? `Cước theo thể tích (${m3} m³ × 2.300.000đ)` : `Cước theo cân nặng (${kg} kg × 11.000đ)`, v: base});
+    const fee = getVal('feeShip');
+    lines.push({k:'Phí chuyển phát về Tây Mỗ', v: fee});
+    total = base+fee;
+  }
+  else if(state.method==='hand'){
+    let base = kg*18000;
+    if(base < 100000){
+      lines.push({k:`Mức tối thiểu (cước tính ra ${fmt(base)}, dưới mức sàn)`, v: 100000});
+      base = 100000;
+    } else {
+      lines.push({k:`Cước xách tay (${kg} kg × 18.000đ)`, v: base});
+    }
+    let fee = getVal('feeShip');
+    if(m3>=5) fee = 0;
+    lines.push({k: m3>=5 ? 'Cước chuyển phát biên giới (miễn phí ≥5m³)' : 'Cước chuyển phát biên giới TQ–HN', v: fee});
+    total = base+fee;
+  }
+  else if(state.method==='truck'){
+    const base = m3*3600000;
+    lines.push({k:`Cước ghép xe (${m3} m³ × 3.600.000đ)`, v: base});
+    const fixed = getVal('feeFixed');
+    lines.push({k:'Phụ phí khai HQ + FORM E + xe về kho', v: fixed});
+    total = base+fixed;
+  }
+  else if(state.method==='retail'){
+    const base = Math.max(kg*6000, m3*1300000);
+    const isM3 = m3*1300000 > kg*6000;
+    lines.push({k: isM3? `Cước vận chuyển theo thể tích (${m3} m³ × 1.300.000đ)` : `Cước vận chuyển theo cân nặng (${kg} kg × 6.000đ)`, v: base});
+    const orderValue = getVal('orderValue');
+    const trustFee = orderValue*0.015;
+    lines.push({k:`Phí ủy thác 1,5% (trên ${fmt(orderValue)})`, v: trustFee});
+    const sku = getVal('skuCount');
+    const declFee = sku*100000;
+    lines.push({k:`Phụ phí tờ khai (${sku} mã × 100.000đ)`, v: declFee});
+    const wFee = getVal('feeWarehouse');
+    lines.push({k:'Phí vận chuyển về kho Tây Mỗ', v: wFee});
+    total = base+trustFee+declFee+wFee;
+  }
+
+  return {lines, total, kg, m3};
+}
+
+document.getElementById('calcBtn').addEventListener('click', ()=>{
+  const {lines, total} = calculate();
+  const methodInfo = METHODS[state.vat].find(m=>m.id===state.method);
+  const vatLabel = state.vat==='yes' ? 'Cần VAT' : 'Không cần VAT';
+
+  let linesHtml = lines.map(l=>`<div class="line"><span class="k">${l.k}</span><span class="v">${fmt(l.v)}</span></div>`).join('');
+
+  const html = `
+  <div class="result-card">
+    <div class="result-head">
+      <div class="lbl">${vatLabel} · ${methodInfo.name}</div>
+      <div class="amt">${fmt(total)}</div>
+    </div>
+    <div class="result-body">
+      ${linesHtml}
+      <div class="note">Kết quả ước tính dựa trên bảng giá tham khảo T4.2025 nội bộ, có thể thay đổi theo thời điểm và loại hàng thực tế.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Gửi kết quả qua Telegram</h2>
+    <div id="tgConfig"></div>
+    <button class="btn-secondary" id="sendTgBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M22 3.5L2.6 11.2c-1.3.5-1.3 1.2-.2 1.6l4.9 1.5 1.9 5.8c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8L23 4.7c.3-1.2-.4-1.7-1-1.2z"/></svg>
+      Gửi kết quả
+    </button>
+    <div id="tgStatus"></div>
+    <button class="toggle-link" id="toggleHelp" style="margin-top:12px;">Chưa có Bot Telegram? Xem hướng dẫn</button>
+    <div class="help-box" id="helpBox" style="display:none;">
+      1. Mở Telegram, tìm <b>@BotFather</b> → gửi lệnh <b>/newbot</b> → đặt tên bot → nhận về <b>Bot Token</b>.<br>
+      2. Nhắn thử 1 tin bất kỳ cho bot vừa tạo (hoặc thêm bot vào nhóm).<br>
+      3. Mở link sau (thay TOKEN của bạn): <br>
+      <span style="font-family:'IBM Plex Mono',monospace;">https://api.telegram.org/botTOKEN/getUpdates</span><br>
+      4. Tìm số <b>"chat":{"id": ...}</b> trong kết quả trả về — đó là <b>Chat ID</b>.<br>
+      5. Dán Token và Chat ID vào ô bên trên. Token và Chat ID chỉ lưu trên trình duyệt của bạn.
+    </div>
+  </div>
+  `;
+  document.getElementById('resultArea').innerHTML = html;
+  renderTgConfig();
+
+  document.getElementById('toggleHelp').addEventListener('click', ()=>{
+    const box = document.getElementById('helpBox');
+    box.style.display = box.style.display==='none' ? 'block' : 'none';
+  });
+
+  document.getElementById('sendTgBtn').addEventListener('click', ()=>sendToTelegram(lines, total, vatLabel, methodInfo.name));
+
+  document.getElementById('resultArea').scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+function renderTgConfig(){
+  const token = localStorage.getItem('tg_bot_token') || '';
+  const chatId = localStorage.getItem('tg_chat_id') || '';
+  document.getElementById('tgConfig').innerHTML = `
+    <div class="tg-row">
+      <input type="password" id="tgToken" placeholder="Bot Token" value="${token}">
+    </div>
+    <div class="tg-row">
+      <input type="text" id="tgChatId" placeholder="Chat ID" value="${chatId}">
+    </div>
+  `;
+}
+
+async function sendToTelegram(lines, total, vatLabel, methodName){
+  const token = document.getElementById('tgToken').value.trim();
+  const chatId = document.getElementById('tgChatId').value.trim();
+  const statusEl = document.getElementById('tgStatus');
+  const btn = document.getElementById('sendTgBtn');
+
+  if(!token || !chatId){
+    statusEl.innerHTML = `<div class="status err">Vui lòng nhập đầy đủ Bot Token và Chat ID.</div>`;
+    return;
+  }
+  localStorage.setItem('tg_bot_token', token);
+  localStorage.setItem('tg_chat_id', chatId);
+
+  let msg = `📦 *Kết quả tính cước vận chuyển*\n`;
+  msg += `Chặng 2: TQ → Hà Nội\n`;
+  msg += `Loại: ${vatLabel} — ${methodName}\n\n`;
+  lines.forEach(l=>{
+    msg += `• ${l.k}: ${fmt(l.v)}\n`;
+  });
+  msg += `\n*Tổng cộng: ${fmt(total)}*`;
+
+  btn.disabled = true;
+  btn.textContent = 'Đang gửi...';
+  statusEl.innerHTML = '';
+
+  try{
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode:'Markdown' })
+    });
+    const data = await res.json();
+    if(data.ok){
+      statusEl.innerHTML = `<div class="status ok">Đã gửi thành công tới Telegram.</div>`;
+    } else {
+      statusEl.innerHTML = `<div class="status err">Gửi thất bại: ${data.description || 'Kiểm tra lại Token/Chat ID'}</div>`;
+    }
+  } catch(err){
+    statusEl.innerHTML = `<div class="status err">Lỗi kết nối: ${err.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M22 3.5L2.6 11.2c-1.3.5-1.3 1.2-.2 1.6l4.9 1.5 1.9 5.8c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8L23 4.7c.3-1.2-.4-1.7-1-1.2z"/></svg> Gửi kết quả`;
+  }
+}
+
+renderMethods();
+</script>
+
+</body>
+</html>
