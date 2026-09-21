@@ -1,938 +1,1271 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tính giá vốn/chiếc</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Tra Giá EPVINA</title>
+<meta name="description" content="Tra giá nhanh theo sản phẩm và số lượng, lập báo giá tức thì từ dữ liệu giá gốc nội bộ EPVINA.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --navy:#132A3E;
-    --navy-2:#1E3E57;
-    --amber:#E8871E;
-    --amber-dark:#C96F10;
-    --bg:#F4F6F8;
-    --card:#FFFFFF;
-    --line:#E1E6EA;
-    --text:#132A3E;
-    --text-soft:#5A6B78;
-    --green:#1F7A53;
-    --green-bg:#EAF6EF;
-    --radius:14px;
+:root{
+  --navy:#13224B;
+  --navy-2:#1D3163;
+  --gold:#C9A227;
+  --gold-soft:#F6D590;
+  --bg:#FAF7EF;
+  --surface:#FFFFFF;
+  --line:#E7E0CE;
+  --ink:#1C2333;
+  --muted:#6B7280;
+  --good:#2F7D4F;
+  --good-soft:#E7F3EC;
+  --warn:#B45309;
+  --warn-soft:#FCEFDD;
+  --shadow: 0 1px 2px rgba(19,34,75,.06), 0 8px 24px rgba(19,34,75,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1526;
+    --surface:#161F35;
+    --line:#2A3550;
+    --ink:#EDEFF4;
+    --muted:#9AA4BC;
+    --gold-soft:#3A3323;
+    --good-soft:#123423;
+    --warn-soft:#3A2A14;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
   }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:'Inter',system-ui,-apple-system,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    padding:0 0 60px;
-  }
-  .topbar{
-    background:var(--navy);
-    color:#fff;
-    padding:28px 20px 60px;
-    position:relative;
-    overflow:hidden;
-  }
-  .topbar::after{
-    content:"";
-    position:absolute;
-    right:-40px; top:-60px;
-    width:220px; height:220px;
-    border-radius:50%;
-    background:radial-gradient(circle, rgba(232,135,30,.35), transparent 70%);
-  }
-  .topbar h1{
-    margin:0 0 6px;
-    font-size:22px;
-    font-weight:700;
-    letter-spacing:-0.01em;
-    position:relative;
-  }
-  .topbar p{
-    margin:0;
-    color:#B9C7D3;
-    font-size:14px;
-    position:relative;
-  }
-  .wrap{
-    max-width:600px;
-    margin:-38px auto 0;
-    padding:0 16px;
-  }
-  .card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:20px;
-    margin-bottom:16px;
-    box-shadow:0 1px 3px rgba(19,42,62,0.06);
-  }
-  .card h2{
-    font-size:14px;
-    font-weight:600;
-    margin:0 0 4px;
-    color:var(--navy);
-  }
-  .card .sub{
-    font-size:12px;
-    color:var(--text-soft);
-    margin:0 0 14px;
-  }
-  .step-badge{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:20px; height:20px;
-    background:var(--amber);
-    color:#fff;
-    border-radius:50%;
-    font-size:11px;
-    font-weight:700;
-    margin-right:8px;
-  }
-  .seg{
-    display:flex;
-    background:var(--bg);
-    border-radius:10px;
-    padding:4px;
-    gap:4px;
-  }
-  .seg button{
-    flex:1;
-    border:none;
-    background:transparent;
-    padding:10px 8px;
-    border-radius:8px;
-    font-family:inherit;
-    font-size:13.5px;
-    font-weight:600;
-    color:var(--text-soft);
-    cursor:pointer;
-    transition:all .15s ease;
-  }
-  .seg button.active{
-    background:var(--navy);
-    color:#fff;
-  }
-  .field{margin-top:14px;}
-  .field:first-child{margin-top:0;}
-  .field label{
-    display:block;
-    font-size:13px;
-    font-weight:500;
-    color:var(--text-soft);
-    margin-bottom:6px;
-  }
-  .field .hint{
-    font-size:12px;
-    color:#8B98A3;
-    margin-top:4px;
-  }
-  select, input[type=number], input[type=text], input[type=password]{
-    width:100%;
-    padding:11px 12px;
-    border:1px solid var(--line);
-    border-radius:9px;
-    font-family:inherit;
-    font-size:14.5px;
-    background:#fff;
-    color:var(--text);
-  }
-  select:focus, input:focus{
-    outline:2px solid var(--amber);
-    outline-offset:-1px;
-    border-color:var(--amber);
-  }
-  .radio-list{display:flex; flex-direction:column; gap:8px;}
-  .radio-opt{
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:12px 12px;
-    display:flex;
-    align-items:flex-start;
-    gap:10px;
-    cursor:pointer;
-    transition:border-color .15s;
-  }
-  .radio-opt.active{
-    border-color:var(--amber);
-    background:#FFF8EE;
-  }
-  .radio-opt input{margin-top:3px;}
-  .radio-opt .rt{
-    font-size:14px;
-    font-weight:600;
-  }
-  .radio-opt .rd{
-    font-size:12.5px;
-    color:var(--text-soft);
-    margin-top:2px;
-  }
-  .row2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-  .row3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;}
-  .btn-primary{
-    width:100%;
-    background:var(--amber);
-    color:#fff;
-    border:none;
-    padding:14px;
-    border-radius:10px;
-    font-size:15px;
-    font-weight:700;
-    font-family:inherit;
-    cursor:pointer;
-    margin-top:6px;
-    transition:background .15s;
-  }
-  .btn-primary:hover{background:var(--amber-dark);}
-  .btn-secondary{
-    width:100%;
-    background:#229ED9;
-    color:#fff;
-    border:none;
-    padding:13px;
-    border-radius:10px;
-    font-size:14.5px;
-    font-weight:700;
-    font-family:inherit;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-  }
-  .btn-secondary:hover{background:#1c85b9;}
-  .btn-secondary:disabled{background:#9FB6C0; cursor:not-allowed;}
-  .btn-ghost{
-    background:transparent;
-    border:1px solid var(--line);
-    color:var(--text-soft);
-    padding:9px 12px;
-    border-radius:9px;
-    font-family:inherit;
-    font-size:13px;
-    cursor:pointer;
-    width:100%;
-  }
-  .result-card{
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    overflow:hidden;
-    margin-bottom:16px;
-  }
-  .result-head{
-    background:var(--navy-2);
-    color:#fff;
-    padding:18px 20px;
-  }
-  .result-head .lbl{font-size:12px; color:#AFC2CE; margin-bottom:4px;}
-  .result-head .amt{font-family:'IBM Plex Mono',monospace; font-size:28px; font-weight:600; letter-spacing:-0.01em;}
-  .result-head .sub-amt{font-size:12.5px; color:#CFE0EA; margin-top:6px;}
-  .result-body{padding:16px 20px; background:#fff;}
-  .section-label{
-    font-size:11.5px;
-    text-transform:uppercase;
-    letter-spacing:.04em;
-    color:#8B98A3;
-    font-weight:600;
-    margin:14px 0 4px;
-  }
-  .section-label:first-child{margin-top:0;}
-  .line{
-    display:flex;
-    justify-content:space-between;
-    font-size:13.5px;
-    padding:8px 0;
-    border-bottom:1px dashed var(--line);
-    gap:12px;
-  }
-  .line:last-child{border-bottom:none;}
-  .line .k{color:var(--text-soft);}
-  .line .v{font-family:'IBM Plex Mono',monospace; font-weight:600; white-space:nowrap;}
-  .line.total{
-    border-top:1px solid var(--line);
-    border-bottom:none;
-    margin-top:4px;
-    padding-top:12px;
-    font-size:14.5px;
-  }
-  .line.total .k{color:var(--navy); font-weight:600;}
-  .note{
-    font-size:12px;
-    color:#8B98A3;
-    margin-top:10px;
-    line-height:1.5;
-  }
-  .tg-row{display:flex; align-items:center; gap:8px; margin-bottom:10px;}
-  .tg-row input{flex:1;}
-  .toggle-link{
-    font-size:12.5px;
-    color:var(--navy-2);
-    text-decoration:underline;
-    cursor:pointer;
-    background:none;
-    border:none;
-    font-family:inherit;
-    padding:0;
-    margin-top:8px;
-  }
-  .status{
-    font-size:13px;
-    margin-top:10px;
-    padding:10px 12px;
-    border-radius:8px;
-  }
-  .status.ok{background:var(--green-bg); color:var(--green);}
-  .status.err{background:#FDECEC; color:#B3261E;}
-  .help-box{
-    background:#F0F5F8;
-    border-radius:9px;
-    padding:12px 14px;
-    font-size:12.5px;
-    color:var(--text-soft);
-    line-height:1.6;
-    margin-top:10px;
-  }
-  .hist-item{
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:12px 14px;
-    margin-bottom:8px;
-    position:relative;
-  }
-  .hist-item .h-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:10px;
-  }
-  .hist-item .h-amt{
-    font-family:'IBM Plex Mono',monospace;
-    font-weight:700;
-    font-size:15.5px;
-    color:var(--navy);
-  }
-  .hist-item .h-meta{
-    font-size:12px;
-    color:var(--text-soft);
-    margin-top:3px;
-  }
-  .hist-item .h-time{
-    font-size:11px;
-    color:#9AA7B0;
-    margin-top:4px;
-  }
-  .hist-del{
-    background:none;
-    border:none;
-    color:#B3261E;
-    font-size:12px;
-    cursor:pointer;
-    padding:4px 6px;
-    font-family:inherit;
-    flex-shrink:0;
-  }
-  .hist-empty{
-    font-size:13px;
-    color:#9AA7B0;
-    text-align:center;
-    padding:16px 0;
-  }
-  .hist-clear{
-    font-size:12.5px;
-    color:#B3261E;
-    background:none;
-    border:none;
-    cursor:pointer;
-    font-family:inherit;
-    padding:0;
-    margin-top:4px;
-  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1526;
+  --surface:#161F35;
+  --line:#2A3550;
+  --ink:#EDEFF4;
+  --muted:#9AA4BC;
+  --gold-soft:#3A3323;
+  --good-soft:#123423;
+  --warn-soft:#3A2A14;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Be Vietnam Pro", -apple-system, sans-serif;
+  padding-inline:16px;
+}
+.tab{font-variant-numeric:tabular-nums}
+.wrap{max-width:1600px; margin:0 auto; padding-block:20px 40px;}
+header.top{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:16px 20px; border-radius:16px; margin-bottom:18px;
+  background:linear-gradient(135deg,var(--navy),var(--navy-2));
+  box-shadow:var(--shadow);
+}
+.logo-badge{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--gold-soft); color:var(--navy); font-weight:800; font-size:15px;
+  display:flex;align-items:center;justify-content:center; flex-shrink:0;
+  border:2px solid var(--gold);
+}
+header.top h1{color:#fff; font-size:19px; margin:0; font-weight:700; letter-spacing:.2px;}
+header.top p{color:var(--gold-soft); margin:2px 0 0; font-size:12.5px; font-weight:500;}
+.disclaimer{
+  background:var(--warn-soft); border:1px solid #E0B57A; color:var(--warn);
+  border-radius:12px; padding:10px 14px; font-size:12.5px; margin-bottom:18px; line-height:1.5;
+}
+:root[data-theme="dark"] .disclaimer, @media (prefers-color-scheme:dark){ .disclaimer{border-color:#6B4A20;} }
+
+.layout{display:grid; grid-template-columns: 1.6fr 1fr; gap:18px; align-items:start;}
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr;}
+  .panel[style*="sticky"]{position:static !important;}
+}
+body{padding-inline:12px;}
+@media (min-width:600px){ body{padding-inline:24px;} }
+
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:16px; box-shadow:var(--shadow);}
+.panel h2{font-size:14px; margin:0 0 10px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-weight:700;}
+
+#q{
+  width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line);
+  background:var(--bg); color:var(--ink); font-size:15px; font-family:inherit;
+}
+#q:focus{outline:2px solid var(--gold); outline-offset:1px;}
+.hint{font-size:12px; color:var(--muted); margin-top:6px;}
+
+.groups{margin-top:14px; display:flex; flex-direction:column; gap:14px;}
+.card{border:1px solid var(--line); border-radius:14px; overflow:hidden;}
+.card > summary{
+  cursor:pointer; list-style:none; padding:12px 14px; display:flex; justify-content:space-between; align-items:center;
+  background:var(--bg); font-weight:600; gap:10px;
+}
+.card > summary::-webkit-details-marker{display:none}
+.card > summary .tag{font-size:11px; color:var(--muted); font-weight:500;}
+.card > summary .chev{transition:transform .15s; color:var(--muted); flex-shrink:0;}
+.card[open] > summary .chev{transform:rotate(90deg);}
+.tbl-wrap{overflow-x:auto;}
+table{width:100%; border-collapse:collapse; font-size:13px;}
+thead th{
+  text-align:right; font-size:11px; color:var(--muted); font-weight:600; text-transform:uppercase;
+  letter-spacing:.03em; padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap;
+}
+thead th:first-child, tbody td:first-child{text-align:left;}
+tbody td{padding:9px 10px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:var(--bg);}
+.note-cell{white-space:normal !important; text-align:left !important; color:var(--muted); font-size:12px; max-width:220px;}
+.price-ban{color:var(--good); font-weight:700;}
+.addbtn{
+  border:1px solid var(--gold); background:var(--gold-soft); color:var(--navy);
+  border-radius:8px; padding:5px 10px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.addbtn:hover{background:var(--gold);}
+:root[data-theme="dark"] .addbtn, @media (prefers-color-scheme:dark){ .addbtn{color:#0E1526;} }
+.empty{padding:30px 10px; text-align:center; color:var(--muted); font-size:13px;}
+
+.cart-item{border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-bottom:10px;}
+.cart-item .row1{display:flex; justify-content:space-between; gap:8px; align-items:start;}
+.cart-item .row1 > .txt2{flex:1; min-width:0;}
+.cart-item .thumb, .cart-item .thumb-empty{width:44px; height:44px; font-size:16px; border-radius:8px;}
+.cart-item .name{font-weight:600; font-size:13.5px;}
+.cart-item .sub{font-size:11.5px; color:var(--muted); margin-top:2px;}
+.cart-item .rm{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:2px 6px;}
+.cart-item .rm:hover{color:#C0392B;}
+.cart-item .price{font-weight:700; margin-top:6px; font-size:14.5px; color:var(--good);}
+.cart-total{
+  display:flex; justify-content:space-between; align-items:baseline; padding-top:12px; margin-top:6px;
+  border-top:2px solid var(--line); font-weight:700; font-size:16px;
+}
+.cart-total .amt{color:var(--navy); font-size:20px;}
+:root[data-theme="dark"] .cart-total .amt, @media (prefers-color-scheme:dark){ .cart-total .amt{color:var(--gold-soft);} }
+.copybtn{
+  width:100%; margin-top:12px; padding:11px; border-radius:10px; border:none;
+  background:var(--navy); color:#fff; font-weight:700; font-size:13.5px; cursor:pointer; font-family:inherit;
+}
+.copybtn:hover{background:var(--navy-2);}
+.copybtn:disabled{opacity:.5; cursor:not-allowed;}
+.toast{
+  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  background:var(--navy); color:#fff; padding:10px 18px; border-radius:10px; font-size:13px;
+  opacity:0; pointer-events:none; transition:opacity .2s; z-index:50; box-shadow:var(--shadow);
+}
+.toast.show{opacity:1;}
+.cart-empty{color:var(--muted); font-size:13px; text-align:center; padding:20px 10px;}
+.thumb-wrap{position:relative; flex-shrink:0;}
+.thumb{width:64px;height:64px;border-radius:10px;object-fit:cover;border:1px solid var(--line); background:var(--bg); display:block;}
+.thumb-empty{width:64px;height:64px;border-radius:10px;border:1.5px dashed var(--line); display:flex;align-items:center;justify-content:center; color:var(--muted); font-size:22px; background:var(--bg); flex-shrink:0;}
+.thumb-upload-btn{
+  width:64px;height:64px;border-radius:10px;border:1.5px dashed var(--gold); background:var(--gold-soft);
+  color:var(--navy); font-size:12px; font-weight:700; cursor:pointer; display:flex;flex-direction:column;align-items:center;justify-content:center; flex-shrink:0; font-family:inherit; line-height:1.2; gap:2px;
+}
+:root[data-theme="dark"] .thumb-upload-btn, @media (prefers-color-scheme:dark){ .thumb-upload-btn{color:#0E1526;} }
+.thumb-upload-btn:hover{background:var(--gold);}
+.summary-left{display:flex; align-items:center; gap:10px; min-width:0;}
+.summary-left .txt{min-width:0;}
+.badge-chuan{display:inline-block; background:var(--good-soft); color:var(--good); font-size:11px; font-weight:700; padding:2px 6px; border-radius:6px; white-space:nowrap;}
+.badge-cu{display:inline-block; background:var(--bg); color:var(--muted); font-size:11px; font-weight:600; padding:2px 6px; border-radius:6px; border:1px solid var(--line); white-space:nowrap;}
+
+#printArea{display:none;}
+@media print{
+  body.print-mode > *:not(#printArea){display:none !important;}
+  #printArea{display:block !important; color:#000; background:#fff; font-family:"Be Vietnam Pro", sans-serif;}
+  #printArea table{width:100%; border-collapse:collapse; font-size:12px;}
+  #printArea th, #printArea td{border:1px solid #999; padding:6px 8px; text-align:left;}
+  #printArea th{background:#eee;}
+  #printArea img{width:40px; height:40px; object-fit:cover; border-radius:4px;}
+}
+
+#lockScreen{
+  position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,var(--navy),var(--navy-2)); padding:16px;
+}
+.lock-box{
+  background:var(--surface); border-radius:16px; padding:28px 26px; max-width:340px; width:100%;
+  text-align:center; box-shadow:var(--shadow);
+}
+.lock-box .logo-badge{ margin:0 auto 12px; }
+.lock-box h2{ margin:0 0 4px; font-size:17px; color:var(--ink); }
+.lock-box p{ margin:0 0 16px; font-size:12.5px; color:var(--muted); }
+.lock-box input{
+  width:100%; padding:11px 14px; border-radius:10px; border:1.5px solid var(--line);
+  background:var(--bg); color:var(--ink); font-size:15px; font-family:inherit; text-align:center;
+  box-sizing:border-box; margin-bottom:10px;
+}
+.lock-box input:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+#lockErr{ color:#C0392B; font-size:12px; margin-top:8px; min-height:16px; }
 </style>
-</head>
-<body>
 
-<div class="topbar">
-  <h1>Tính giá vốn / chiếc</h1>
-  <p>Giá mua hàng · Cước vận chuyển · Thuế &amp; phí</p>
+<div id="lockScreen">
+  <div class="lock-box">
+    <div class="logo-badge">EP</div>
+    <h2>Tra giá EPVINA</h2>
+    <p>Trang nội bộ — nhập mã truy cập được cấp để tiếp tục</p>
+    <input id="lockCode" type="password" placeholder="Mã truy cập" autocomplete="off">
+    <button type="button" id="lockBtn" class="copybtn" style="margin-top:0;">Vào trang</button>
+    <div id="lockErr"></div>
+  </div>
 </div>
-
-<div class="wrap">
-
-  <!-- BƯỚC 1: Thông tin hàng hoá -->
-  <div class="card">
-    <h2><span class="step-badge">1</span>Thông tin hàng hoá</h2>
-    <p class="sub">Giá mua từ nhà cung cấp bên Trung Quốc</p>
-    <div class="field">
-      <label>Tên sản phẩm</label>
-      <input type="text" id="productName" placeholder="VD: Áo thun cotton nam">
-    </div>
-    <div class="row2">
-      <div class="field">
-        <label>Giá mua / chiếc (NDT)</label>
-        <input type="number" id="priceRmb" min="0" step="0.01" placeholder="VD: 8.5">
-      </div>
-      <div class="field">
-        <label>Số lượng (chiếc)</label>
-        <input type="number" id="qty" min="1" step="1" placeholder="VD: 500">
-      </div>
-    </div>
-    <div class="field">
-      <label>Tỷ giá NDT → VND</label>
-      <input type="number" id="fxRate" min="0" step="1" placeholder="VD: 3650">
-      <div class="hint">Nhập tỷ giá bạn đang áp dụng (nên kiểm tra tỷ giá thực tế tại thời điểm đặt hàng).</div>
-    </div>
-  </div>
-
-  <!-- BƯỚC 2: Cước vận chuyển -->
-  <div class="card">
-    <h2><span class="step-badge">2</span>Cước vận chuyển</h2>
-    <p class="sub">Chặng 2 · Xuyên biên giới Trung Quốc → Hà Nội</p>
-
-    <div class="seg" id="vatSeg">
-      <button class="active" data-vat="no">Không cần VAT</button>
-      <button data-vat="yes">Cần VAT</button>
-    </div>
-
-    <div class="field">
-      <div class="radio-list" id="methodList"></div>
-    </div>
-
-    <div class="row2" style="margin-top:14px;">
-      <div class="field">
-        <label>Cân nặng cả lô (kg)</label>
-        <input type="number" id="inKg" min="0" step="0.1" placeholder="VD: 250">
-      </div>
-      <div class="field">
-        <label>Thể tích cả lô (m³)</label>
-        <input type="number" id="inM3" min="0" step="0.01" placeholder="VD: 1.2">
-      </div>
-    </div>
-    <div class="field">
-      <button class="toggle-link" id="toggleDims">+ Tính thể tích từ kích thước (D×R×C)</button>
-      <div class="row2" id="dimsBox" style="display:none; margin-top:10px;">
-        <input type="number" id="dimD" placeholder="Dài (cm)">
-        <input type="number" id="dimR" placeholder="Rộng (cm)">
-        <input type="number" id="dimC" placeholder="Cao (cm)" style="margin-top:8px;">
-        <button class="btn-ghost" id="calcDims" style="margin-top:8px;">Áp dụng vào thể tích</button>
-      </div>
-    </div>
-
-    <div id="extraFields"></div>
-  </div>
-
-  <!-- BƯỚC 3: Thuế & phí -->
-  <div class="card">
-    <h2><span class="step-badge">3</span>Thuế &amp; phí khác</h2>
-    <p class="sub">Tính theo % trên giá trị tiền hàng (giá mua × số lượng × tỷ giá)</p>
-    <div class="row2">
-      <div class="field">
-        <label>Thuế nhập khẩu (%)</label>
-        <input type="number" id="taxPct" min="0" step="0.1" placeholder="VD: 5">
-      </div>
-      <div class="field">
-        <label>Phí dịch vụ (%)</label>
-        <input type="number" id="servicePct" min="0" step="0.1" placeholder="VD: 2">
-      </div>
-    </div>
-    <div class="field">
-      <label>Phí khác (nếu có, số tiền cố định VND)</label>
-      <input type="number" id="otherFee" min="0" step="10000" placeholder="VD: 0">
-    </div>
-  </div>
-
-  <button class="btn-primary" id="calcBtn">Tính giá vốn / chiếc</button>
-
-  <!-- Kết quả -->
-  <div id="resultArea"></div>
-
-  <!-- Lịch sử -->
-  <div class="card">
-    <h2>Lịch sử tính giá</h2>
-    <p class="sub" style="margin-bottom:12px;">Tự động lưu lại trên trình duyệt này. Tick chọn sản phẩm để đưa vào bảng báo giá.</p>
-    <div id="historyList"></div>
-    <div class="row2" style="margin-top:8px;">
-      <button class="btn-ghost" id="selectAllHistBtn">Chọn tất cả</button>
-      <button class="btn-ghost" id="clearHistBtn">Xóa toàn bộ lịch sử</button>
-    </div>
-  </div>
-
-  <!-- Xuất báo giá -->
-  <div class="card">
-    <h2>Xuất bảng báo giá</h2>
-    <p class="sub" style="margin-bottom:12px;">Xuất các sản phẩm đã chọn ở trên thành 1 file Excel gửi kế toán duyệt.</p>
-    <button class="btn-primary" id="exportExcelBtn" style="margin-top:0;">Xuất file Excel báo giá</button>
-
-    <div class="field" style="margin-top:18px;">
-      <label>Email người nhận (kinh doanh / kế toán)</label>
-      <input type="text" id="emailTo" placeholder="ten@congty.com, ten2@congty.com">
-    </div>
-    <div class="field">
-      <label>Tiêu đề email</label>
-      <input type="text" id="emailSubject" value="Bảng báo giá vốn - chờ duyệt">
-    </div>
-    <button class="btn-secondary" id="composeEmailBtn" style="background:var(--navy-2); margin-top:8px;">Soạn email gửi báo giá</button>
-    <div class="note" id="emailNote" style="margin-top:8px;">Sau khi bấm, file Excel sẽ tự tải về máy và email nháp sẽ mở sẵn — bạn chỉ cần đính kèm file vừa tải vào email rồi bấm Gửi (trình duyệt không cho tự động đính kèm file).</div>
-  </div>
-
-</div>
-
 <script>
-const fmt = n => Math.round(n).toLocaleString('vi-VN') + ' đ';
-const fmtF = n => n.toLocaleString('vi-VN', {maximumFractionDigits:2}) + ' đ';
-
-const METHODS = {
-  no: [
-    { id:'slow', name:'Phổ thông — chậm (7–10 ngày)', desc:'6.000đ/kg hoặc 1.300.000đ/m³ (lấy mức cao hơn)' },
-    { id:'slow_khui', name:'Phổ thông — chậm, hàng khui (7–10 ngày)', desc:'4.000đ/kg' },
-    { id:'fast', name:'Phổ thông — nhanh (5–7 ngày)', desc:'11.000đ/kg hoặc 2.300.000đ/m³ (lấy mức cao hơn)' },
-    { id:'hand', name:'Hàng xách tay (4–5 ngày)', desc:'Tối thiểu 100.000đ, trên mức đó tính 18.000đ/kg' },
-  ],
-  yes: [
-    { id:'truck', name:'Ghép xe (VAT)', desc:'≈3.600.000đ/khối + phụ phí khai HQ, FORM E, xe về kho...' },
-    { id:'retail', name:'Hàng lẻ (VAT)', desc:'6.000đ/kg hoặc 1.300.000đ/m³ + phí ủy thác 1,5% + phụ phí tờ khai' },
-  ]
-};
-
-let state = { vat:'no', method:'slow' };
-
-function renderMethods(){
-  const list = document.getElementById('methodList');
-  list.innerHTML = '';
-  METHODS[state.vat].forEach(m=>{
-    const div = document.createElement('label');
-    div.className = 'radio-opt' + (state.method===m.id ? ' active':'');
-    div.innerHTML = `<input type="radio" name="method" value="${m.id}" ${state.method===m.id?'checked':''}>
-      <div><div class="rt">${m.name}</div><div class="rd">${m.desc}</div></div>`;
-    div.querySelector('input').addEventListener('change', ()=>{
-      state.method = m.id;
-      renderMethods();
-      renderExtraFields();
+(function(){
+  var ACCESS_HASH = "d0d175e06a6985eafcde9fdf3ddb3daa753e96d88b354416c32dc87c0392913c";
+  var lockScreen = document.getElementById('lockScreen');
+  var lockCode = document.getElementById('lockCode');
+  var lockBtn = document.getElementById('lockBtn');
+  var lockErr = document.getElementById('lockErr');
+  function unlock(){
+    // tra cứu appRoot ngay lúc gọi (không cache sớm) vì node này nằm
+    // SAU thẻ script trong HTML — nếu cache lúc script chạy lần đầu,
+    // với người đã có localStorage sẽ bị null vì DOM chưa parse tới đó.
+    var appRoot = document.getElementById('appRoot');
+    lockScreen.style.display = 'none';
+    if(appRoot) appRoot.style.display = '';
+  }
+  function sha256Hex(str){
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then(function(buf){
+      return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
     });
-    list.appendChild(div);
-  });
-  renderExtraFields();
-}
-
-function renderExtraFields(){
-  const box = document.getElementById('extraFields');
-  let html = '';
-  if(state.method==='slow' || state.method==='slow_khui'){
-    html += fieldRange('feeShip','Phí chuyển phát kho NCC → Tây Mỗ','100000','250000','150000','Miễn phí nếu thể tích ≥ 5 m³');
   }
-  if(state.method==='fast'){
-    html += fieldRange('feeShip','Phí chuyển phát kho NCC → Tây Mỗ','100000','250000','150000','');
+  function checkAutoUnlock(){
+    try{
+      if(localStorage.getItem('epvina_access_ok') === '1'){ unlock(); }
+    }catch(e){}
   }
-  if(state.method==='hand'){
-    html += fieldRange('feeShip','Cước chuyển phát Biên giới TQ–Hà Nội','50000','250000','120000','Miễn phí nếu thể tích ≥ 5 m³');
+  // #appRoot nằm SAU thẻ script này trong HTML nên phải đợi DOM parse xong
+  // rồi mới tự mở khoá cho người đã có localStorage — nếu không, node appRoot
+  // chưa tồn tại lúc này, unlock() sẽ ẩn màn hình khoá mà không hiện được
+  // nội dung, gây ra trang trắng.
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', checkAutoUnlock);
+  }else{
+    checkAutoUnlock();
   }
-  if(state.method==='truck'){
-    html += `<div class="field"><label>Phụ phí khai HQ + FORM E + xe về kho / lô</label>
-      <input type="number" id="feeFixed" value="12000000" step="500000">
-      <div class="hint">Mặc định ước tính ~12.000.000đ/lô, có thể chỉnh theo báo giá thực tế</div></div>`;
-  }
-  if(state.method==='retail'){
-    html += `<div class="field"><label>Số mã hàng (SKU) — phụ phí tờ khai 100.000đ/mã</label>
-      <input type="number" id="skuCount" value="1" min="0"></div>`;
-    html += fieldRange('feeWarehouse','Phí vận chuyển về kho Tây Mỗ','250000','500000','350000','');
-    html += `<div class="note">Lưu ý: phương thức Hàng lẻ (VAT) đã gồm sẵn phí ủy thác 1,5% trên giá trị tiền hàng — phí này sẽ tự tính dựa trên số liệu ở Bước 1, không cần nhập lại.</div>`;
-  }
-  box.innerHTML = html;
-}
-
-function fieldRange(id,label,min,max,def,hint){
-  return `<div class="field"><label>${label}</label>
-    <input type="number" id="${id}" value="${def}" step="10000">
-    <div class="hint">Khoảng tham khảo: ${Number(min).toLocaleString('vi-VN')}đ – ${Number(max).toLocaleString('vi-VN')}đ${hint? ' · '+hint:''}</div></div>`;
-}
-
-document.getElementById('vatSeg').addEventListener('click', e=>{
-  const btn = e.target.closest('button');
-  if(!btn) return;
-  document.querySelectorAll('#vatSeg button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  state.vat = btn.dataset.vat;
-  state.method = METHODS[state.vat][0].id;
-  renderMethods();
-});
-
-document.getElementById('toggleDims').addEventListener('click', ()=>{
-  const box = document.getElementById('dimsBox');
-  box.style.display = box.style.display==='none' ? 'grid' : 'none';
-});
-document.getElementById('calcDims').addEventListener('click', ()=>{
-  const d = parseFloat(document.getElementById('dimD').value)||0;
-  const r = parseFloat(document.getElementById('dimR').value)||0;
-  const c = parseFloat(document.getElementById('dimC').value)||0;
-  const m3 = (d*r*c)/1000000;
-  document.getElementById('inM3').value = m3 ? m3.toFixed(3) : '';
-});
-
-function getVal(id){ const el = document.getElementById(id); return el ? (parseFloat(el.value)||0) : 0; }
-
-function calcShipping(orderValueVnd){
-  const kg = getVal('inKg');
-  const m3 = getVal('inM3');
-  const lines = [];
-  let total = 0;
-
-  if(state.method==='slow'){
-    const base = Math.max(kg*6000, m3*1300000);
-    const isM3 = m3*1300000 > kg*6000;
-    lines.push({k: isM3? `Cước theo thể tích (${m3} m³ × 1.300.000đ)` : `Cước theo cân nặng (${kg} kg × 6.000đ)`, v: base});
-    let fee = getVal('feeShip');
-    if(m3>=5) fee = 0;
-    lines.push({k: m3>=5 ? 'Phí chuyển phát về Tây Mỗ (miễn phí ≥5m³)' : 'Phí chuyển phát về Tây Mỗ', v: fee});
-    total = base+fee;
-  }
-  else if(state.method==='slow_khui'){
-    const base = kg*4000;
-    lines.push({k:`Cước hàng khui (${kg} kg × 4.000đ)`, v: base});
-    let fee = getVal('feeShip');
-    if(m3>=5) fee = 0;
-    lines.push({k: m3>=5 ? 'Phí chuyển phát về Tây Mỗ (miễn phí ≥5m³)' : 'Phí chuyển phát về Tây Mỗ', v: fee});
-    total = base+fee;
-  }
-  else if(state.method==='fast'){
-    const base = Math.max(kg*11000, m3*2300000);
-    const isM3 = m3*2300000 > kg*11000;
-    lines.push({k: isM3? `Cước theo thể tích (${m3} m³ × 2.300.000đ)` : `Cước theo cân nặng (${kg} kg × 11.000đ)`, v: base});
-    const fee = getVal('feeShip');
-    lines.push({k:'Phí chuyển phát về Tây Mỗ', v: fee});
-    total = base+fee;
-  }
-  else if(state.method==='hand'){
-    let base = kg*18000;
-    if(base < 100000){
-      lines.push({k:`Mức tối thiểu (cước tính ra ${fmt(base)}, dưới mức sàn)`, v: 100000});
-      base = 100000;
-    } else {
-      lines.push({k:`Cước xách tay (${kg} kg × 18.000đ)`, v: base});
-    }
-    let fee = getVal('feeShip');
-    if(m3>=5) fee = 0;
-    lines.push({k: m3>=5 ? 'Cước chuyển phát biên giới (miễn phí ≥5m³)' : 'Cước chuyển phát biên giới TQ–HN', v: fee});
-    total = base+fee;
-  }
-  else if(state.method==='truck'){
-    const base = m3*3600000;
-    lines.push({k:`Cước ghép xe (${m3} m³ × 3.600.000đ)`, v: base});
-    const fixed = getVal('feeFixed');
-    lines.push({k:'Phụ phí khai HQ + FORM E + xe về kho', v: fixed});
-    total = base+fixed;
-  }
-  else if(state.method==='retail'){
-    const base = Math.max(kg*6000, m3*1300000);
-    const isM3 = m3*1300000 > kg*6000;
-    lines.push({k: isM3? `Cước vận chuyển theo thể tích (${m3} m³ × 1.300.000đ)` : `Cước vận chuyển theo cân nặng (${kg} kg × 6.000đ)`, v: base});
-    const trustFee = orderValueVnd*0.015;
-    lines.push({k:'Phí ủy thác 1,5% (trên giá trị tiền hàng)', v: trustFee});
-    const sku = getVal('skuCount');
-    const declFee = sku*100000;
-    lines.push({k:`Phụ phí tờ khai (${sku} mã × 100.000đ)`, v: declFee});
-    const wFee = getVal('feeWarehouse');
-    lines.push({k:'Phí vận chuyển về kho Tây Mỗ', v: wFee});
-    total = base+trustFee+declFee+wFee;
-  }
-
-  return {lines, total};
-}
-
-const HIST_KEY = 'gv_history';
-
-function loadHistory(){
-  try{
-    return JSON.parse(localStorage.getItem(HIST_KEY) || '[]');
-  }catch(e){ return []; }
-}
-function saveHistoryEntry(entry){
-  const list = loadHistory();
-  list.unshift(entry);
-  if(list.length > 50) list.length = 50;
-  localStorage.setItem(HIST_KEY, JSON.stringify(list));
-  renderHistory();
-}
-function deleteHistoryEntry(id){
-  const list = loadHistory().filter(e=>e.id !== id);
-  localStorage.setItem(HIST_KEY, JSON.stringify(list));
-  renderHistory();
-}
-function renderHistory(){
-  const box = document.getElementById('historyList');
-  const list = loadHistory();
-  if(list.length === 0){
-    box.innerHTML = '<div class="hist-empty">Chưa có lần tính giá nào được lưu.</div>';
-    return;
-  }
-  box.innerHTML = list.map(e=>{
-    const d = new Date(e.time);
-    const timeStr = d.toLocaleString('vi-VN');
-    const name = e.productName || '(Chưa đặt tên sản phẩm)';
-    return `<div class="hist-item">
-      <div class="h-top">
-        <label style="display:flex; gap:10px; align-items:flex-start; cursor:pointer; flex:1;">
-          <input type="checkbox" class="hist-check" data-id="${e.id}" style="margin-top:4px;">
-          <div>
-            <div class="h-amt">${name}</div>
-            <div class="h-meta">${fmtF(e.perUnit)}/chiếc · ${e.vatLabel} · ${e.methodName} · ${e.qty.toLocaleString('vi-VN')} chiếc · Tổng ${fmt(e.grandTotal)}</div>
-            <div class="h-time">${timeStr}</div>
-          </div>
-        </label>
-        <button class="hist-del" data-id="${e.id}">Xóa</button>
-      </div>
-    </div>`;
-  }).join('');
-  box.querySelectorAll('.hist-del').forEach(btn=>{
-    btn.addEventListener('click', ()=> deleteHistoryEntry(btn.dataset.id));
-  });
-}
-document.getElementById('selectAllHistBtn').addEventListener('click', ()=>{
-  document.querySelectorAll('.hist-check').forEach(chk=> chk.checked = true);
-});
-document.getElementById('clearHistBtn').addEventListener('click', ()=>{
-  if(confirm('Xóa toàn bộ lịch sử tính giá đã lưu?')){
-    localStorage.removeItem(HIST_KEY);
-    renderHistory();
-  }
-});
-renderHistory();
-
-document.getElementById('calcBtn').addEventListener('click', ()=>{
-  const priceRmb = getVal('priceRmb');
-  const qty = getVal('qty') || 1;
-  const fx = getVal('fxRate');
-  const orderValueVnd = priceRmb * qty * fx;
-
-  const shipping = calcShipping(orderValueVnd);
-  const taxPct = getVal('taxPct');
-  const servicePct = getVal('servicePct');
-  const otherFee = getVal('otherFee');
-
-  const taxAmt = orderValueVnd * (taxPct/100);
-  const serviceAmt = orderValueVnd * (servicePct/100);
-
-  const grandTotal = orderValueVnd + shipping.total + taxAmt + serviceAmt + otherFee;
-  const perUnit = grandTotal / qty;
-
-  const methodInfo = METHODS[state.vat].find(m=>m.id===state.method);
-  const vatLabel = state.vat==='yes' ? 'Cần VAT' : 'Không cần VAT';
-
-  let shipLinesHtml = shipping.lines.map(l=>`<div class="line"><span class="k">${l.k}</span><span class="v">${fmt(l.v)}</span></div>`).join('');
-
-  const html = `
-  <div class="result-card">
-    <div class="result-head">
-      <div class="lbl">Giá vốn / chiếc</div>
-      <div class="amt">${fmtF(perUnit)}</div>
-      <div class="sub-amt">Tổng giá vốn lô hàng: ${fmt(grandTotal)} — ${qty.toLocaleString('vi-VN')} chiếc</div>
-    </div>
-    <div class="result-body">
-      <div class="section-label">Tiền hàng</div>
-      <div class="line"><span class="k">Giá mua (${priceRmb} NDT × ${qty} × tỷ giá ${fx.toLocaleString('vi-VN')})</span><span class="v">${fmt(orderValueVnd)}</span></div>
-
-      <div class="section-label">Cước vận chuyển — ${vatLabel} · ${methodInfo.name}</div>
-      ${shipLinesHtml}
-
-      <div class="section-label">Thuế &amp; phí</div>
-      <div class="line"><span class="k">Thuế nhập khẩu (${taxPct}% × tiền hàng)</span><span class="v">${fmt(taxAmt)}</span></div>
-      <div class="line"><span class="k">Phí dịch vụ (${servicePct}% × tiền hàng)</span><span class="v">${fmt(serviceAmt)}</span></div>
-      <div class="line"><span class="k">Phí khác</span><span class="v">${fmt(otherFee)}</span></div>
-
-      <div class="line total"><span class="k">Tổng giá vốn lô hàng</span><span class="v">${fmt(grandTotal)}</span></div>
-      <div class="line total"><span class="k">Giá vốn / chiếc</span><span class="v">${fmtF(perUnit)}</span></div>
-
-      <div class="note">Kết quả ước tính dựa trên bảng giá tham khảo T4.2025 nội bộ và tỷ giá bạn nhập, có thể thay đổi theo thời điểm và loại hàng thực tế.</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Gửi kết quả qua Telegram</h2>
-    <div id="tgConfig"></div>
-    <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-soft); margin:2px 0 14px; cursor:pointer;">
-      <input type="checkbox" id="autoSendChk" style="width:auto;">
-      Tự động gửi kết quả mỗi khi bấm "Tính giá vốn/chiếc"
-    </label>
-    <button class="btn-secondary" id="sendTgBtn">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M22 3.5L2.6 11.2c-1.3.5-1.3 1.2-.2 1.6l4.9 1.5 1.9 5.8c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8L23 4.7c.3-1.2-.4-1.7-1-1.2z"/></svg>
-      Gửi kết quả
-    </button>
-    <div id="tgStatus"></div>
-    <button class="toggle-link" id="toggleHelp" style="margin-top:12px;">Chưa có Bot Telegram? Xem hướng dẫn</button>
-    <div class="help-box" id="helpBox" style="display:none;">
-      1. Mở Telegram, tìm <b>@BotFather</b> → gửi lệnh <b>/newbot</b> → đặt tên bot → nhận về <b>Bot Token</b>.<br>
-      2. Nhắn thử 1 tin bất kỳ cho bot vừa tạo.<br>
-      3. Mở link sau (thay TOKEN của bạn): <br>
-      <span style="font-family:'IBM Plex Mono',monospace;">https://api.telegram.org/botTOKEN/getUpdates</span><br>
-      4. Tìm số <b>"chat":{"id": ...}</b> trong kết quả trả về — đó là <b>Chat ID</b> (một dãy số, không phải tên bot).<br>
-      5. Dán Token và Chat ID vào ô bên trên. Token và Chat ID chỉ lưu trên trình duyệt của bạn.
-    </div>
-  </div>
-  `;
-  document.getElementById('resultArea').innerHTML = html;
-  renderTgConfig();
-
-  document.getElementById('toggleHelp').addEventListener('click', ()=>{
-    const box = document.getElementById('helpBox');
-    box.style.display = box.style.display==='none' ? 'block' : 'none';
-  });
-
-  const tgPayload = {
-    orderValueVnd, shipping, taxAmt, serviceAmt, otherFee, grandTotal, perUnit, qty, priceRmb, fx, vatLabel, methodName: methodInfo.name
-  };
-
-  saveHistoryEntry({
-    id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
-    time: Date.now(),
-    productName: document.getElementById('productName').value.trim(),
-    perUnit, grandTotal, qty, vatLabel, methodName: methodInfo.name
-  });
-
-  document.getElementById('sendTgBtn').addEventListener('click', ()=>sendToTelegram(tgPayload));
-
-  document.getElementById('resultArea').scrollIntoView({behavior:'smooth', block:'start'});
-
-  const savedToken = localStorage.getItem('tg_bot_token');
-  const savedChatId = localStorage.getItem('tg_chat_id');
-  const autoOn = localStorage.getItem('tg_auto_send') === '1';
-  if(autoOn && savedToken && savedChatId){
-    sendToTelegram(tgPayload);
-  }
-});
-
-function renderTgConfig(){
-  const token = localStorage.getItem('tg_bot_token') || '';
-  const chatId = localStorage.getItem('tg_chat_id') || '';
-  document.getElementById('tgConfig').innerHTML = `
-    <div class="tg-row">
-      <input type="password" id="tgToken" placeholder="Bot Token" value="${token}">
-    </div>
-    <div class="tg-row">
-      <input type="text" id="tgChatId" placeholder="Chat ID (dãy số)" value="${chatId}">
-    </div>
-  `;
-  document.getElementById('tgToken').addEventListener('change', e=> localStorage.setItem('tg_bot_token', e.target.value.trim()));
-  document.getElementById('tgChatId').addEventListener('change', e=> localStorage.setItem('tg_chat_id', e.target.value.trim()));
-
-  const autoChk = document.getElementById('autoSendChk');
-  autoChk.checked = localStorage.getItem('tg_auto_send') === '1';
-  autoChk.addEventListener('change', ()=>{
-    localStorage.setItem('tg_auto_send', autoChk.checked ? '1' : '0');
-  });
-}
-
-async function sendToTelegram(d){
-  const token = document.getElementById('tgToken').value.trim();
-  const chatId = document.getElementById('tgChatId').value.trim();
-  const statusEl = document.getElementById('tgStatus');
-  const btn = document.getElementById('sendTgBtn');
-
-  if(!token || !chatId){
-    statusEl.innerHTML = `<div class="status err">Vui lòng nhập đầy đủ Bot Token và Chat ID.</div>`;
-    return;
-  }
-  localStorage.setItem('tg_bot_token', token);
-  localStorage.setItem('tg_chat_id', chatId);
-
-  let msg = `📦 *Kết quả tính giá vốn*\n`;
-  msg += `Loại: ${d.vatLabel} — ${d.methodName}\n\n`;
-  msg += `Giá mua: ${d.priceRmb} NDT × ${d.qty} × tỷ giá ${d.fx} = ${fmt(d.orderValueVnd)}\n`;
-  d.shipping.lines.forEach(l=>{ msg += `${l.k}: ${fmt(l.v)}\n`; });
-  msg += `Thuế NK: ${fmt(d.taxAmt)}\n`;
-  msg += `Phí dịch vụ: ${fmt(d.serviceAmt)}\n`;
-  msg += `Phí khác: ${fmt(d.otherFee)}\n\n`;
-  msg += `*Tổng giá vốn lô hàng: ${fmt(d.grandTotal)}*\n`;
-  msg += `*Giá vốn/chiếc: ${fmtF(d.perUnit)}*`;
-
-  btn.disabled = true;
-  btn.textContent = 'Đang gửi...';
-  statusEl.innerHTML = '';
-
-  try{
-    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode:'Markdown' })
+  function tryUnlock(){
+    var val = lockCode.value.trim();
+    if(!val) return;
+    lockBtn.disabled = true;
+    sha256Hex(val).then(function(h){
+      lockBtn.disabled = false;
+      if(h === ACCESS_HASH){
+        try{ localStorage.setItem('epvina_access_ok','1'); }catch(e){}
+        lockErr.textContent = '';
+        unlock();
+      }else{
+        lockErr.textContent = 'Mã không đúng, vui lòng thử lại.';
+        lockCode.value = '';
+        lockCode.focus();
+      }
+    }).catch(function(){
+      lockBtn.disabled = false;
+      lockErr.textContent = 'Có lỗi khi kiểm tra mã — thử lại.';
     });
-    const data = await res.json();
-    if(data.ok){
-      statusEl.innerHTML = `<div class="status ok">Đã gửi thành công tới Telegram.</div>`;
-    } else {
-      statusEl.innerHTML = `<div class="status err">Gửi thất bại: ${data.description || 'Kiểm tra lại Token/Chat ID'}</div>`;
-    }
-  } catch(err){
-    statusEl.innerHTML = `<div class="status err">Lỗi kết nối: ${err.message}</div>`;
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M22 3.5L2.6 11.2c-1.3.5-1.3 1.2-.2 1.6l4.9 1.5 1.9 5.8c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8L23 4.7c.3-1.2-.4-1.7-1-1.2z"/></svg> Gửi kết quả`;
   }
-}
-
-renderMethods();
-
-function getSelectedHistory(){
-  const ids = Array.from(document.querySelectorAll('.hist-check:checked')).map(c=>c.dataset.id);
-  const all = loadHistory();
-  return all.filter(e=> ids.includes(e.id));
-}
-
-function exportExcel(){
-  const selected = getSelectedHistory();
-  if(selected.length === 0){
-    alert('Vui lòng tick chọn ít nhất 1 sản phẩm trong Lịch sử tính giá trước khi xuất.');
-    return null;
-  }
-  const rows = selected.map((e, idx) => ({
-    'STT': idx + 1,
-    'Tên sản phẩm': e.productName || '(Chưa đặt tên)',
-    'Loại hình': e.vatLabel,
-    'Phương thức vận chuyển': e.methodName,
-    'Số lượng (chiếc)': e.qty,
-    'Giá vốn/chiếc (VND)': Math.round(e.perUnit),
-    'Tổng giá vốn (VND)': Math.round(e.grandTotal),
-    'Ngày tính': new Date(e.time).toLocaleDateString('vi-VN')
-  }));
-  const totalGrand = selected.reduce((s,e)=> s + e.grandTotal, 0);
-  rows.push({
-    'STT':'', 'Tên sản phẩm':'TỔNG CỘNG', 'Loại hình':'', 'Phương thức vận chuyển':'',
-    'Số lượng (chiếc)':'', 'Giá vốn/chiếc (VND)':'', 'Tổng giá vốn (VND)': Math.round(totalGrand), 'Ngày tính':''
-  });
-
-  const ws = XLSX.utils.json_to_sheet(rows);
-  ws['!cols'] = [ {wch:5}, {wch:28}, {wch:14}, {wch:26}, {wch:14}, {wch:18}, {wch:18}, {wch:12} ];
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Bao gia');
-  const fileName = `Bao-gia-von-${new Date().toISOString().slice(0,10)}.xlsx`;
-  XLSX.writeFile(wb, fileName);
-  return {fileName, rows, totalGrand, count: selected.length};
-}
-
-document.getElementById('exportExcelBtn').addEventListener('click', ()=>{
-  exportExcel();
-});
-
-document.getElementById('composeEmailBtn').addEventListener('click', ()=>{
-  const result = exportExcel();
-  if(!result) return;
-
-  const to = document.getElementById('emailTo').value.trim();
-  const subject = document.getElementById('emailSubject').value.trim() || 'Bảng báo giá vốn - chờ duyệt';
-
-  let body = `Kính gửi Anh/Chị,\n\nEm gửi bảng báo giá vốn gồm ${result.count} sản phẩm để Anh/Chị xem và duyệt giúp em.\n\n`;
-  result.rows.forEach(r=>{
-    if(r['Tên sản phẩm'] === 'TỔNG CỘNG') return;
-    body += `- ${r['Tên sản phẩm']}: ${r['Giá vốn/chiếc (VND)'].toLocaleString('vi-VN')}đ/chiếc × ${r['Số lượng (chiếc)']} chiếc = ${r['Tổng giá vốn (VND)'].toLocaleString('vi-VN')}đ\n`;
-  });
-  body += `\nTổng cộng: ${Math.round(result.totalGrand).toLocaleString('vi-VN')}đ\n\n`;
-  body += `(Lưu ý: file Excel chi tiết "${result.fileName}" vừa được tải về máy — vui lòng đính kèm thủ công vào email này trước khi gửi, do trình duyệt không cho tự động đính kèm.)\n\nEm cảm ơn Anh/Chị.`;
-
-  const mailtoUrl = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = mailtoUrl;
-});
+  lockBtn.addEventListener('click', tryUnlock);
+  lockCode.addEventListener('keydown', function(e){ if(e.key==='Enter') tryUnlock(); });
+})();
 </script>
 
-</body>
-</html>
+<div class="wrap" id="appRoot" style="display:none;">
+  <header class="top">
+    <div class="logo-badge">EP</div>
+    <div>
+      <h1>Tra giá EPVINA</h1>
+      <p>Tra bảng giá gốc theo sản phẩm &amp; số lượng — lập báo giá nhanh</p>
+    </div>
+  </header>
+
+  <div class="disclaimer">
+    ⚠️ Dữ liệu tổng hợp từ nhiều file nội bộ trên Drive. <strong>Nguồn chuẩn (nhãn "✓ Chuẩn"):</strong> 13 sheet giá chi tiết theo nhóm sản phẩm liên kết từ "BÁO GIÁ NHANH TỔNG.xlsx" — dữ liệu này được ưu tiên hiển thị trước và coi là đáng tin cậy nhất. Nhãn "cũ" là dữ liệu tham khảo thêm từ "Giá nhập sản phẩm thông dụng", các file "BÁO GIÁ NHANH 2024/2026" (1,3–14), "Bảng giá đại lý 31/7". Giá lập ở nhiều thời điểm khác nhau (2018–2026) — <strong>cần đối chiếu tỷ giá, giá NCC hiện tại</strong> trước khi gửi báo giá chính thức cho khách. Một số dòng đơn giá gốc theo NDT (tệ) chưa quy đổi — xem ghi chú. Ảnh sản phẩm (nếu có) được nạp sẵn từ dữ liệu xuất kèm theo trang — bản này không hỗ trợ thêm/sửa ảnh trực tiếp.
+  </div>
+
+  <div class="layout">
+    <div class="panel">
+      <h2>Tìm sản phẩm</h2>
+      <input id="q" type="text" placeholder="Gõ tên sản phẩm… (VD: bình giữ nhiệt, huy hiệu, ô, usb)" autocomplete="off">
+      <div class="hint" id="resultCount"></div>
+      <div class="groups" id="groups"></div>
+    </div>
+
+    <div class="panel" style="align-self:start; position:sticky; top:16px;">
+      <h2>Báo giá đang lập (<span id="cartCount">0</span>)</h2>
+      <div id="cart"></div>
+      <div id="cartTotalWrap" hidden>
+        <div class="cart-total"><span>Tổng giá bán đề xuất</span><span class="amt tab" id="cartTotal">0đ</span></div>
+      </div>
+      <button class="copybtn" id="copyBtn" disabled>Sao chép báo giá</button>
+      <button class="copybtn" id="xlsxBtn" disabled style="margin-top:8px; background:var(--navy-2);">⬇ Xuất file Excel</button>
+      <button class="copybtn" id="pdfCleanBtn" disabled style="margin-top:8px; background:#2F7D4F;">⬇ Xuất báo giá khách hàng (PDF sạch)</button>
+      <button class="copybtn" id="xlsxCleanBtn" disabled style="margin-top:8px; background:#2F7D4F;">⬇ Xuất báo giá khách hàng (Excel sạch)</button>
+    </div>
+  </div>
+</div>
+
+<div id="printArea"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(async function(){
+  let DATA = [];
+  try{
+    const res = await fetch('price_data.json');
+    DATA = await res.json();
+  }catch(e){
+    document.getElementById('groups').innerHTML = '<div class="empty">Không tải được dữ liệu giá (price_data.json). Vui lòng thử lại.</div>';
+    return;
+  }
+
+  // ---- ảnh sản phẩm: nạp tĩnh từ image_manifest.json + image_chunk_N.json (không cần tài khoản/capability Claude) ----
+  let downloadsCap = null; // luôn null ở bản tĩnh -> downloadBytes() dùng thẳng fallback trình duyệt
+  const imgMap = new Map(); // key -> {url} (url là data: URI, được nạp lười theo yêu cầu)
+  function imgKey(g){
+    const s = (g.nhom||'') + '||' + g.sp;
+    let h = 5381;
+    for(let i=0;i<s.length;i++){ h = ((h*33) ^ s.charCodeAt(i)) >>> 0; }
+    return 'p' + h.toString(36);
+  }
+  let manifestMap = null; // key -> {file, chunk}
+  const chunkCache = new Map(); // chunk index -> {filename: base64}
+  const chunkLoading = new Map(); // chunk index -> Promise (tránh fetch trùng)
+  (async ()=>{
+    try{
+      const r = await fetch('image_manifest.json');
+      const manifest = await r.json();
+      manifestMap = new Map();
+      manifest.forEach(m=>{
+        if(m.chunk != null) manifestMap.set(imgKey(m), {file: m.file, chunk: m.chunk});
+      });
+    }catch(e){ manifestMap = new Map(); /* không có ảnh — vẫn dùng được tool bình thường */ }
+  })();
+  function loadChunk(idx){
+    if(chunkCache.has(idx)) return Promise.resolve(chunkCache.get(idx));
+    if(chunkLoading.has(idx)) return chunkLoading.get(idx);
+    const p = fetch(`image_chunk_${idx}.json`).then(r=>r.json()).then(chunk=>{
+      chunkCache.set(idx, chunk);
+      return chunk;
+    }).catch(e=>{
+      chunkCache.set(idx, {});
+      return {};
+    });
+    chunkLoading.set(idx, p);
+    return p;
+  }
+  async function ensureImageLoaded(key){
+    if(imgMap.has(key)) return imgMap.get(key);
+    if(!manifestMap){
+      // manifest chưa nạp xong — đợi tối đa ~3s
+      for(let i=0;i<30 && !manifestMap;i++) await new Promise(res=>setTimeout(res,100));
+      if(!manifestMap) return null;
+    }
+    const m = manifestMap.get(key);
+    if(!m) return null;
+    const chunk = await loadChunk(m.chunk);
+    const b64 = chunk[m.file];
+    if(!b64) return null;
+    const mime = m.file.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg';
+    const entry = {url: `data:${mime};base64,${b64}`};
+    imgMap.set(key, entry);
+    return entry;
+  }
+
+  // group by nhom+sp
+  const groupsMap = new Map();
+  for(const r of DATA){
+    const key = (r.nhom||'') + '||' + r.sp;
+    if(!groupsMap.has(key)) groupsMap.set(key, {nhom:r.nhom, sp:r.sp, rows:[]});
+    groupsMap.get(key).rows.push(r);
+  }
+  function norm(s){
+    return (s||'').toString().toLowerCase()
+      .normalize('NFD').replace(/[̀-ͯ]/g,'')
+      .replace(/đ/g,'d');
+  }
+
+  const allGroups = Array.from(groupsMap.values()).map(g=>{
+    g.rows.sort((a,b)=> (b.chuan?1:0)-(a.chuan?1:0) || (a.sl||0)-(b.sl||0));
+    // precompute normalized search key once, instead of re-normalizing on every keystroke
+    g._search = norm(g.nhom + ' ' + g.sp);
+    return g;
+  });
+  allGroups.sort((a,b)=> (a.nhom+a.sp).localeCompare(b.nhom+b.sp,'vi'));
+
+  function fmt(n){
+    if(n===null || n===undefined || isNaN(n)) return '—';
+    return Math.round(n).toLocaleString('vi-VN') + 'đ';
+  }
+
+  const groupsEl = document.getElementById('groups');
+  const resultCountEl = document.getElementById('resultCount');
+  const qEl = document.getElementById('q');
+
+  const MAX_SHOWN = 60; // cap DOM nodes per render, even when filtering, so broad searches stay smooth
+  function render(filter){
+    const nf = norm(filter);
+    const filtered = nf ? allGroups.filter(g => g._search.includes(nf)) : allGroups;
+    resultCountEl.textContent = filter ? `${filtered.length} nhóm sản phẩm khớp` : `${allGroups.length} sản phẩm trong bảng giá — gõ để tìm`;
+    const frag = document.createDocumentFragment();
+    if(filtered.length === 0){
+      groupsEl.innerHTML = '<div class="empty">Không tìm thấy sản phẩm nào khớp từ khoá này.</div>';
+      return;
+    }
+    const shown = filtered.slice(0, MAX_SHOWN);
+    if(filtered.length > MAX_SHOWN){
+      const note = document.createElement('div');
+      note.className='hint';
+      note.style.marginBottom='4px';
+      note.textContent = filter
+        ? `Hiển thị ${MAX_SHOWN}/${filtered.length} kết quả khớp — gõ thêm từ khoá để lọc chính xác hơn.`
+        : `Hiển thị ${MAX_SHOWN}/${filtered.length} sản phẩm — gõ từ khoá để tìm chính xác hơn.`;
+      frag.appendChild(note);
+    }
+    shown.forEach((g, idx) => {
+      const det = document.createElement('details');
+      det.className = 'card';
+      if(filter && shown.length <= 6) det.open = true;
+      const summary = document.createElement('summary');
+      const key = imgKey(g);
+      const existing = imgMap.get(key);
+      let thumbHtml;
+      if(existing){
+        thumbHtml = `<img class="thumb" src="${escapeHtml(existing.url)}" alt="">`;
+      }else{
+        thumbHtml = `<span class="thumb-empty">🖼</span>`;
+      }
+      summary.innerHTML = `<span class="summary-left"><span class="thumb-wrap">${thumbHtml}</span><span class="txt">${escapeHtml(g.sp)}${g.nhom ? ` <span class="tag">— ${escapeHtml(g.nhom)}</span>`:''}</span></span><span class="chev">▶</span>`;
+      det.appendChild(summary);
+      if(!existing){
+        // nạp ảnh lười theo yêu cầu (không chặn hiển thị danh sách) rồi thay vào khi có
+        ensureImageLoaded(key).then(entry=>{
+          if(!entry) return;
+          const wrap = summary.querySelector('.thumb-wrap');
+          if(wrap) wrap.innerHTML = `<img class="thumb" src="${escapeHtml(entry.url)}" alt="">`;
+        });
+      }
+
+      const tblWrap = document.createElement('div');
+      tblWrap.className = 'tbl-wrap';
+      const table = document.createElement('table');
+      table.innerHTML = `<thead><tr>
+        <th>Nguồn</th><th>SL</th><th>Giá mua/chiếc</th><th>Giá nhập sơ bộ</th><th>Giá bán đề xuất</th><th>Ghi chú</th><th></th>
+      </tr></thead>`;
+      const tbody = document.createElement('tbody');
+      g.rows.forEach(r=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="tab">${r.chuan? '<span class="badge-chuan" title="Nguồn chuẩn: sheet chi tiết theo nhóm (13 link)">✓ Chuẩn</span>' : '<span class="badge-cu" title="Nguồn cũ: file BÁO GIÁ NHANH 1,3-14 / bảng đại lý">cũ</span>'}</td>
+          <td class="tab">${r.sl!=null? r.sl.toLocaleString('vi-VN'):'—'}</td>
+          <td class="tab">${fmt(r.giamua)}</td>
+          <td class="tab">${fmt(r.gianhap)}</td>
+          <td class="tab price-ban">${fmt(r.giaban)}</td>
+          <td class="note-cell">${escapeHtml(r.ghichu||'')}</td>
+          <td><button class="addbtn" type="button">+ Thêm</button></td>
+        `;
+        tr.querySelector('.addbtn').addEventListener('click', ()=> addToCart(g, r));
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      tblWrap.appendChild(table);
+      det.appendChild(tblWrap);
+      frag.appendChild(det);
+    });
+    groupsEl.innerHTML = '';
+    groupsEl.appendChild(frag);
+  }
+
+  function escapeHtml(s){
+    return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+
+  let _searchTimer = null;
+  qEl.addEventListener('input', ()=>{
+    clearTimeout(_searchTimer);
+    const v = qEl.value.trim();
+    _searchTimer = setTimeout(()=> render(v), 150);
+  });
+  render('');
+
+  // ---- logo EPVINA (nhung san, dung cho ca Excel va PDF) ----
+const EPVINA_LOGO_B64 = "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";
+
+  // ---- minimal pure-JS .xlsx writer (no CDN dependency — published artifacts cannot load external scripts) ----
+  const MiniXlsx = (function(){
+    const CRC_TABLE = (function(){
+      const t = new Uint32Array(256);
+      for(let n=0;n<256;n++){
+        let c = n;
+        for(let k=0;k<8;k++){ c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); }
+        t[n] = c >>> 0;
+      }
+      return t;
+    })();
+    function crc32(bytes){
+      let c = 0xFFFFFFFF;
+      for(let i=0;i<bytes.length;i++){ c = CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8); }
+      return (c ^ 0xFFFFFFFF) >>> 0;
+    }
+    function strToBytes(s){ return new TextEncoder().encode(s); }
+    function u16(n){ return new Uint8Array([n & 0xFF, (n>>>8) & 0xFF]); }
+    function u32(n){ return new Uint8Array([n & 0xFF, (n>>>8)&0xFF, (n>>>16)&0xFF, (n>>>24)&0xFF]); }
+    function concatBytes(arrs){
+      let len = 0; arrs.forEach(a=> len += a.length);
+      const out = new Uint8Array(len);
+      let off = 0;
+      arrs.forEach(a=>{ out.set(a, off); off += a.length; });
+      return out;
+    }
+    function buildZip(files){
+      const localParts = [], centralParts = [];
+      let offset = 0;
+      files.forEach(f=>{
+        const nameBytes = strToBytes(f.name);
+        const data = f.data;
+        const crc = crc32(data);
+        const size = data.length;
+        const localHeader = concatBytes([
+          u32(0x04034b50), u16(20), u16(0), u16(0), u16(0), u16(0x0021),
+          u32(crc), u32(size), u32(size), u16(nameBytes.length), u16(0), nameBytes
+        ]);
+        const localEntry = concatBytes([localHeader, data]);
+        localParts.push(localEntry);
+        const centralHeader = concatBytes([
+          u32(0x02014b50), u16(20), u16(20), u16(0), u16(0), u16(0), u16(0x0021),
+          u32(crc), u32(size), u32(size), u16(nameBytes.length), u16(0), u16(0), u16(0), u16(0), u32(0),
+          u32(offset), nameBytes
+        ]);
+        centralParts.push(centralHeader);
+        offset += localEntry.length;
+      });
+      const centralStart = offset;
+      const centralAll = concatBytes(centralParts);
+      const eocd = concatBytes([
+        u32(0x06054b50), u16(0), u16(0), u16(files.length), u16(files.length),
+        u32(centralAll.length), u32(centralStart), u16(0)
+      ]);
+      return concatBytes([...localParts, centralAll, eocd]);
+    }
+    function xmlEscape(s){ return String(s==null?'':s).replace(/[&<>]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+    function colLetter(n){
+      let s = ''; n = n + 1;
+      while(n > 0){ const rem = (n - 1) % 26; s = String.fromCharCode(65 + rem) + s; n = Math.floor((n - 1) / 26); }
+      return s;
+    }
+    function buildSheetXml(rows, merges, cols, rowHeights, drawingRid){
+      let colsXml = '';
+      if(cols && cols.length) colsXml = '<cols>' + cols.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join('') + '</cols>';
+      let rowsXml = '';
+      rows.forEach((row, rIdx)=>{
+        let cellsXml = '';
+        row.forEach((cell, cIdx)=>{
+          if(cell == null || cell.v === '' || cell.v === undefined || cell.v === null){
+            if(cell && cell.s) cellsXml += `<c r="${colLetter(cIdx)}${rIdx+1}" s="${cell.s}"/>`;
+            return;
+          }
+          const ref = `${colLetter(cIdx)}${rIdx+1}`;
+          const sAttr = cell.s ? ` s="${cell.s}"` : '';
+          if(cell.t === 'n') cellsXml += `<c r="${ref}"${sAttr}><v>${cell.v}</v></c>`;
+          else cellsXml += `<c r="${ref}"${sAttr} t="inlineStr"><is><t xml:space="preserve">${xmlEscape(cell.v)}</t></is></c>`;
+        });
+        const ht = rowHeights && rowHeights[rIdx];
+        const htAttr = ht ? ` ht="${ht}" customHeight="1"` : '';
+        rowsXml += `<row r="${rIdx+1}"${htAttr}>${cellsXml}</row>`;
+      });
+      let mergeXml = '';
+      if(merges && merges.length) mergeXml = `<mergeCells count="${merges.length}">` + merges.map(m=>`<mergeCell ref="${m}"/>`).join('') + '</mergeCells>';
+      const rNs = drawingRid ? ' xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"' : '';
+      const drawingTag = drawingRid ? `<drawing r:id="${drawingRid}"/>` : '';
+      return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"${rNs}>${colsXml}<sheetData>${rowsXml}</sheetData>${mergeXml}${drawingTag}</worksheet>`;
+    }
+    const STYLES_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+<numFmts count="2"><numFmt numFmtId="164" formatCode="#,##0"/><numFmt numFmtId="165" formatCode="#,##0.####"/></numFmts>
+<fonts count="3"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="14"/><name val="Calibri"/></font></fonts>
+<fills count="1"><fill><patternFill patternType="none"/></fill></fills>
+<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>
+<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
+<cellXfs count="6">
+<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>
+<xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/>
+<xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>
+<xf numFmtId="164" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1" applyNumberFormat="1"/>
+<xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/>
+<xf numFmtId="165" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>
+</cellXfs>
+<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>
+</styleSheet>`;
+    function contentTypesXml(hasDrawing){
+      return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+<Default Extension="xml" ContentType="application/xml"/>
+<Default Extension="jpeg" ContentType="image/jpeg"/>
+<Default Extension="png" ContentType="image/png"/>
+<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>
+<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
+<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>
+${hasDrawing ? '<Override PartName="/xl/drawings/drawing1.xml" ContentType="application/vnd.openxmlformats-officedocument.drawing+xml"/>' : ''}
+</Types>`;
+    }
+    const RELS_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
+</Relationships>`;
+    function workbookXml(sheetName){
+      return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+<sheets><sheet name="${xmlEscape(sheetName)}" sheetId="1" r:id="rId1"/></sheets>
+</workbook>`;
+    }
+    const WORKBOOK_RELS_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
+<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+</Relationships>`;
+    function drawingXml(images){
+      const anchors = images.map((im,i)=>`
+  <xdr:oneCellAnchor>
+    <xdr:from><xdr:col>${im.colIdx}</xdr:col><xdr:colOff>19050</xdr:colOff><xdr:row>${im.rowIdx}</xdr:row><xdr:rowOff>19050</xdr:rowOff></xdr:from>
+    <xdr:ext cx="${im.cx}" cy="${im.cy}"/>
+    <xdr:pic>
+      <xdr:nvPicPr><xdr:cNvPr id="${i+2}" name="Picture ${i+1}"/><xdr:cNvPicPr/></xdr:nvPicPr>
+      <xdr:blipFill><a:blip r:embed="${im.relId}"/><a:stretch><a:fillRect/></a:stretch></xdr:blipFill>
+      <xdr:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${im.cx}" cy="${im.cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></xdr:spPr>
+    </xdr:pic>
+    <xdr:clientData/>
+  </xdr:oneCellAnchor>`).join('');
+      return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xdr:wsDr xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">${anchors}
+</xdr:wsDr>`;
+    }
+    function drawingRelsXml(images){
+      const rels = images.map((im,i)=>`<Relationship Id="${im.relId}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image${i+1}.${im.ext||'jpeg'}"/>`).join('');
+      return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${rels}</Relationships>`;
+    }
+    const SHEET_RELS_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing" Target="../drawings/drawing1.xml"/>
+</Relationships>`;
+    // images: [{rowIdx, colIdx, bytes(Uint8Array jpeg), cx, cy}] (cx/cy in EMU)
+    function buildXlsx(sheetName, rows, merges, cols, rowHeights, images){
+      const hasDrawing = images && images.length > 0;
+      const imgMeta = hasDrawing ? images.map((im,i)=>Object.assign({}, im, {relId:'rId'+(i+1)})) : [];
+      const sheetXml = buildSheetXml(rows, merges, cols, rowHeights, hasDrawing ? 'rId1' : null);
+      const files = [
+        {name:'[Content_Types].xml', data: strToBytes(contentTypesXml(hasDrawing))},
+        {name:'_rels/.rels', data: strToBytes(RELS_XML)},
+        {name:'xl/workbook.xml', data: strToBytes(workbookXml(sheetName))},
+        {name:'xl/_rels/workbook.xml.rels', data: strToBytes(WORKBOOK_RELS_XML)},
+        {name:'xl/styles.xml', data: strToBytes(STYLES_XML)},
+        {name:'xl/worksheets/sheet1.xml', data: strToBytes(sheetXml)},
+      ];
+      if(hasDrawing){
+        files.push({name:'xl/worksheets/_rels/sheet1.xml.rels', data: strToBytes(SHEET_RELS_XML)});
+        files.push({name:'xl/drawings/drawing1.xml', data: strToBytes(drawingXml(imgMeta))});
+        files.push({name:'xl/drawings/_rels/drawing1.xml.rels', data: strToBytes(drawingRelsXml(imgMeta))});
+        imgMeta.forEach((im,i)=>{ files.push({name:`xl/media/image${i+1}.${im.ext||'jpeg'}`, data: im.bytes}); });
+      }
+      return buildZip(files);
+    }
+    return { buildXlsx };
+  })();
+
+  // ---- minimal pure-JS PDF writer (one tall page, content rasterized to a JPEG — no CDN/font dependency) ----
+  const MiniPdf = (function(){
+    function strToBytes(s){ return new TextEncoder().encode(s); }
+    function concatBytes(arrs){
+      let len = 0; arrs.forEach(a=> len += a.length);
+      const out = new Uint8Array(len);
+      let off = 0;
+      arrs.forEach(a=>{ out.set(a, off); off += a.length; });
+      return out;
+    }
+    // pages: [{jpegBytes, widthPx, heightPx, widthPt, heightPt}]
+    function buildPdf(pages){
+      const chunks = [];
+      let pos = 0;
+      const offsets = [];
+      function push(bytes){ chunks.push(bytes); pos += bytes.length; }
+      function pushObj(objNum, bytes){
+        offsets[objNum] = pos;
+        push(strToBytes(`${objNum} 0 obj\n`));
+        push(bytes);
+        push(strToBytes(`\nendobj\n`));
+      }
+      push(strToBytes('%PDF-1.4\n'));
+      const numPages = pages.length;
+      const pageObjNums = [];
+      for(let i=0;i<numPages;i++) pageObjNums.push(3 + i*3);
+      pushObj(1, strToBytes(`<< /Type /Catalog /Pages 2 0 R >>`));
+      pushObj(2, strToBytes(`<< /Type /Pages /Kids [${pageObjNums.map(n=>n+' 0 R').join(' ')}] /Count ${numPages} >>`));
+      pages.forEach((p, i)=>{
+        const pageObj = 3 + i*3, imgObj = 4 + i*3, contentObj = 5 + i*3;
+        const W = p.widthPt, H = p.heightPt;
+        pushObj(pageObj, strToBytes(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /XObject << /Im0 ${imgObj} 0 R >> >> /Contents ${contentObj} 0 R >>`));
+        const imgDict = strToBytes(`<< /Type /XObject /Subtype /Image /Width ${p.widthPx} /Height ${p.heightPx} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${p.jpegBytes.length} >>\nstream\n`);
+        offsets[imgObj] = pos;
+        push(strToBytes(`${imgObj} 0 obj\n`));
+        push(imgDict);
+        push(p.jpegBytes);
+        push(strToBytes(`\nendstream\nendobj\n`));
+        const contentBytes = strToBytes(`q ${W} 0 0 ${H} 0 0 cm /Im0 Do Q`);
+        const streamWrap = concatBytes([strToBytes(`<< /Length ${contentBytes.length} >>\nstream\n`), contentBytes, strToBytes(`\nendstream`)]);
+        pushObj(contentObj, streamWrap);
+      });
+      const xrefStart = pos;
+      const totalObjs = 2 + numPages*3;
+      let xref = `xref\n0 ${totalObjs+1}\n0000000000 65535 f \n`;
+      for(let n=1;n<=totalObjs;n++){ xref += String(offsets[n]||0).padStart(10,'0') + ' 00000 n \n'; }
+      push(strToBytes(xref));
+      push(strToBytes(`trailer\n<< /Size ${totalObjs+1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF`));
+      return concatBytes(chunks);
+    }
+    return { buildPdf };
+  })();
+
+  // ---- cart ----
+  let cart = [];
+  const cartEl = document.getElementById('cart');
+  const cartCountEl = document.getElementById('cartCount');
+  const cartTotalWrap = document.getElementById('cartTotalWrap');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const copyBtn = document.getElementById('copyBtn');
+  const xlsxBtn = document.getElementById('xlsxBtn');
+  const pdfCleanBtn = document.getElementById('pdfCleanBtn');
+  const xlsxCleanBtn = document.getElementById('xlsxCleanBtn');
+
+  async function addToCart(g, r){
+    const img = await ensureImageLoaded(imgKey(g));
+    cart.push({
+      sp: g.sp, nhom: g.nhom, sl: r.sl, giaban: r.giaban, gianhap: r.gianhap, giamua: r.giamua, ghichu: r.ghichu,
+      img: img ? img.url : null
+    });
+    renderCart();
+    showToast(`Đã thêm: ${g.sp} × ${r.sl?.toLocaleString('vi-VN')||''}`);
+  }
+
+  function renderCart(){
+    cartCountEl.textContent = cart.length;
+    if(cart.length === 0){
+      cartEl.innerHTML = '<div class="cart-empty">Chưa có sản phẩm nào.<br>Bấm "+ Thêm" ở bảng bên trái.</div>';
+      cartTotalWrap.hidden = true;
+      copyBtn.disabled = true;
+      xlsxBtn.disabled = true;
+      pdfCleanBtn.disabled = true;
+      xlsxCleanBtn.disabled = true;
+      return;
+    }
+    cartTotalWrap.hidden = false;
+    copyBtn.disabled = false;
+    xlsxBtn.disabled = false;
+    pdfCleanBtn.disabled = false;
+    xlsxCleanBtn.disabled = false;
+    cartEl.innerHTML = '';
+    let total = 0;
+    cart.forEach((item, i)=>{
+      if(item.giaban) total += item.giaban;
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      const thumbHtml = item.img
+        ? `<img class="thumb" src="${escapeHtml(item.img)}" alt="">`
+        : `<span class="thumb-empty">🖼</span>`;
+      div.innerHTML = `
+        <div class="row1">
+          <div class="thumb-wrap">${thumbHtml}</div>
+          <div class="txt2">
+            <div class="name">${escapeHtml(item.sp)}</div>
+            <div class="sub">SL: ${item.sl?.toLocaleString('vi-VN')||'—'} chiếc${item.nhom? ' · '+escapeHtml(item.nhom):''}</div>
+          </div>
+          <button class="rm" type="button" title="Xoá">✕</button>
+        </div>
+        <div class="price tab">${fmt(item.giaban)}${item.sl && item.giaban ? ` × ${item.sl.toLocaleString('vi-VN')} = ${fmt(item.giaban*item.sl)}` : ''}</div>
+      `;
+      div.querySelector('.rm').addEventListener('click', ()=>{ cart.splice(i,1); renderCart(); });
+      cartEl.appendChild(div);
+    });
+    let grandTotal = 0;
+    cart.forEach(item=>{ if(item.giaban && item.sl) grandTotal += item.giaban*item.sl; });
+    cartTotalEl.textContent = fmt(grandTotal);
+  }
+  renderCart();
+
+  copyBtn.addEventListener('click', async ()=>{
+    const lines = ['BÁO GIÁ NHANH — EPVINA', '='.repeat(28), ''];
+    let grandTotal = 0;
+    cart.forEach((item,i)=>{
+      const lineTotal = (item.giaban && item.sl) ? item.giaban*item.sl : null;
+      if(lineTotal) grandTotal += lineTotal;
+      lines.push(`${i+1}. ${item.sp} — SL: ${item.sl?.toLocaleString('vi-VN')||'?'}`);
+      lines.push(`   Đơn giá bán đề xuất: ${fmt(item.giaban)}${lineTotal? `  |  Thành tiền: ${fmt(lineTotal)}`:''}`);
+      if(item.ghichu) lines.push(`   Ghi chú: ${item.ghichu}`);
+      if(item.img) lines.push(`   Ảnh: ${item.img}`);
+      lines.push('');
+    });
+    lines.push('-'.repeat(28));
+    lines.push(`TỔNG (giá bán đề xuất): ${fmt(grandTotal)}`);
+    lines.push('');
+    lines.push('* Giá tham khảo từ bảng giá gốc nội bộ, cần đối chiếu tỷ giá/giá NCC hiện tại trước khi chốt với khách.');
+    const text = lines.join('\n');
+    try{
+      await navigator.clipboard.writeText(text);
+      showToast('Đã sao chép báo giá vào clipboard ✓');
+    }catch(e){
+      showToast('Không sao chép được — hãy chọn thủ công.');
+    }
+  });
+
+  function pad2(n){ return String(n).padStart(2,'0'); }
+  function fnameStamp(){
+    const d = new Date();
+    return `${d.getFullYear()}${pad2(d.getMonth()+1)}${pad2(d.getDate())}_${pad2(d.getHours())}${pad2(d.getMinutes())}`;
+  }
+  async function urlToThumbJpegBytes(url, size){
+    try{
+      const img = await new Promise((resolve, reject)=>{
+        const im = new Image();
+        im.onload = ()=> resolve(im);
+        im.onerror = ()=> reject(new Error('load fail'));
+        im.src = url;
+      });
+      const canvas = document.createElement('canvas');
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#FAF7EF';
+      ctx.fillRect(0,0,size,size);
+      const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+      if(iw && ih){
+        const scale = Math.max(size/iw, size/ih);
+        const dw = iw*scale, dh = ih*scale;
+        ctx.drawImage(img, (size-dw)/2, (size-dh)/2, dw, dh);
+      }
+      const blob = await new Promise(res=> canvas.toBlob(res, 'image/jpeg', 0.85));
+      if(!blob) return null;
+      const buf = await blob.arrayBuffer();
+      return new Uint8Array(buf);
+    }catch(e){
+      return null;
+    }
+  }
+
+  // Tải file bằng cách tạo link <a download> + URL.createObjectURL — hoạt động
+  // trên MỌI trình duyệt, mọi tài khoản (kể cả xem ẩn danh/chưa đăng nhập),
+  // không phụ thuộc quyền chia sẻ hay capability "downloads" của Claude —
+  // để mọi người trong phòng KD dùng chung link đều xuất file được.
+  function downloadBytesViaBrowser(bytes, filename, mime){
+    try{
+      const blob = new Blob([bytes], {type: mime});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      // Một số trình duyệt/khung nhìn (iframe sandbox của trang xem artifact công khai)
+      // âm thầm chặn click tải xuống mà không báo lỗi gì cả — nên mở thêm 1 tab mới
+      // trỏ tới file làm phương án dự phòng thứ 2: nếu tab mới hiện ra, người dùng
+      // có thể bấm chuột phải → "Lưu file dưới dạng…" hoặc trình duyệt tự tải khi
+      // không hiển thị được định dạng đó (xlsx).
+      try{ window.open(url, '_blank'); }catch(e2){}
+      setTimeout(()=> URL.revokeObjectURL(url), 15000);
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
+  async function downloadBytes(bytes, filename, mime){
+    // Ưu tiên capability "downloads" của Claude khi có (trải nghiệm mượt hơn,
+    // có hộp thoại xác nhận tên file); nếu không có/thất bại (thường gặp khi
+    // người xem chỉ có quyền "Chỉ xem" hoặc mở link ẩn danh) thì tự động
+    // chuyển sang tải trực tiếp bằng trình duyệt — không báo lỗi cho người dùng.
+    if(downloadsCap){
+      try{
+        const blob = new Blob([bytes], {type: mime});
+        await downloadsCap.save({filename, data: blob});
+        return true;
+      }catch(e){
+        const code = e && e.code;
+        if(code === 'declined') return false; // người dùng tự huỷ — không cần fallback
+        // các lỗi khác (not_granted, unavailable, capability_disabled...) → thử fallback bên dưới
+      }
+    }
+    const ok = downloadBytesViaBrowser(bytes, filename, mime);
+    if(!ok) showToast('Không tải được file — vui lòng thử lại hoặc đổi trình duyệt.');
+    return ok;
+  }
+
+  xlsxBtn.addEventListener('click', async ()=>{
+    if(!cart.length) return;
+    const origLabel = xlsxBtn.textContent;
+    xlsxBtn.disabled = true;
+    xlsxBtn.textContent = 'Đang chuẩn bị ảnh…';
+    try{
+      const imgBytesList = await Promise.all(cart.map(item => item.img ? urlToThumbJpegBytes(item.img, 100) : Promise.resolve(null)));
+      let logoBytes = null;
+      try{
+        const bin = atob(EPVINA_LOGO_B64);
+        const arr = new Uint8Array(bin.length);
+        for(let i=0;i<bin.length;i++) arr[i] = bin.charCodeAt(i);
+        logoBytes = arr;
+      }catch(e){}
+
+      const today = new Date();
+      const dateStr = today.toLocaleDateString('vi-VN');
+      const rows = [];
+      const rowHeights = {};
+      const images = [];
+      rows.push([]); // row 0 — reserved for the logo (kept clear of centered header text)
+      if(logoBytes){
+        rowHeights[0] = 40;
+        images.push({rowIdx: 0, colIdx: 0, bytes: logoBytes, ext:'png', cx: 609600, cy: 472400});
+      }
+      rows.push([{v:'CÔNG TY CỔ PHẦN EPVINA', t:'s', s:4}]);
+      rows.push([{v:'Giải pháp trọn gói cho quà tặng và bao bì doanh nghiệp', t:'s'}]);
+      rows.push([{v:'BÁO GIÁ SẢN PHẨM', t:'s', s:1}]);
+      rows.push([{v:`Ngày lập: ${dateStr}`, t:'s'}]);
+      rows.push([]);
+      const headers = ['STT','Ảnh','Tên sản phẩm','Nhóm SP','Số lượng','Giá mua/chiếc (NDT)','Giá nhập (VND)','Đơn giá bán đề xuất (VND)','Thành tiền (VND)','Ghi chú'];
+      rows.push(headers.map(h=>({v:h, t:'s', s:1})));
+      const headerRowIdx = 6;
+      let grandTotal = 0;
+      cart.forEach((item,i)=>{
+        const lineTotal = (item.giaban && item.sl) ? item.giaban*item.sl : null;
+        if(lineTotal) grandTotal += lineTotal;
+        const rIdx = headerRowIdx + 1 + i;
+        rowHeights[rIdx] = 56;
+        if(imgBytesList[i]){
+          images.push({rowIdx: rIdx, colIdx: 1, bytes: imgBytesList[i], cx: 660400, cy: 660400});
+        }
+        rows.push([
+          {v:i+1, t:'n'},
+          {},
+          {v:item.sp||'', t:'s'},
+          {v:item.nhom||'', t:'s'},
+          {v:item.sl||'', t: item.sl?'n':'s'},
+          {v:item.giamua||'', t: item.giamua?'n':'s', s: item.giamua?5:undefined},
+          {v:item.gianhap||'', t: item.gianhap?'n':'s', s: item.gianhap?2:undefined},
+          {v:item.giaban||'', t: item.giaban?'n':'s', s: item.giaban?2:undefined},
+          {v:lineTotal||'', t: lineTotal?'n':'s', s: lineTotal?2:undefined},
+          {v:item.ghichu||'', t:'s'},
+        ]);
+      });
+      rows.push([]);
+      rows.push([{},{},{},{},{},{},{}, {v:'TỔNG CỘNG:', t:'s', s:1}, {v:grandTotal, t:'n', s:3}, {}]);
+      rows.push([]);
+      rows.push([{v:'* Có giá nhập/giá mua kèm theo — chỉ dùng nội bộ để đối chiếu, KHÔNG gửi file này cho khách. Cần đối chiếu tỷ giá/giá NCC hiện tại trước khi chốt.', t:'s'}]);
+      rows.push([]);
+      rows.push([]);
+      rows.push([{v:'Người lập báo giá', t:'s', s:1}, {}, {}, {}, {}, {}, {v:'Kế toán duyệt', t:'s', s:1}]);
+
+      const signRowIdx = rows.length - 1;
+      const disclaimerRowIdx = signRowIdx - 3;
+      const merges = [
+        'A2:J2','A3:J3','A4:J4','A5:J5',
+        `A${disclaimerRowIdx+1}:J${disclaimerRowIdx+1}`,
+        `A${signRowIdx+1}:C${signRowIdx+1}`,
+        `G${signRowIdx+1}:J${signRowIdx+1}`,
+      ];
+      const cols = [5,8,34,20,10,16,18,20,18,30];
+
+      const bytes = MiniXlsx.buildXlsx('Báo giá', rows, merges, cols, rowHeights, images);
+      const ok = await downloadBytes(bytes, `BaoGia_EPVINA_${fnameStamp()}.xlsx`, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      if(ok) showToast('Đã xuất file Excel ✓');
+    }catch(e){
+      showToast('Xuất Excel lỗi: ' + (e && e.message || e));
+    }finally{
+      xlsxBtn.disabled = false;
+      xlsxBtn.textContent = origLabel;
+    }
+  });
+
+  // "Bản sạch" — Excel gửi thẳng cho khách: không nhóm hàng, không ghi chú, không nhắc NCC/tỷ giá nội bộ.
+  xlsxCleanBtn.addEventListener('click', async ()=>{
+    if(!cart.length) return;
+    const origLabel = xlsxCleanBtn.textContent;
+    xlsxCleanBtn.disabled = true;
+    xlsxCleanBtn.textContent = 'Đang chuẩn bị ảnh…';
+    try{
+      const imgBytesList = await Promise.all(cart.map(item => item.img ? urlToThumbJpegBytes(item.img, 100) : Promise.resolve(null)));
+      let logoBytes = null;
+      try{
+        const bin = atob(EPVINA_LOGO_B64);
+        const arr = new Uint8Array(bin.length);
+        for(let i=0;i<bin.length;i++) arr[i] = bin.charCodeAt(i);
+        logoBytes = arr;
+      }catch(e){}
+
+      const today = new Date();
+      const dateStr = today.toLocaleDateString('vi-VN');
+      const rows = [];
+      const rowHeights = {};
+      const images = [];
+      rows.push([]); // row 0 — reserved for the logo
+      if(logoBytes){
+        rowHeights[0] = 40;
+        images.push({rowIdx: 0, colIdx: 0, bytes: logoBytes, ext:'png', cx: 609600, cy: 472400});
+      }
+      rows.push([{v:'CÔNG TY CỔ PHẦN EPVINA', t:'s', s:4}]);
+      rows.push([{v:'Giải pháp trọn gói cho quà tặng và bao bì doanh nghiệp', t:'s'}]);
+      rows.push([{v:'BÁO GIÁ SẢN PHẨM', t:'s', s:1}]);
+      rows.push([{v:`Ngày lập: ${dateStr}`, t:'s'}]);
+      rows.push([]);
+      const headers = ['STT','Ảnh','Tên sản phẩm','Số lượng','Đơn giá bán','Thành tiền (VND)'];
+      rows.push(headers.map(h=>({v:h, t:'s', s:1})));
+      const headerRowIdx = 6;
+      cart.forEach((item,i)=>{
+        const lineTotal = (item.giaban && item.sl) ? item.giaban*item.sl : null;
+        const rIdx = headerRowIdx + 1 + i;
+        rowHeights[rIdx] = 56;
+        if(imgBytesList[i]){
+          images.push({rowIdx: rIdx, colIdx: 1, bytes: imgBytesList[i], cx: 660400, cy: 660400});
+        }
+        rows.push([
+          {v:i+1, t:'n'},
+          {},
+          {v:item.sp||'', t:'s'},
+          {v:item.sl||'', t: item.sl?'n':'s'},
+          {v:item.giaban||'', t: item.giaban?'n':'s', s: item.giaban?2:undefined},
+          {v:lineTotal||'', t: lineTotal?'n':'s', s: lineTotal?2:undefined},
+        ]);
+      });
+      rows.push([]);
+      rows.push([]);
+      rows.push([{v:'Người lập báo giá', t:'s', s:1}, {}, {}, {v:'Kế toán duyệt', t:'s', s:1}]);
+
+      const signRowIdx = rows.length - 1;
+      const merges = [
+        'A2:F2','A3:F3','A4:F4','A5:F5',
+        `A${signRowIdx+1}:B${signRowIdx+1}`,
+        `D${signRowIdx+1}:F${signRowIdx+1}`,
+      ];
+      const cols = [5,8,42,10,18,18];
+
+      const bytes = MiniXlsx.buildXlsx('Báo giá', rows, merges, cols, rowHeights, images);
+      const ok = await downloadBytes(bytes, `BaoGia_KhachHang_EPVINA_${fnameStamp()}.xlsx`, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      if(ok) showToast('Đã xuất báo giá khách hàng (Excel sạch) ✓');
+    }catch(e){
+      showToast('Xuất Excel lỗi: ' + (e && e.message || e));
+    }finally{
+      xlsxCleanBtn.disabled = false;
+      xlsxCleanBtn.textContent = origLabel;
+    }
+  });
+
+  // "Bản sạch" — báo giá gửi thẳng cho khách: không ghi chú, không nhóm hàng, không nhắc NCC/tỷ giá nội bộ, có khung kẻ ô đầy đủ.
+  pdfCleanBtn.addEventListener('click', async ()=>{
+    if(!cart.length) return;
+    const origLabel = pdfCleanBtn.textContent;
+    pdfCleanBtn.disabled = true;
+    pdfCleanBtn.textContent = 'Đang tạo PDF…';
+    try{
+      try{ await document.fonts.ready; }catch(e){}
+      const SCALE = 2;
+      const PAGE_W = 595 * SCALE, PAGE_H = 842 * SCALE;
+      const MARGIN = 28 * SCALE;
+      const contentW = PAGE_W - MARGIN*2;
+
+      const logoImg = await new Promise(resolve=>{
+        try{
+          const im = new Image();
+          im.onload = ()=> resolve(im);
+          im.onerror = ()=> resolve(null);
+          im.src = 'data:image/png;base64,' + EPVINA_LOGO_B64;
+        }catch(e){ resolve(null); }
+      });
+      const thumbSize = 40 * SCALE;
+      const thumbs = await Promise.all(cart.map(item=>{
+        if(!item.img) return Promise.resolve(null);
+        return new Promise(resolve=>{
+          const im = new Image();
+          im.onload = ()=> resolve(im);
+          im.onerror = ()=> resolve(null);
+          im.src = item.img;
+        });
+      }));
+
+      const font = (px, bold)=> `${bold?'700 ':''}${px*SCALE}px "Be Vietnam Pro", sans-serif`;
+      function wrapText(ctx, text, maxWidth){
+        const words = String(text||'').split(/\s+/);
+        const lines = [];
+        let cur = '';
+        words.forEach(w=>{
+          const test = cur ? cur+' '+w : w;
+          if(ctx.measureText(test).width > maxWidth && cur){ lines.push(cur); cur = w; }
+          else cur = test;
+        });
+        if(cur) lines.push(cur);
+        return lines.length ? lines : [''];
+      }
+
+      const meas = document.createElement('canvas').getContext('2d');
+      const rowLayouts = [];
+      const nameColW = contentW*0.40;
+      cart.forEach(item=>{
+        const lineTotal = (item.giaban && item.sl) ? item.giaban*item.sl : null;
+        meas.font = font(10.5, false);
+        const nameLines = wrapText(meas, item.sp, nameColW-10);
+        const rowH = Math.max(thumbSize + 14*SCALE, nameLines.length*15*SCALE + 14*SCALE);
+        rowLayouts.push({item, lineTotal, nameLines, rowH});
+      });
+
+      const headerH = 150*SCALE;
+      const tableHeadH = 30*SCALE;
+      const footH = 70*SCALE;
+      const tableBodyH = rowLayouts.reduce((s,r)=> s+r.rowH, 0);
+      const totalH = headerH + tableHeadH + tableBodyH + footH + MARGIN;
+      const canvas = document.createElement('canvas');
+      canvas.width = PAGE_W;
+      canvas.height = Math.max(PAGE_H, totalH);
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.textBaseline = 'top';
+
+      const today = new Date();
+      const dateStr = today.toLocaleDateString('vi-VN');
+      let y = MARGIN;
+      if(logoImg){
+        const lh = 40*SCALE, lw = lh * (logoImg.naturalWidth||248)/(logoImg.naturalHeight||192);
+        ctx.drawImage(logoImg, PAGE_W/2 - lw/2, y, lw, lh);
+        y += lh + 8*SCALE;
+      }
+      ctx.fillStyle = '#13224B';
+      ctx.font = font(17, true);
+      ctx.textAlign = 'center';
+      ctx.fillText('CÔNG TY CỔ PHẦN EPVINA', PAGE_W/2, y); y += 22*SCALE;
+      ctx.fillStyle = '#6B7280';
+      ctx.font = font(10.5, false);
+      ctx.fillText('Giải pháp trọn gói cho quà tặng và bao bì doanh nghiệp', PAGE_W/2, y); y += 22*SCALE;
+      ctx.fillStyle = '#1C2333';
+      ctx.font = font(13.5, true);
+      ctx.fillText('BÁO GIÁ SẢN PHẨM', PAGE_W/2, y); y += 18*SCALE;
+      ctx.font = font(10, false);
+      ctx.fillStyle = '#6B7280';
+      ctx.fillText(`Ngày lập: ${dateStr}`, PAGE_W/2, y);
+      ctx.textAlign = 'left';
+      y = headerH;
+
+      // cột: STT | Ảnh | Tên sản phẩm | Số lượng | Đơn giá bán | Thành tiền (VND) — không có ghi chú
+      const sttColW = 30*SCALE, imgColW = thumbSize + 16*SCALE;
+      const slColW = 62*SCALE, priceColW = 82*SCALE, totalColW = 98*SCALE;
+      const nameColW2 = contentW - sttColW - imgColW - slColW - priceColW - totalColW;
+      const colX = {
+        stt: MARGIN,
+        img: MARGIN + sttColW,
+        name: MARGIN + sttColW + imgColW,
+      };
+      colX.sl = colX.name + nameColW2;
+      colX.price = colX.sl + slColW;
+      colX.total = colX.price + priceColW;
+      const tableRight = MARGIN + contentW;
+
+      ctx.fillStyle = '#EFEAD9';
+      ctx.fillRect(MARGIN, y, contentW, tableHeadH);
+      ctx.fillStyle = '#13224B';
+      ctx.font = font(10, true);
+      const headMidY = y + tableHeadH/2 - 5*SCALE;
+      ctx.textAlign = 'center';
+      ctx.fillText('STT', colX.stt + sttColW/2, headMidY);
+      ctx.fillText('Ảnh', colX.img + imgColW/2, headMidY);
+      ctx.fillText('Số lượng', colX.sl + slColW/2, headMidY);
+      ctx.fillText('Đơn giá bán', colX.price + priceColW/2, headMidY);
+      ctx.textAlign = 'left';
+      ctx.fillText('Tên sản phẩm', colX.name + 6*SCALE, headMidY);
+      ctx.textAlign = 'center';
+      ctx.fillText('Thành tiền (VND)', colX.total + totalColW/2, headMidY);
+      ctx.textAlign = 'left';
+      const tableTop = y;
+      y += tableHeadH;
+      const bodyTop = y;
+
+      rowLayouts.forEach((rl, i)=>{
+        const rowTop = y;
+        ctx.fillStyle = '#1C2333';
+        ctx.font = font(10.5, false);
+        ctx.textAlign = 'center';
+        ctx.fillText(String(i+1), colX.stt + sttColW/2, rowTop + rl.rowH/2 - 6*SCALE);
+        const thumb = thumbs[cart.indexOf(rl.item)];
+        if(thumb){
+          try{
+            const iw = thumb.naturalWidth||thumb.width, ih = thumb.naturalHeight||thumb.height;
+            const scale = Math.max(thumbSize/iw, thumbSize/ih);
+            const dw = iw*scale, dh = ih*scale;
+            const ix = colX.img + imgColW/2 - thumbSize/2, iy = rowTop + rl.rowH/2 - thumbSize/2;
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(ix, iy, thumbSize, thumbSize);
+            ctx.clip();
+            ctx.drawImage(thumb, ix-(dw-thumbSize)/2, iy-(dh-thumbSize)/2, dw, dh);
+            ctx.restore();
+          }catch(e){ /* tainted or failed — skip image */ }
+        }
+        ctx.textAlign = 'left';
+        let ty = rowTop + rl.rowH/2 - (rl.nameLines.length*15*SCALE)/2;
+        ctx.font = font(10.5, false);
+        rl.nameLines.forEach(line=>{ ctx.fillText(line, colX.name + 6*SCALE, ty); ty += 15*SCALE; });
+        ctx.textAlign = 'center';
+        ctx.fillText(rl.item.sl!=null? rl.item.sl.toLocaleString('vi-VN'):'—', colX.sl + slColW/2, rowTop + rl.rowH/2 - 6*SCALE);
+        ctx.fillText(fmt(rl.item.giaban), colX.price + priceColW/2, rowTop + rl.rowH/2 - 6*SCALE);
+        ctx.fillText(rl.lineTotal!=null? fmt(rl.lineTotal): '—', colX.total + totalColW/2, rowTop + rl.rowH/2 - 6*SCALE);
+        ctx.textAlign = 'left';
+        y += rl.rowH;
+      });
+      const bodyBottom = y;
+
+      // khung kẻ ô đầy đủ (giống báo giá in thường)
+      ctx.strokeStyle = '#1C2333';
+      ctx.lineWidth = 1*SCALE;
+      ctx.strokeRect(MARGIN, tableTop, contentW, tableHeadH + (bodyBottom-bodyTop));
+      ctx.beginPath(); ctx.moveTo(MARGIN, bodyTop); ctx.lineTo(tableRight, bodyTop); ctx.stroke();
+      [colX.img, colX.name, colX.sl, colX.price, colX.total].forEach(x=>{
+        ctx.beginPath(); ctx.moveTo(x, tableTop); ctx.lineTo(x, bodyBottom); ctx.stroke();
+      });
+      ctx.lineWidth = 0.5*SCALE;
+      ctx.strokeStyle = '#9CA3AF';
+      let ly = bodyTop;
+      rowLayouts.forEach(rl=>{
+        ly += rl.rowH;
+        ctx.beginPath(); ctx.moveTo(MARGIN, ly); ctx.lineTo(tableRight, ly); ctx.stroke();
+      });
+
+      y = bodyBottom + 44*SCALE;
+      ctx.fillStyle = '#1C2333';
+      ctx.font = font(10.5, true);
+      ctx.fillText('Người lập báo giá', MARGIN, y);
+      ctx.fillText('Kế toán duyệt', tableRight-120*SCALE, y);
+
+      const blob = await new Promise(res=> canvas.toBlob(res, 'image/jpeg', 0.92));
+      if(!blob) throw new Error('canvas export failed');
+      const buf = await blob.arrayBuffer();
+      const jpegBytes = new Uint8Array(buf);
+      const pdfBytes = MiniPdf.buildPdf([{
+        jpegBytes, widthPx: canvas.width, heightPx: canvas.height,
+        widthPt: canvas.width/SCALE, heightPt: canvas.height/SCALE
+      }]);
+      const ok = await downloadBytes(pdfBytes, `BaoGia_KhachHang_EPVINA_${fnameStamp()}.pdf`, 'application/pdf');
+      if(ok) showToast('Đã xuất báo giá khách hàng (bản sạch) ✓');
+    }catch(e){
+      showToast('Xuất báo giá lỗi: ' + (e && e.message || e));
+    }finally{
+      pdfCleanBtn.disabled = false;
+      pdfCleanBtn.textContent = origLabel;
+    }
+  });
+
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(showToast._h);
+    showToast._h = setTimeout(()=> t.classList.remove('show'), 2200);
+  }
+
+  try{
+    const saved = localStorage.getItem('epvina_cart_draft');
+    if(saved){ cart = JSON.parse(saved); renderCart(); }
+  }catch(e){}
+  const origRenderCart = renderCart;
+  renderCart = function(){
+    origRenderCart();
+    try{ localStorage.setItem('epvina_cart_draft', JSON.stringify(cart)); }catch(e){}
+  };
+})();
+</script>
+
+</body></html>
