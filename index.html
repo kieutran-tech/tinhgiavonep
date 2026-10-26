@@ -1,8 +1,15 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="vi"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <title>Tra Giá EPVINA</title>
 <meta name="description" content="Tra giá nhanh theo sản phẩm và số lượng, lập báo giá tức thì từ dữ liệu giá gốc nội bộ EPVINA.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#13224B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tra giá EPVINA">
+<meta name="format-detection" content="telephone=no">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head><body>
 <style>
 :root{
   --navy:#13224B;
@@ -65,6 +72,7 @@ header.top{
   display:flex;align-items:center;justify-content:center; flex-shrink:0;
   border:2px solid var(--gold);
 }
+header.top > div:last-child{flex:1; min-width:0;}
 header.top h1{color:#fff; font-size:19px; margin:0; font-weight:700; letter-spacing:.2px;}
 header.top p{color:var(--gold-soft); margin:2px 0 0; font-size:12.5px; font-weight:500;}
 .disclaimer{
@@ -191,6 +199,54 @@ tbody tr:hover{background:var(--bg);}
 }
 .lock-box input:focus{ outline:2px solid var(--gold); outline-offset:1px; }
 #lockErr{ color:#C0392B; font-size:12px; margin-top:8px; min-height:16px; }
+
+/* ---- Điện thoại ---- */
+.disclaimer > summary{cursor:pointer; list-style:none;}
+.disclaimer > summary::-webkit-details-marker{display:none}
+.disclaimer > summary .more{text-decoration:underline; white-space:nowrap;}
+.disclaimer[open] > summary{margin-bottom:6px;}
+.disclaimer[open] > summary .more{display:none;}
+.mbar{display:none;}
+@media (max-width:860px){
+  .mbar:not([hidden]){
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    position:fixed; left:12px; right:12px; bottom:calc(10px + env(safe-area-inset-bottom,0px)); z-index:40;
+    min-height:50px; padding:10px 16px; border:none; border-radius:14px;
+    background:var(--navy); color:#fff; font:600 14px/1.3 inherit; font-family:inherit; box-shadow:0 6px 20px rgba(0,0,0,.25); cursor:pointer;
+  }
+  .mbar b{color:var(--gold-soft);}
+  .mbar .mbar-go{color:var(--gold-soft); white-space:nowrap;}
+  body.has-mbar .wrap{padding-bottom:90px;}
+  body.has-mbar .toast{bottom:calc(76px + env(safe-area-inset-bottom,0px));}
+  #cartPanel{scroll-margin-top:12px;}
+}
+@media (max-width:600px){
+  header.top{padding:12px 14px; margin-bottom:12px;}
+  header.top h1{font-size:17px;}
+  .panel{padding:12px;}
+  /* iOS tự phóng to khi ô nhập < 16px */
+  #q, .lock-box input{font-size:16px;}
+  .thumb, .thumb-empty{width:52px; height:52px;}
+  /* bảng giá -> dạng thẻ, không phải kéo ngang mới thấy nút "+ Thêm" */
+  .card table thead{display:none;}
+  .card table, .card tbody{display:block;}
+  .card tbody tr{
+    display:grid; grid-template-columns:1fr 1fr; gap:4px 12px;
+    padding:10px 12px; border-bottom:1px solid var(--line);
+  }
+  .card tbody tr:last-child{border-bottom:none;}
+  .card tbody td{display:block; padding:0; border:none; text-align:left; white-space:normal;}
+  .card tbody td[data-label]::before{
+    content:attr(data-label); display:block; font-size:10.5px; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.03em; font-weight:600;
+  }
+  .card tbody td.note-cell{grid-column:1 / -1; max-width:none;}
+  .card tbody td.note-cell:empty{display:none;}
+  .card tbody td.add-cell{grid-column:1 / -1;}
+  .addbtn{width:100%; min-height:42px; font-size:14px; margin-top:4px;}
+  .copybtn{min-height:46px; font-size:14px;}
+  .cart-item .rm{min-width:40px; min-height:40px; font-size:18px;}
+}
 </style>
 
 <div id="lockScreen">
@@ -271,9 +327,10 @@ tbody tr:hover{background:var(--bg);}
     </div>
   </header>
 
-  <div class="disclaimer">
-    ⚠️ Dữ liệu tổng hợp từ nhiều file nội bộ trên Drive. <strong>Nguồn chuẩn (nhãn "✓ Chuẩn"):</strong> 13 sheet giá chi tiết theo nhóm sản phẩm liên kết từ "BÁO GIÁ NHANH TỔNG.xlsx" — dữ liệu này được ưu tiên hiển thị trước và coi là đáng tin cậy nhất. Nhãn "cũ" là dữ liệu tham khảo thêm từ "Giá nhập sản phẩm thông dụng", các file "BÁO GIÁ NHANH 2024/2026" (1,3–14), "Bảng giá đại lý 31/7". Giá lập ở nhiều thời điểm khác nhau (2018–2026) — <strong>cần đối chiếu tỷ giá, giá NCC hiện tại</strong> trước khi gửi báo giá chính thức cho khách. Một số dòng đơn giá gốc theo NDT (tệ) chưa quy đổi — xem ghi chú. Ảnh sản phẩm (nếu có) được nạp sẵn từ dữ liệu xuất kèm theo trang — bản này không hỗ trợ thêm/sửa ảnh trực tiếp.
-  </div>
+  <details class="disclaimer" id="disclaimer">
+    <summary>⚠️ <strong>Giá tham khảo nội bộ</strong> — cần đối chiếu tỷ giá, giá NCC hiện tại trước khi gửi khách. <span class="more">Xem chi tiết nguồn dữ liệu</span></summary>
+    Dữ liệu tổng hợp từ nhiều file nội bộ trên Drive. <strong>Nguồn chuẩn (nhãn "✓ Chuẩn"):</strong> 13 sheet giá chi tiết theo nhóm sản phẩm liên kết từ "BÁO GIÁ NHANH TỔNG.xlsx" — dữ liệu này được ưu tiên hiển thị trước và coi là đáng tin cậy nhất. Nhãn "cũ" là dữ liệu tham khảo thêm từ "Giá nhập sản phẩm thông dụng", các file "BÁO GIÁ NHANH 2024/2026" (1,3–14), "Bảng giá đại lý 31/7". Giá lập ở nhiều thời điểm khác nhau (2018–2026) — <strong>cần đối chiếu tỷ giá, giá NCC hiện tại</strong> trước khi gửi báo giá chính thức cho khách. Một số dòng đơn giá gốc theo NDT (tệ) chưa quy đổi — xem ghi chú. Ảnh sản phẩm (nếu có) được nạp sẵn từ dữ liệu xuất kèm theo trang — bản này không hỗ trợ thêm/sửa ảnh trực tiếp.
+  </details>
 
   <div class="layout">
     <div class="panel">
@@ -283,7 +340,7 @@ tbody tr:hover{background:var(--bg);}
       <div class="groups" id="groups"></div>
     </div>
 
-    <div class="panel" style="align-self:start; position:sticky; top:16px;">
+    <div class="panel" id="cartPanel" style="align-self:start; position:sticky; top:16px;">
       <h2>Báo giá đang lập (<span id="cartCount">0</span>)</h2>
       <div id="cart"></div>
       <div id="cartTotalWrap" hidden>
@@ -296,6 +353,11 @@ tbody tr:hover{background:var(--bg);}
     </div>
   </div>
 </div>
+
+<button type="button" class="mbar" id="mbar" hidden>
+  <span>🧾 Báo giá: <b id="mbarCount">0</b> sp · <b class="tab" id="mbarTotal">0đ</b></span>
+  <span class="mbar-go">Xem ↓</span>
+</button>
 
 <div id="printArea"></div>
 <div class="toast" id="toast"></div>
@@ -448,13 +510,13 @@ tbody tr:hover{background:var(--bg);}
       g.rows.forEach(r=>{
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td class="tab">${r.chuan? '<span class="badge-chuan" title="Nguồn chuẩn: sheet chi tiết theo nhóm (13 link)">✓ Chuẩn</span>' : '<span class="badge-cu" title="Nguồn cũ: file BÁO GIÁ NHANH 1,3-14 / bảng đại lý">cũ</span>'}</td>
-          <td class="tab">${r.sl!=null? r.sl.toLocaleString('vi-VN'):'—'}</td>
-          <td class="tab">${fmt(r.giamua)}</td>
-          <td class="tab">${fmt(r.gianhap)}</td>
-          <td class="tab price-ban">${fmt(r.giaban)}</td>
-          <td class="note-cell">${escapeHtml(r.ghichu||'')}</td>
-          <td><button class="addbtn" type="button">+ Thêm</button></td>
+          <td data-label="Nguồn" class="tab">${r.chuan? '<span class="badge-chuan" title="Nguồn chuẩn: sheet chi tiết theo nhóm (13 link)">✓ Chuẩn</span>' : '<span class="badge-cu" title="Nguồn cũ: file BÁO GIÁ NHANH 1,3-14 / bảng đại lý">cũ</span>'}</td>
+          <td data-label="SL" class="tab">${r.sl!=null? r.sl.toLocaleString('vi-VN'):'—'}</td>
+          <td data-label="Giá mua/chiếc" class="tab">${fmt(r.giamua)}</td>
+          <td data-label="Giá nhập sơ bộ" class="tab">${fmt(r.gianhap)}</td>
+          <td data-label="Giá bán đề xuất" class="tab price-ban">${fmt(r.giaban)}</td>
+          <td data-label="Ghi chú" class="note-cell">${escapeHtml(r.ghichu||'')}</td>
+          <td class="add-cell"><button class="addbtn" type="button">+ Thêm</button></td>
         `;
         tr.querySelector('.addbtn').addEventListener('click', ()=> addToCart(g, r));
         tbody.appendChild(tr);
@@ -471,6 +533,8 @@ tbody tr:hover{background:var(--bg);}
   function escapeHtml(s){
     return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   }
+
+  if(window.matchMedia('(min-width:861px)').matches) document.getElementById('disclaimer').open = true;
 
   let _searchTimer = null;
   qEl.addEventListener('input', ()=>{
@@ -739,8 +803,12 @@ ${hasDrawing ? '<Override PartName="/xl/drawings/drawing1.xml" ContentType="appl
     showToast(`Đã thêm: ${g.sp} × ${r.sl?.toLocaleString('vi-VN')||''}`);
   }
 
+  const mbarEl = document.getElementById('mbar');
+  mbarEl.addEventListener('click', ()=> document.getElementById('cartPanel').scrollIntoView({behavior:'smooth', block:'start'}));
   function renderCart(){
     cartCountEl.textContent = cart.length;
+    mbarEl.hidden = cart.length === 0;
+    document.body.classList.toggle('has-mbar', cart.length > 0);
     if(cart.length === 0){
       cartEl.innerHTML = '<div class="cart-empty">Chưa có sản phẩm nào.<br>Bấm "+ Thêm" ở bảng bên trái.</div>';
       cartTotalWrap.hidden = true;
@@ -771,7 +839,7 @@ ${hasDrawing ? '<Override PartName="/xl/drawings/drawing1.xml" ContentType="appl
             <div class="name">${escapeHtml(item.sp)}</div>
             <div class="sub">SL: ${item.sl?.toLocaleString('vi-VN')||'—'} chiếc${item.nhom? ' · '+escapeHtml(item.nhom):''}</div>
           </div>
-          <button class="rm" type="button" title="Xoá">✕</button>
+          <button class="rm" type="button" title="Xoá" aria-label="Xoá khỏi báo giá">✕</button>
         </div>
         <div class="price tab">${fmt(item.giaban)}${item.sl && item.giaban ? ` × ${item.sl.toLocaleString('vi-VN')} = ${fmt(item.giaban*item.sl)}` : ''}</div>
       `;
@@ -781,6 +849,8 @@ ${hasDrawing ? '<Override PartName="/xl/drawings/drawing1.xml" ContentType="appl
     let grandTotal = 0;
     cart.forEach(item=>{ if(item.giaban && item.sl) grandTotal += item.giaban*item.sl; });
     cartTotalEl.textContent = fmt(grandTotal);
+    document.getElementById('mbarCount').textContent = cart.length;
+    document.getElementById('mbarTotal').textContent = fmt(grandTotal);
   }
   renderCart();
 
