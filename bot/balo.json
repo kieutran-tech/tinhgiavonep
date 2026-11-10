@@ -1,0 +1,600 @@
+{
+ "mo_ta": "Balo (12.3 trẻ em/học sinh, 6.2 ba lô, 5.6 laptop). Giá THAM KHẢO, chưa VAT, chưa phí VC; mục có ghi chú 'hàng sẵn' là hàng có sẵn kho, đã gồm in logo 1 màu 1 vị trí.",
+ "co_gia": [
+  {
+   "nhom": "12.3",
+   "ten": "Balo Trẻ em",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 50c - 70*60*50 - 17kg hàng sẵn 3 ngày + 10 ngày vc",
+   "bac_gia": [
+    {
+     "sl": 200,
+     "gia": 134000
+    },
+    {
+     "sl": 1000,
+     "gia": 134000
+    }
+   ],
+   "gia_tham_khao": "khoảng 134.000đ/chiếc"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "BALO TRẺ EM - chất liệu: vải bố - Kích thước: 30x35cm - Giá đã bao gồm in ấn 1 màu, 1 vị trí",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 200.0",
+   "bac_gia": [
+    {
+     "sl": 300,
+     "gia": 100000
+    },
+    {
+     "sl": 500,
+     "gia": 98000
+    },
+    {
+     "sl": 700,
+     "gia": 95000
+    },
+    {
+     "sl": 2000,
+     "gia": 100000
+    },
+    {
+     "sl": 3000,
+     "gia": 98000
+    },
+    {
+     "sl": 5000,
+     "gia": 95000
+    }
+   ],
+   "gia_tham_khao": "95.000đ – 100.000đ/chiếc tuỳ số lượng"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "- Balo : + 2 ngăn + KT : 37x28 x11 cm",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 300.0",
+   "bac_gia": [
+    {
+     "sl": 500,
+     "gia": 114750
+    },
+    {
+     "sl": 3000,
+     "gia": 114750
+    }
+   ],
+   "gia_tham_khao": "khoảng 114.750đ/chiếc"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em, kích thước: cao 35 x ngang 28 x rộng 18cm Trọng Lượng: Không có thanh kéo là 0,6 kg ; có thanh kéo là 1kg Chiều dài thanh kéo: 80",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 700.0",
+   "bac_gia": [
+    {
+     "sl": 1000,
+     "gia": 230850
+    },
+    {
+     "sl": 7000,
+     "gia": 230850
+    }
+   ],
+   "gia_tham_khao": "khoảng 230.850đ/chiếc"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em kích thước: 26 x 21 x 8 cm Trọng Lượng:200gram",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 100.0 | 15-20 ngày sản xuất, 1-2 ngày vận chuyển",
+   "bac_gia": [
+    {
+     "sl": 200,
+     "gia": 150000
+    },
+    {
+     "sl": 1000,
+     "gia": 150000
+    }
+   ],
+   "gia_tham_khao": "khoảng 150.000đ/chiếc"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em kích thước: 28 x 24 x 12 cm Trọng Lượng: 350gram",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 100.0 | 15-20 ngày sản xuất, 1-2 ngày vận chuyển",
+   "bac_gia": [
+    {
+     "sl": 200,
+     "gia": 200000
+    },
+    {
+     "sl": 1000,
+     "gia": 200000
+    }
+   ],
+   "gia_tham_khao": "khoảng 200.000đ/chiếc"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo mẫu giáo KT : 32*26cm",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 500.0",
+   "bac_gia": [
+    {
+     "sl": 700,
+     "gia": 100000
+    },
+    {
+     "sl": 5000,
+     "gia": 100000
+    }
+   ],
+   "gia_tham_khao": "khoảng 100.000đ/chiếc"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo mẫu giáo KT: 32*22cm",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 1000.0",
+   "bac_gia": [
+    {
+     "sl": 700,
+     "gia": 95000
+    },
+    {
+     "sl": 5000,
+     "gia": 88000
+    },
+    {
+     "sl": 10000,
+     "gia": 88000
+    }
+   ],
+   "gia_tham_khao": "88.000đ – 95.000đ/chiếc tuỳ số lượng"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "BALO CHỐNG GÙ THIÊN LONG KT260 x 370 x 150 mm",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 200.0",
+   "bac_gia": [
+    {
+     "sl": 300,
+     "gia": 250000
+    },
+    {
+     "sl": 700,
+     "gia": 245000
+    },
+    {
+     "sl": 2000,
+     "gia": 250000
+    },
+    {
+     "sl": 5000,
+     "gia": 245000
+    }
+   ],
+   "gia_tham_khao": "245.000đ – 250.000đ/chiếc tuỳ số lượng"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo khủng long cho bé kt: Chiều cao 28 cm, rộng 20 cm MÃ 6968",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 100.0 | order 2-4 tuần có hàng, vận chuyển 2-4 ngày, ko có hoá đơn đỏ",
+   "bac_gia": [
+    {
+     "sl": 200,
+     "gia": 74000
+    },
+    {
+     "sl": 1000,
+     "gia": 74000
+    },
+    {
+     "sl": 5000,
+     "gia": 69000
+    },
+    {
+     "sl": 10000,
+     "gia": 69000
+    }
+   ],
+   "gia_tham_khao": "69.000đ – 74.000đ/chiếc tuỳ số lượng"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Vali hình thú 18in cho bé Kích thước D*R*C: 35*23*45cm (+37cm chiều dài phần tay kéo) MÃ 10828",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 100.0 | order 2-4 tuần có hàng, vận chuyển 2-4 ngày, ko có hoá đơn đỏ",
+   "bac_gia": [
+    {
+     "sl": 200,
+     "gia": 260000
+    },
+    {
+     "sl": 1000,
+     "gia": 260000
+    },
+    {
+     "sl": 5000,
+     "gia": 255000
+    },
+    {
+     "sl": 10000,
+     "gia": 255000
+    }
+   ],
+   "gia_tham_khao": "255.000đ – 260.000đ/chiếc tuỳ số lượng"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo 3d mẫu đáng yêu cho bé – Kích thước: 32 x 22 x 9cm – Trọng lượng: 350g – Phù hợp với các bé từ 1-6 tuổi MÃ 11099",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 100.0 | order 2-4 tuần có hàng, vận chuyển 2-4 ngày, ko có hoá đơn đỏ",
+   "bac_gia": [
+    {
+     "sl": 200,
+     "gia": 73000
+    },
+    {
+     "sl": 1000,
+     "gia": 73000
+    },
+    {
+     "sl": 5000,
+     "gia": 68000
+    },
+    {
+     "sl": 10000,
+     "gia": 68000
+    }
+   ],
+   "gia_tham_khao": "68.000đ – 73.000đ/chiếc tuỳ số lượng"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo chống thấm nước hình sư tử KT: 25x21x12",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 100.0 | Hàng ở nhiều kho, lấy số lượng lớn phải đặt thành nhiều đơn",
+   "bac_gia": [
+    {
+     "sl": 200,
+     "gia": 212000
+    },
+    {
+     "sl": 1000,
+     "gia": 212000
+    }
+   ],
+   "gia_tham_khao": "khoảng 212.000đ/chiếc"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo nhung KAkoo siêu nhẹ hình kỳ lân tím KT: 25x21x12",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 100.0 | Hàng ở nhiều kho, lấy số lượng lớn phải đặt thành nhiều đơn",
+   "bac_gia": [
+    {
+     "sl": 200,
+     "gia": 102000
+    },
+    {
+     "sl": 1000,
+     "gia": 102000
+    }
+   ],
+   "gia_tham_khao": "khoảng 102.000đ/chiếc"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo nhựa ABS kt 30x12x26cm, khối lượng: 0.25kg",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 1000.0",
+   "bac_gia": [
+    {
+     "sl": 5000,
+     "gia": 52380
+    },
+    {
+     "sl": 10000,
+     "gia": 52380
+    }
+   ],
+   "gia_tham_khao": "khoảng 52.380đ/chiếc"
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Loại balo trẻ em - kích thước: 26*36*12cm - Vải dù gai D600 Màu sắc: màu xanh navy + trắng, viền trắng như thiết kế (có ảnh màu thực tế trong thiết kế) - Có 2 ngăn: 1 ngăn to và 1 ngăn nhỏ bên ngoài. - Sườn có 2 ngăn (bên dưới vải, bên trên lưới như thiết kế) - Quai to, chắc chắn, cùng màu với màu balo - In 1 màu, 1 mặt, 1 thiết kế (màu in cùng với màu xanh navy của balo)",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 300.0",
+   "bac_gia": [
+    {
+     "sl": 500,
+     "gia": 114750
+    },
+    {
+     "sl": 3000,
+     "gia": 114750
+    }
+   ],
+   "gia_tham_khao": "khoảng 114.750đ/chiếc"
+  },
+  {
+   "nhom": "6.2",
+   "ten": "Balo du lịch",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 200.0",
+   "bac_gia": [
+    {
+     "sl": 2000,
+     "gia": 90000
+    }
+   ],
+   "gia_tham_khao": "khoảng 90.000đ/chiếc"
+  },
+  {
+   "nhom": "6.2",
+   "ten": "Balo du lịch - KT 46cm x 28cm x 26cm. - chất liệu: vải 900 pvc 100% trượt nước",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 300.0",
+   "bac_gia": [
+    {
+     "sl": 3000,
+     "gia": 120000
+    }
+   ],
+   "gia_tham_khao": "khoảng 120.000đ/chiếc"
+  },
+  {
+   "nhom": "5.6",
+   "ten": "Balo Form hàng này mình làm vải thô đẹp ạ Size 43x30x15, thêu 1 mặt 1 vị trí",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 50.0 | Giá chưa bao gồm VAT , chưa bao gồm vận chuyển NCC Hà Nội",
+   "bac_gia": [
+    {
+     "sl": 1000,
+     "gia": 155000
+    }
+   ],
+   "gia_tham_khao": "khoảng 155.000đ/chiếc"
+  },
+  {
+   "nhom": "5.6",
+   "ten": "balo laptop, kích thước 40*30*12 ( hoặc tùy theo khách đặt) , chất liệu Vải xốp gai màu đỏ tươi",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 100.0",
+   "bac_gia": [
+    {
+     "sl": 200,
+     "gia": 121500
+    },
+    {
+     "sl": 300,
+     "gia": 121500
+    },
+    {
+     "sl": 1000,
+     "gia": 121500
+    },
+    {
+     "sl": 2000,
+     "gia": 121500
+    }
+   ],
+   "gia_tham_khao": "khoảng 121.500đ/chiếc"
+  }
+ ],
+ "chua_co_gia": [
+  {
+   "nhom": "12.3",
+   "ten": "Balo mặt gấu, KT 36*28*11",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em, KT 35*25*13",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo mặt gấu, KT 33*26*10",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo mặt gấu, KT 35*28*13",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo mặt gấu, KT 35*28*12 và KT43*30*13",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo mặt gấu, KT 35*27*10 Mã: 2005",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em, KT 35*28*13 Mã : 2201",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em, KT 34*28*13 Mã : 2202",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em, KT 32*25*14 Mã : 2202 Màu sắc: đỏ , vàng",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em, KT 32*24*11 Mã : 510 Màu sắc: đỏ , hồng, tím, xanh dương, xanh nhạt",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em, KT 34*26*11 Màu sắc: hồng, tím Mã: 513",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em, KT 34*28*11 Màu sắc: vàng, đỏ, xanh lá cây, cam, xanh nước biển Mã: 6112",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em, KT 33*25*12 Màu sắc: vàng, đỏ, xanh lá cây, xanh nước biển Mã: 6120",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "12.3",
+   "ten": "Balo trẻ em, KT 33*25*12 Màu sắc: vàng, đỏ, hồng, xanh lá cây, xanh nước biển Mã: 6130",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 100.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ, thời gian vc 10-15 ngày",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "5.6",
+   "ten": "Balo Laptop 9080",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 50.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "5.6",
+   "ten": "Balo Laptop 9005-2",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 50.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "5.6",
+   "ten": "Balo Laptop 902",
+   "san_kho": true,
+   "ghi_chu": "SL bậc: 50.0 | đóng gói: 80-100c 1 bao tải - 45kg hàng sẵn, nhận SL từ 100c trở lên giá báo đã bao gồm in ấn logo 1 màu 1 vị trí (in lưới) in logo phức tạp nhiều màu, khoảng 1,5 tệ/ vị trí (in chuyển nhiệt) NCC TQ",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  },
+  {
+   "nhom": "5.6",
+   "ten": "sản phẩm balo,",
+   "san_kho": false,
+   "ghi_chu": "SL bậc: 50.0 | kích thước 42 x 31 x 16cm, in logo 1 màu 1 vị trí, NCC Hà Nội, chưa bao gồm thuế VAT",
+   "bac_gia": [],
+   "gia_tham_khao": null
+  }
+ ],
+ "anh_mau": {
+  "5.6": [
+   "link05_5.6Balo_laptop_0.jpg",
+   "link05_5.6Balo_laptop_1.jpg",
+   "link05_5.6Balo_laptop_2.jpg",
+   "link05_5.6Balo_laptop_4.jpg",
+   "link05_5.6Balo_laptop_5.jpg"
+  ],
+  "6.2": [
+   "link06_6.2._Ba_lô_0.jpg",
+   "link06_6.2._Ba_lô_2.jpg",
+   "link06_6.2._Ba_lô_4.jpg",
+   "link06_6.2._Ba_lô_6.jpg",
+   "link06_6.2._Ba_lô_7.jpg",
+   "link06_6.2._Ba_lô_8.jpg",
+   "link06_6.2._Ba_lô_10.jpg",
+   "link06_6.2._Ba_lô_11.jpg",
+   "link06_6.2._Ba_lô_21.jpg",
+   "link06_6.2._Ba_lô_22.jpg",
+   "link06_6.2._Ba_lô_24.jpg",
+   "link06_6.2._Ba_lô_25.jpg",
+   "link06_6.2._Ba_lô_26.jpg",
+   "link06_6.2._Ba_lô_27.jpg",
+   "link06_6.2._Ba_lô_28.jpg",
+   "link06_6.2._Ba_lô_29.jpg",
+   "link06_6.2._Ba_lô_30.jpg",
+   "link06_6.2._Ba_lô_31.jpg",
+   "link06_6.2._Ba_lô_32.jpg",
+   "link06_6.2._Ba_lô_33.jpg"
+  ],
+  "12.3": [
+   "link12_12.3_Balo_Trẻ_em_0.jpg",
+   "link12_12.3_Balo_Trẻ_em_1.jpg",
+   "link12_12.3_Balo_Trẻ_em_3.jpg",
+   "link12_12.3_Balo_Trẻ_em_4.jpg",
+   "link12_12.3_Balo_Trẻ_em_5.jpg",
+   "link12_12.3_Balo_Trẻ_em_6.jpg",
+   "link12_12.3_Balo_Trẻ_em_7.jpg",
+   "link12_12.3_Balo_Trẻ_em_8.jpg",
+   "link12_12.3_Balo_Trẻ_em_9.jpg",
+   "link12_12.3_Balo_Trẻ_em_10.jpg",
+   "link12_12.3_Balo_Trẻ_em_11.jpg",
+   "link12_12.3_Balo_Trẻ_em_12.jpg",
+   "link12_12.3_Balo_Trẻ_em_14.jpg",
+   "link12_12.3_Balo_Trẻ_em_15.jpg",
+   "link12_12.3_Balo_Trẻ_em_16.jpg",
+   "link12_12.3_Balo_Trẻ_em_17.jpg",
+   "link12_12.3_Balo_Trẻ_em_18.jpg",
+   "link12_12.3_Balo_Trẻ_em_19.jpg",
+   "link12_12.3_Balo_Trẻ_em_20.jpg",
+   "link12_12.3_Balo_Trẻ_em_21.jpg",
+   "link12_12.3_Balo_Trẻ_em_23.jpg",
+   "link12_12.3_Balo_Trẻ_em_24.jpg",
+   "link12_12.3_Balo_Trẻ_em_25.jpg",
+   "link12_12.3_Balo_Trẻ_em_26.jpg",
+   "link12_12.3_Balo_Trẻ_em_27.jpg",
+   "link12_12.3_Balo_Trẻ_em_28.jpg",
+   "link12_12.3_Balo_Trẻ_em_29.jpg",
+   "link12_12.3_Balo_Trẻ_em_30.jpg"
+  ]
+ }
+}

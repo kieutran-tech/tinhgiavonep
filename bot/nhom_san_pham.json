@@ -1,0 +1,1371 @@
+{
+ "quy_tac": "Chỉ gửi mẫu/giá trong 'duoc_goi_y_nhom' của nhóm khách hỏi. Không khớp nhóm nào => hỏi lại khách, KHÔNG đoán sang nhóm khác.",
+ "nhom": [
+  {
+   "ma": "1.1",
+   "ten": "Mút giữ nhiệt",
+   "ten_goc": [
+    "1.1 Mút giữ nhiệt",
+    "1.1. Mút giữ nhiệt"
+   ],
+   "tu_khoa": [
+    "mút giữ nhiệt"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "1.1"
+   ],
+   "so_dong_gia": 109,
+   "so_anh": 15
+  },
+  {
+   "ma": "1.2",
+   "ten": "Cốc gấp- Cốc nhựa",
+   "ten_goc": [
+    "1.2 Cốc gấp- Cốc nhựa"
+   ],
+   "tu_khoa": [
+    "cốc gấp- cốc nhựa"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "1.2"
+   ],
+   "so_dong_gia": 124,
+   "so_anh": 22
+  },
+  {
+   "ma": "1.3",
+   "ten": "Cốc giấy- bát giấy.",
+   "ten_goc": [
+    "1.3 Cốc giấy- bát giấy",
+    "1.3 Cốc giấy- bát giấy."
+   ],
+   "tu_khoa": [
+    "cốc giấy- bát giấy."
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "1.3"
+   ],
+   "so_dong_gia": 175,
+   "so_anh": 26
+  },
+  {
+   "ma": "1.4",
+   "ten": "cốc sứ",
+   "ten_goc": [
+    "1.4 cốc sứ"
+   ],
+   "tu_khoa": [
+    "cốc sứ"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "1.4"
+   ],
+   "so_dong_gia": 280,
+   "so_anh": 92
+  },
+  {
+   "ma": "1.5",
+   "ten": "Cốc thuỷ tinh",
+   "ten_goc": [
+    "1.5 Cốc thuỷ tinh"
+   ],
+   "tu_khoa": [
+    "cốc thuỷ tinh"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "1.5"
+   ],
+   "so_dong_gia": 207,
+   "so_anh": 81
+  },
+  {
+   "ma": "1.6",
+   "ten": "bình nước",
+   "ten_goc": [
+    "1.6 bình nước"
+   ],
+   "tu_khoa": [
+    "bình nước",
+    "bình giữ nhiệt",
+    "chai nước"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "1.6"
+   ],
+   "so_dong_gia": 379,
+   "so_anh": 96
+  },
+  {
+   "ma": "1.7",
+   "ten": "Bộ ấm chén",
+   "ten_goc": [
+    "1.7 Bộ ấm chén",
+    "1.7Bộ ấm chén"
+   ],
+   "tu_khoa": [
+    "bộ ấm chén"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "1.7"
+   ],
+   "so_dong_gia": 255,
+   "so_anh": 14
+  },
+  {
+   "ma": "1.8",
+   "ten": "Bình xịt(chiết) bằng sứ",
+   "ten_goc": [
+    "1.8 Bình xịt(chiết) bằng sứ"
+   ],
+   "tu_khoa": [
+    "bình xịt(chiết) bằng sứ"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "1.8"
+   ],
+   "so_dong_gia": 30,
+   "so_anh": 14
+  },
+  {
+   "ma": "3.1",
+   "ten": "biển tên",
+   "ten_goc": [
+    "3.1 biển tên"
+   ],
+   "tu_khoa": [
+    "biển tên",
+    "bảng tên",
+    "thẻ tên"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "3.1"
+   ],
+   "so_dong_gia": 92,
+   "so_anh": 8
+  },
+  {
+   "ma": "3.2",
+   "ten": "biển chức danh",
+   "ten_goc": [
+    "3.2 biển chức danh"
+   ],
+   "tu_khoa": [
+    "biển chức danh"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "3.2"
+   ],
+   "so_dong_gia": 53,
+   "so_anh": 12
+  },
+  {
+   "ma": "3.3",
+   "ten": "Huy hiệu kim loại theo ycau",
+   "ten_goc": [
+    "3.3 Huy hiệu kim loại theo ycau"
+   ],
+   "tu_khoa": [
+    "huy hiệu kim loại theo ycau"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "3.3"
+   ],
+   "so_dong_gia": 41,
+   "so_anh": 13
+  },
+  {
+   "ma": "3.4",
+   "ten": "Huy hiệu nhựa",
+   "ten_goc": [
+    "3.4 Huy hiệu nhựa"
+   ],
+   "tu_khoa": [
+    "huy hiệu nhựa"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "3.4"
+   ],
+   "so_dong_gia": 274,
+   "so_anh": 5
+  },
+  {
+   "ma": "3.5",
+   "ten": "Bằng chứng nhận",
+   "ten_goc": [
+    "3.5 Bằng chứng nhận"
+   ],
+   "tu_khoa": [
+    "bằng chứng nhận"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "3.5"
+   ],
+   "so_dong_gia": 102,
+   "so_anh": 9
+  },
+  {
+   "ma": "3.6",
+   "ten": "Cup, biểu trưng pha lê",
+   "ten_goc": [
+    "3.6 Cup, biểu trưng pha lê"
+   ],
+   "tu_khoa": [
+    "cup, biểu trưng pha lê"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "3.6"
+   ],
+   "so_dong_gia": 320,
+   "so_anh": 80
+  },
+  {
+   "ma": "3.7",
+   "ten": "Huân chương, hoa cài đại b",
+   "ten_goc": [
+    "3.7 Huân chương, hoa cài đại b"
+   ],
+   "tu_khoa": [
+    "huân chương, hoa cài đại b"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "3.7"
+   ],
+   "so_dong_gia": 897,
+   "so_anh": 23
+  },
+  {
+   "ma": "4.1",
+   "ten": "Bút chì",
+   "ten_goc": [
+    "4.1 Bút chì"
+   ],
+   "tu_khoa": [
+    "bút chì"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "4.1"
+   ],
+   "so_dong_gia": 44,
+   "so_anh": 9
+  },
+  {
+   "ma": "4.2",
+   "ten": "bút bi",
+   "ten_goc": [
+    "4.2 bút bi"
+   ],
+   "tu_khoa": [
+    "bút bi"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "4.2"
+   ],
+   "so_dong_gia": 978,
+   "so_anh": 41
+  },
+  {
+   "ma": "4.3",
+   "ten": "Bút Ký, Hộp đựng",
+   "ten_goc": [
+    "4.3 Bút Ký, Hộp đựng"
+   ],
+   "tu_khoa": [
+    "bút ký, hộp đựng"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "4.3"
+   ],
+   "so_dong_gia": 78,
+   "so_anh": 7
+  },
+  {
+   "ma": "4.5",
+   "ten": "sổ, bìa",
+   "ten_goc": [
+    "4.5 sổ, bìa"
+   ],
+   "tu_khoa": [
+    "sổ, bìa"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "4.5"
+   ],
+   "so_dong_gia": 157,
+   "so_anh": 7
+  },
+  {
+   "ma": "4.6",
+   "ten": "hộp namecard",
+   "ten_goc": [
+    "4.6 hộp namecard"
+   ],
+   "tu_khoa": [
+    "hộp namecard"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "4.6"
+   ],
+   "so_dong_gia": 31,
+   "so_anh": 9
+  },
+  {
+   "ma": "4.7",
+   "ten": "Bìa lá, bìa nút",
+   "ten_goc": [
+    "4.7 Bìa lá, bìa nút",
+    "4.7 Trình ký- bìa sổ còng"
+   ],
+   "tu_khoa": [
+    "bìa lá, bìa nút"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "4.7"
+   ],
+   "so_dong_gia": 2,
+   "so_anh": 3
+  },
+  {
+   "ma": "4.8",
+   "ten": "Hộp bút",
+   "ten_goc": [
+    "4.8 Hộp bút"
+   ],
+   "tu_khoa": [
+    "hộp bút"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "4.8"
+   ],
+   "so_dong_gia": 3,
+   "so_anh": 1
+  },
+  {
+   "ma": "4.9",
+   "ten": "Bookmark",
+   "ten_goc": [
+    "4.9 Bookmark"
+   ],
+   "tu_khoa": [
+    "bookmark"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "4.9"
+   ],
+   "so_dong_gia": 1,
+   "so_anh": 1
+  },
+  {
+   "ma": "5.1",
+   "ten": "USB",
+   "ten_goc": [
+    "5.1 USB"
+   ],
+   "tu_khoa": [
+    "usb"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "5.1"
+   ],
+   "so_dong_gia": 117,
+   "so_anh": 18
+  },
+  {
+   "ma": "5.2",
+   "ten": "Bàn di chuột",
+   "ten_goc": [
+    "5.2 Bàn di chuột",
+    "5.2. Bàn di chuột"
+   ],
+   "tu_khoa": [
+    "bàn di chuột"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "5.2"
+   ],
+   "so_dong_gia": 107,
+   "so_anh": 13
+  },
+  {
+   "ma": "5.4",
+   "ten": "Sạc dự phòng",
+   "ten_goc": [
+    "5.4 Sạc dự phòng"
+   ],
+   "tu_khoa": [
+    "sạc dự phòng"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "5.4"
+   ],
+   "so_dong_gia": 57,
+   "so_anh": 12
+  },
+  {
+   "ma": "5.5",
+   "ten": "loa Blutooth",
+   "ten_goc": [
+    "5.5 loa Blutooth"
+   ],
+   "tu_khoa": [
+    "loa blutooth"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "5.5"
+   ],
+   "so_dong_gia": 35,
+   "so_anh": 5
+  },
+  {
+   "ma": "5.6",
+   "ten": "Balo laptop",
+   "ten_goc": [
+    "5.6 Balo laptop",
+    "5.6Balo laptop"
+   ],
+   "tu_khoa": [
+    "balo laptop",
+    "ba lô laptop",
+    "balo máy tính",
+    "balo văn phòng"
+   ],
+   "ho": "balo",
+   "duoc_goi_y_nhom": [
+    "12.3",
+    "6.2",
+    "5.6"
+   ],
+   "so_dong_gia": 54,
+   "so_anh": 5
+  },
+  {
+   "ma": "5.7",
+   "ten": "Hộp đựng USB",
+   "ten_goc": [
+    "5.7 Hộp đựng USB"
+   ],
+   "tu_khoa": [
+    "hộp đựng usb"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "5.7"
+   ],
+   "so_dong_gia": 62,
+   "so_anh": 17
+  },
+  {
+   "ma": "5.8",
+   "ten": "quà tặng IT khác",
+   "ten_goc": [
+    "5.8 quà tặng IT khác",
+    "5.8. quà tặng IT khác"
+   ],
+   "tu_khoa": [
+    "quà tặng it khác"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "5.8"
+   ],
+   "so_dong_gia": 2,
+   "so_anh": 1
+  },
+  {
+   "ma": "6.1",
+   "ten": "Cặp da",
+   "ten_goc": [
+    "6.1 Cặp da"
+   ],
+   "tu_khoa": [
+    "cặp da"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "6.1"
+   ],
+   "so_dong_gia": 37,
+   "so_anh": 14
+  },
+  {
+   "ma": "6.2",
+   "ten": "Ba lô",
+   "ten_goc": [
+    "6.2 Ba lô"
+   ],
+   "tu_khoa": [
+    "ba lô",
+    "balo",
+    "backpack",
+    "balo du lịch",
+    "balo vải",
+    "balo dây rút",
+    "túi dây rút"
+   ],
+   "ho": "balo",
+   "duoc_goi_y_nhom": [
+    "12.3",
+    "6.2",
+    "5.6"
+   ],
+   "so_dong_gia": 2,
+   "so_anh": 20
+  },
+  {
+   "ma": "6.3",
+   "ten": "Túi canvas",
+   "ten_goc": [
+    "6.3 Túi canvas"
+   ],
+   "tu_khoa": [
+    "túi canvas",
+    "túi vải canvas",
+    "túi tote",
+    "tote"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "6.3"
+   ],
+   "so_dong_gia": 70,
+   "so_anh": 20
+  },
+  {
+   "ma": "6.4",
+   "ten": "Ví da",
+   "ten_goc": [
+    "6.4 Ví da"
+   ],
+   "tu_khoa": [
+    "ví da"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "6.4"
+   ],
+   "so_dong_gia": 35,
+   "so_anh": 7
+  },
+  {
+   "ma": "6.5",
+   "ten": "Ví đựng hộ chiếu",
+   "ten_goc": [
+    "6.5 Ví đựng hộ chiếu"
+   ],
+   "tu_khoa": [
+    "ví đựng hộ chiếu"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "6.5"
+   ],
+   "so_dong_gia": 36,
+   "so_anh": 7
+  },
+  {
+   "ma": "6.6",
+   "ten": "Túi sinh thái",
+   "ten_goc": [
+    "6.6 Túi sinh thái"
+   ],
+   "tu_khoa": [
+    "túi sinh thái"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "6.6"
+   ],
+   "so_dong_gia": 36,
+   "so_anh": 6
+  },
+  {
+   "ma": "6.7",
+   "ten": "Túi giấy",
+   "ten_goc": [
+    "6.7 Túi giấy"
+   ],
+   "tu_khoa": [
+    "túi giấy"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "6.7"
+   ],
+   "so_dong_gia": 24,
+   "so_anh": 4
+  },
+  {
+   "ma": "6.8",
+   "ten": "Túi y tế",
+   "ten_goc": [
+    "6.8 Túi y tế"
+   ],
+   "tu_khoa": [
+    "túi y tế"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "6.8"
+   ],
+   "so_dong_gia": 8,
+   "so_anh": 2
+  },
+  {
+   "ma": "6.9",
+   "ten": "Túi giữ nhiệt",
+   "ten_goc": [
+    "6.9 Túi giữ nhiệt"
+   ],
+   "tu_khoa": [
+    "túi giữ nhiệt"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "6.9"
+   ],
+   "so_dong_gia": 10,
+   "so_anh": 1
+  },
+  {
+   "ma": "6.10",
+   "ten": "Túi du lịch",
+   "ten_goc": [
+    "6.10 Túi du lịch"
+   ],
+   "tu_khoa": [
+    "túi du lịch",
+    "túi trống",
+    "túi xách du lịch"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "6.10"
+   ],
+   "so_dong_gia": 18,
+   "so_anh": 3
+  },
+  {
+   "ma": "6.11",
+   "ten": "Túi cầm tay",
+   "ten_goc": [
+    "6.11 Túi cầm tay"
+   ],
+   "tu_khoa": [
+    "túi cầm tay"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "6.11"
+   ],
+   "so_dong_gia": 18,
+   "so_anh": 2
+  },
+  {
+   "ma": "7.1",
+   "ten": "vòng tay cao su",
+   "ten_goc": [
+    "7.1 vòng tay cao su"
+   ],
+   "tu_khoa": [
+    "vòng tay cao su"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "7.1"
+   ],
+   "so_dong_gia": 51,
+   "so_anh": 9
+  },
+  {
+   "ma": "7.2",
+   "ten": "vòng tay 1 lần",
+   "ten_goc": [
+    "7.2 vòng tay 1 lần"
+   ],
+   "tu_khoa": [
+    "vòng tay 1 lần"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "7.2"
+   ],
+   "so_dong_gia": 106,
+   "so_anh": 10
+  },
+  {
+   "ma": "7.3",
+   "ten": "quạt nhựa pp",
+   "ten_goc": [
+    "7.3 quạt nhựa pp"
+   ],
+   "tu_khoa": [
+    "quạt nhựa pp"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "7.3"
+   ],
+   "so_dong_gia": 90,
+   "so_anh": 10
+  },
+  {
+   "ma": "7.4",
+   "ten": "quạt nhựa nan hoa",
+   "ten_goc": [
+    "7.4 quạt nhựa nan hoa"
+   ],
+   "tu_khoa": [
+    "quạt nhựa nan hoa"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "7.4"
+   ],
+   "so_dong_gia": 145,
+   "so_anh": 9
+  },
+  {
+   "ma": "7.5",
+   "ten": "Móc khoá",
+   "ten_goc": [
+    "7.5 Móc khoá"
+   ],
+   "tu_khoa": [
+    "móc khoá",
+    "móc chìa khoá",
+    "keychain",
+    "key chain",
+    "móc treo chìa"
+   ],
+   "ho": "moc_khoa",
+   "duoc_goi_y_nhom": [
+    "7.5"
+   ],
+   "so_dong_gia": 96,
+   "so_anh": 21
+  },
+  {
+   "ma": "7.6",
+   "ten": "Vòng tay giấy (sự kiện)",
+   "ten_goc": [
+    "7.6 Vòng tay giấy (sự kiện)"
+   ],
+   "tu_khoa": [
+    "vòng tay giấy (sự kiện)"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "7.6"
+   ],
+   "so_dong_gia": 54,
+   "so_anh": 0
+  },
+  {
+   "ma": "7.7",
+   "ten": "Quạt giấy in trực tiếp",
+   "ten_goc": [
+    "7.7 Quạt giấy in trực tiếp"
+   ],
+   "tu_khoa": [
+    "quạt giấy in trực tiếp"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "7.7"
+   ],
+   "so_dong_gia": 34,
+   "so_anh": 0
+  },
+  {
+   "ma": "8.1",
+   "ten": "Ô",
+   "ten_goc": [
+    "8.1 Ô"
+   ],
+   "tu_khoa": [
+    "ô",
+    "dù"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "8.1"
+   ],
+   "so_dong_gia": 430,
+   "so_anh": 56
+  },
+  {
+   "ma": "8.2",
+   "ten": "Mũ lưỡi trai",
+   "ten_goc": [
+    "8.2 Mũ lưỡi trai"
+   ],
+   "tu_khoa": [
+    "mũ lưỡi trai",
+    "nón lưỡi trai",
+    "mũ"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "8.2"
+   ],
+   "so_dong_gia": 121,
+   "so_anh": 32
+  },
+  {
+   "ma": "8.3",
+   "ten": "Mũ bảo hiểm",
+   "ten_goc": [
+    "8.3 Mũ bảo hiểm"
+   ],
+   "tu_khoa": [
+    "mũ bảo hiểm"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "8.3"
+   ],
+   "so_dong_gia": 30,
+   "so_anh": 4
+  },
+  {
+   "ma": "8.4",
+   "ten": "thẻ treo hành lý",
+   "ten_goc": [
+    "8.4 thẻ treo hành lý"
+   ],
+   "tu_khoa": [
+    "thẻ treo hành lý",
+    "thẻ hành lý",
+    "tag hành lý",
+    "name tag",
+    "nametag",
+    "luggage tag",
+    "thẻ treo vali",
+    "thẻ vali",
+    "tag vali",
+    "bag tag"
+   ],
+   "ho": "the_hanh_ly",
+   "duoc_goi_y_nhom": [
+    "8.4"
+   ],
+   "so_dong_gia": 102,
+   "so_anh": 28
+  },
+  {
+   "ma": "8.5",
+   "ten": "Áo phông",
+   "ten_goc": [
+    "8.5 Áo phông"
+   ],
+   "tu_khoa": [
+    "áo phông",
+    "áo thun",
+    "áo đồng phục"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "8.5"
+   ],
+   "so_dong_gia": 70,
+   "so_anh": 24
+  },
+  {
+   "ma": "8.6",
+   "ten": "Áo mưa",
+   "ten_goc": [
+    "8.6 Áo mưa"
+   ],
+   "tu_khoa": [
+    "áo mưa"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "8.6"
+   ],
+   "so_dong_gia": 78,
+   "so_anh": 17
+  },
+  {
+   "ma": "8.7",
+   "ten": "Dây đeo thẻ",
+   "ten_goc": [
+    "8.7 Dây đeo thẻ",
+    "8.7. Dây đeo thẻ"
+   ],
+   "tu_khoa": [
+    "dây đeo thẻ",
+    "dây đeo",
+    "lanyard",
+    "dây strap"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "8.7"
+   ],
+   "so_dong_gia": 793,
+   "so_anh": 24
+  },
+  {
+   "ma": "8.8",
+   "ten": "Dép",
+   "ten_goc": [
+    "8.8 Dép"
+   ],
+   "tu_khoa": [
+    "dép"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "8.8"
+   ],
+   "so_dong_gia": 1,
+   "so_anh": 1
+  },
+  {
+   "ma": "8.9",
+   "ten": "Khăn",
+   "ten_goc": [
+    "8.9 Khăn"
+   ],
+   "tu_khoa": [
+    "khăn"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "8.9"
+   ],
+   "so_dong_gia": 2,
+   "so_anh": 1
+  },
+  {
+   "ma": "9.1",
+   "ten": "Lót ly",
+   "ten_goc": [
+    "9.1 Lót ly"
+   ],
+   "tu_khoa": [
+    "lót ly"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "9.1"
+   ],
+   "so_dong_gia": 93,
+   "so_anh": 32
+  },
+  {
+   "ma": "9.2",
+   "ten": "Bật lửa",
+   "ten_goc": [
+    "9.2 Bật lửa"
+   ],
+   "tu_khoa": [
+    "bật lửa"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "9.2"
+   ],
+   "so_dong_gia": 20,
+   "so_anh": 8
+  },
+  {
+   "ma": "9.3",
+   "ten": "Gạt tàn",
+   "ten_goc": [
+    "9.3 Gạt tàn"
+   ],
+   "tu_khoa": [
+    "gạt tàn"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "9.3"
+   ],
+   "so_dong_gia": 79,
+   "so_anh": 7
+  },
+  {
+   "ma": "9.4",
+   "ten": "Xô đựng đá",
+   "ten_goc": [
+    "9.4 Xô đựng đá"
+   ],
+   "tu_khoa": [
+    "xô đựng đá"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "9.4"
+   ],
+   "so_dong_gia": 111,
+   "so_anh": 20
+  },
+  {
+   "ma": "9.5",
+   "ten": "Miếng dán tủ lạnh",
+   "ten_goc": [
+    "9.5 Miếng dán tủ lạnh",
+    "9.5.Miếng dán tủ lạnh"
+   ],
+   "tu_khoa": [
+    "miếng dán tủ lạnh"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "9.5"
+   ],
+   "so_dong_gia": 72,
+   "so_anh": 7
+  },
+  {
+   "ma": "9.6",
+   "ten": "Hộp diêm",
+   "ten_goc": [
+    "9.6 Hộp diêm"
+   ],
+   "tu_khoa": [
+    "hộp diêm"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "9.6"
+   ],
+   "so_dong_gia": 36,
+   "so_anh": 4
+  },
+  {
+   "ma": "9.7",
+   "ten": "Khui bia",
+   "ten_goc": [
+    "9.7 Khui bia"
+   ],
+   "tu_khoa": [
+    "khui bia"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "9.7"
+   ],
+   "so_dong_gia": 36,
+   "so_anh": 4
+  },
+  {
+   "ma": "10.1",
+   "ten": "Bộ quà tặng",
+   "ten_goc": [
+    "10.1 Bộ quà tặng"
+   ],
+   "tu_khoa": [
+    "bộ quà tặng"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "10.1"
+   ],
+   "so_dong_gia": 8,
+   "so_anh": 1
+  },
+  {
+   "ma": "10.4",
+   "ten": "Hộp đựng trà",
+   "ten_goc": [
+    "10.4 Hộp đựng trà"
+   ],
+   "tu_khoa": [
+    "hộp đựng trà"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "10.4"
+   ],
+   "so_dong_gia": 8,
+   "so_anh": 2
+  },
+  {
+   "ma": "10.5",
+   "ten": "Bộ Gifset",
+   "ten_goc": [
+    "10.5 Bộ Gifset"
+   ],
+   "tu_khoa": [
+    "bộ gifset"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "10.5"
+   ],
+   "so_dong_gia": 2,
+   "so_anh": 1
+  },
+  {
+   "ma": "11.1",
+   "ten": "Bộ để bàn",
+   "ten_goc": [
+    "11.1 Bộ để bàn"
+   ],
+   "tu_khoa": [
+    "bộ để bàn"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "11.1"
+   ],
+   "so_dong_gia": 211,
+   "so_anh": 18
+  },
+  {
+   "ma": "11.2",
+   "ten": "đồng hồ",
+   "ten_goc": [
+    "11.2 đồng hồ"
+   ],
+   "tu_khoa": [
+    "đồng hồ"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "11.2"
+   ],
+   "so_dong_gia": 735,
+   "so_anh": 58
+  },
+  {
+   "ma": "12.1",
+   "ten": "Ghép hình- xếp hình",
+   "ten_goc": [
+    "12.1 Ghép hình- xếp hình"
+   ],
+   "tu_khoa": [
+    "ghép hình- xếp hình"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "12.1"
+   ],
+   "so_dong_gia": 20,
+   "so_anh": 6
+  },
+  {
+   "ma": "12.2",
+   "ten": "Ô tô nhựa",
+   "ten_goc": [
+    "12.2 Ô tô nhựa"
+   ],
+   "tu_khoa": [
+    "ô tô nhựa"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "12.2"
+   ],
+   "so_dong_gia": 24,
+   "so_anh": 5
+  },
+  {
+   "ma": "12.3",
+   "ten": "Balo Trẻ em",
+   "ten_goc": [
+    "12.3 Balo Trẻ em"
+   ],
+   "tu_khoa": [
+    "balo trẻ em",
+    "balo học sinh",
+    "ba lô học sinh",
+    "cặp học sinh",
+    "balo mầm non",
+    "balo mẫu giáo",
+    "balo cho bé",
+    "balo cho học sinh",
+    "balo+học sinh",
+    "ba lô+học sinh",
+    "balo+trẻ em",
+    "ba lô+trẻ em",
+    "balo+mầm non",
+    "balo+mẫu giáo",
+    "balo+cho bé",
+    "balo+đi học"
+   ],
+   "ho": "balo",
+   "duoc_goi_y_nhom": [
+    "12.3",
+    "6.2",
+    "5.6"
+   ],
+   "so_dong_gia": 166,
+   "so_anh": 28
+  },
+  {
+   "ma": "12.4",
+   "ten": "chong chóng",
+   "ten_goc": [
+    "12.4 chong chóng"
+   ],
+   "tu_khoa": [
+    "chong chóng"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "12.4"
+   ],
+   "so_dong_gia": 133,
+   "so_anh": 27
+  },
+  {
+   "ma": "12.5",
+   "ten": "bóng bay",
+   "ten_goc": [
+    "12.5 bóng bay"
+   ],
+   "tu_khoa": [
+    "bóng bay"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "12.5"
+   ],
+   "so_dong_gia": 81,
+   "so_anh": 12
+  },
+  {
+   "ma": "12.6",
+   "ten": "Bút sáp màu",
+   "ten_goc": [
+    "12.6 Bút sáp màu"
+   ],
+   "tu_khoa": [
+    "bút sáp màu"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "12.6"
+   ],
+   "so_dong_gia": 29,
+   "so_anh": 9
+  },
+  {
+   "ma": "12.7",
+   "ten": "Bút chì màu",
+   "ten_goc": [
+    "12.7 Bút chì màu"
+   ],
+   "tu_khoa": [
+    "bút chì màu"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "12.7"
+   ],
+   "so_dong_gia": 13,
+   "so_anh": 5
+  },
+  {
+   "ma": "12.8",
+   "ten": "Gọt bút chì- tẩy",
+   "ten_goc": [
+    "12.8 Gọt bút chì- tẩy"
+   ],
+   "tu_khoa": [
+    "gọt bút chì- tẩy"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "12.8"
+   ],
+   "so_dong_gia": 25,
+   "so_anh": 10
+  },
+  {
+   "ma": "12.9",
+   "ten": "quà tặng dành cho trẻ em",
+   "ten_goc": [
+    "12.9 Thước",
+    "12.9 quà tặng dành cho trẻ em"
+   ],
+   "tu_khoa": [
+    "quà tặng dành cho trẻ em"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "12.9"
+   ],
+   "so_dong_gia": 70,
+   "so_anh": 21
+  },
+  {
+   "ma": "13.1",
+   "ten": "Quà tặng mạ vàng cao cấp",
+   "ten_goc": [
+    "13.1 Quà tặng mạ vàng cao cấp"
+   ],
+   "tu_khoa": [
+    "quà tặng mạ vàng cao cấp"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "13.1"
+   ],
+   "so_dong_gia": 2,
+   "so_anh": 1
+  },
+  {
+   "ma": "13.4",
+   "ten": "quà tặng để bàn cao cấp",
+   "ten_goc": [
+    "13.4 quà tặng để bàn cao cấp"
+   ],
+   "tu_khoa": [
+    "quà tặng để bàn cao cấp"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "13.4"
+   ],
+   "so_dong_gia": 2,
+   "so_anh": 2
+  },
+  {
+   "ma": "14.1",
+   "ten": "gối hơi",
+   "ten_goc": [
+    "14.1 gối hơi"
+   ],
+   "tu_khoa": [
+    "gối hơi"
+   ],
+   "ho": null,
+   "duoc_goi_y_nhom": [
+    "14.1"
+   ],
+   "so_dong_gia": 17,
+   "so_anh": 6
+  }
+ ]
+}
